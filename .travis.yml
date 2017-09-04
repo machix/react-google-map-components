@@ -31,6 +31,5 @@ deploy:
   github_token: $GITHUB_TOKEN
   local_dir: build
   on:
-    tags: true
     branch: master
     repo: umidbekkarimov/react-google-map-components
