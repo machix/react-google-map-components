@@ -8,17 +8,9 @@ notifications:
 node_js:
 - 8
 
-before_script:
-- cd docs
-- yarn install
-- cd ..
-
 script:
 - yarn lint
 - yarn build
-- cd docs
-- yarn build
-- cd ..
 
 branches:
   except:
