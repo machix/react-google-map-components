@@ -1,15 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import HashRouter from "react-router-dom/HashRouter";
 
 import App from "./components/app/App";
 
 import { context } from "./pages";
 
 ReactDOM.render(
-  <BrowserRouter basename="/react-google-map-components">
+  <HashRouter>
     <App context={context} />
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById("root"),
 );
