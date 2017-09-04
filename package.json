@@ -9,22 +9,17 @@
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "all": "run-s format lint build lint:docs build:docs",
+    "start": "react-scripts start",
+    "build": "run-s build:*",
+    "all": "run-s format lint build",
     "lint": "eslint \"src/**/*.js\"",
-    "format": "prettier --write \"{src,docs/src}/**/*.js\"",
-    "build": "node ./tools/build.js",
-    "start": "run-p dev dev:docs",
-    "dev": "babel ./src -d ./es --watch",
-    "dev:docs": "cd docs && yarn start",
-    "lint:docs": "eslint \"{src/docs}/**/*.js\"",
-    "build:docs": "cd docs && yarn build",
-    "install:docs": "cd docs && yarn install"
+    "format": "prettier --write \"src/**/*.js\"",
+    "build:lib": "node ./tools/build.js",
+    "build:docs": "react-scripts build"
   },
   "dependencies": {
-    "eslint": "^4.5.0",
     "lodash": "^4.17.4",
-    "prop-types": "^15.5.10",
-    "recompose": "^0.25.0"
+    "prop-types": "^15.5.10"
   },
   "peerDependencies": {
     "react": "^15.6.1",
@@ -36,15 +31,19 @@
     "babel-plugin-dev-expression": "0.2.1",
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
+    "bootstrap": "4.0.0-beta",
+    "eslint": "^4.5.0",
     "eslint-config-airbnb": "15.1.0",
-    "eslint-config-prettier": "2.3.0",
+    "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.3.0",
     "npm-run-all": "4.1.1",
-    "prettier": "^1.6.1",
+    "prettier": "1.6.1",
     "react": "15.6.1",
     "react-dom": "15.6.1",
+    "react-router-dom": "4.2.2",
+    "react-scripts": "1.0.13",
     "rimraf": "2.6.1"
   }
 }

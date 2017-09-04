@@ -8,12 +8,12 @@ const exec = (command, extraEnv) =>
 
 console.log("\nBuilding ES modules ...");
 
-exec("babel src -d es", {
+exec("babel src/modules -d es", {
   BABEL_ENV: "es",
 });
 
 console.log("Building CommonJS modules ...");
 
-exec("babel src -d lib", {
+exec("babel src/modules -d lib", {
   BABEL_ENV: "cjs",
 });

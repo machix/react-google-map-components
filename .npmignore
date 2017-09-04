@@ -1,6 +1,6 @@
 src
-docs
 tools
+public
 .idea
 .babelrc
 .eslintrc.js

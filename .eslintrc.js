@@ -1,8 +1,5 @@
 module.exports = {
   env: { browser: true },
-  globals: {
-    __DEV__: true,
-  },
   parser: "babel-eslint",
   extends: ["airbnb", "prettier", "prettier/react"],
   rules: {
