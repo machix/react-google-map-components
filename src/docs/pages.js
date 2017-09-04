@@ -397,7 +397,10 @@ context
               <div>
                 <h1>{props.heading}</h1>
 
-                <p dangerouslySetInnerHTML={{ __html: props.content }} />
+                <p
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: props.content }}
+                />
               </div>
             </InfoWindow>
           )}
