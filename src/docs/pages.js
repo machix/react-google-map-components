@@ -188,9 +188,9 @@ context
   )
   .addPage(
     "<ScaleControl />",
-    withDynamicProps([dynamicProps.visible, dynamicProps.position], props => (
+    withDynamicProps([dynamicProps.visible], props => (
       <GoogleMap maps={maps} zoom={8} style={styles.map} center={defaultCenter}>
-        {props.visible && <ScaleControl position={props.position} />}
+        {props.visible && <ScaleControl />}
       </GoogleMap>
     )),
   )

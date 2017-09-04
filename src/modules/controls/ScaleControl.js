@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
-import { ControlPositionType } from "../internal/Props";
 import { ControlManager } from "./ControlManager";
 
 export class ScaleControl extends React.Component {
@@ -31,9 +30,3 @@ export class ScaleControl extends React.Component {
 ScaleControl.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
-
-if (process.env.NODE_ENV !== "production") {
-  ScaleControl.propTypes = {
-    position: ControlPositionType,
-  };
-}
