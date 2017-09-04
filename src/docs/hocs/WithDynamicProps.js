@@ -97,6 +97,8 @@ function SelectField(props) {
         className="form-control"
         onChange={event => props.onChange(event.target.value)}
       >
+        <option>Select</option>
+
         {props.options.map(x => (
           <option key={x} value={x}>
             {x}
