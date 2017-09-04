@@ -9,10 +9,13 @@
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"{src,docs/src}/**/*.js\"",
+    "postinstall": "cd docs && yarn install",
+    "lint": "eslint \"src/**/*.js\"",
     "format": "prettier --write \"{src,docs/src}/**/*.js\"",
     "build": "node ./tools/build.js",
-    "start": "babel ./src -d ./es --watch"
+    "start": "babel ./src -d ./es --watch",
+    "lint:docs": "eslint \"{src/docs}/**/*.js\"",
+    "build:docs": "cd docs && yarn build"
   },
   "dependencies": {
     "eslint": "^4.5.0",
