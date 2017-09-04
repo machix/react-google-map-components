@@ -9,6 +9,7 @@
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "all": "run-s format lint build lint:docs build:docs",
     "lint": "eslint \"src/**/*.js\"",
     "format": "prettier --write \"{src,docs/src}/**/*.js\"",
     "build": "node ./tools/build.js",
