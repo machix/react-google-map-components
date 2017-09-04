@@ -1,1 +1,10 @@
+src
 docs
+tools
+.idea
+.babelrc
+.eslintrc.js
+.prettierrc
+.travis.yml
+yarn.lock
+yarn-error.log
