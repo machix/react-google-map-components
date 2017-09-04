@@ -200,19 +200,18 @@ export const select = (key, name, options, defaultValue) => ({
 });
 
 export function withDynamicProps(fields, render) {
+  const getInitialState = () =>
+    fields.reduce((acc, x) => {
+      acc[x.key] = x.defaultValue;
+
+      return acc;
+    }, {});
+
   class WithDynamicProps extends React.Component {
     constructor(props, context) {
       super(props, context);
 
-      this.state = this.getInitialState();
-    }
-
-    getInitialState() {
-      return fields.reduce((acc, x) => {
-        acc[x.key] = x.defaultValue;
-
-        return acc;
-      }, {});
+      this.state = getInitialState();
     }
 
     render() {
@@ -235,7 +234,7 @@ export function withDynamicProps(fields, render) {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => this.setState(this.getInitialState)}
+                onClick={() => this.setState(getInitialState)}
               >
                 Reset
               </button>
