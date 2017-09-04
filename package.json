@@ -1,0 +1,44 @@
+{
+  "name": "react-google-map-components",
+  "version": "0.0.1",
+  "description": "Declarative React Google Map Components",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "homepage": "http://umidbekkarimov.github.io/react-google-map-components",
+  "repository": "https://github.com/umidbekkarimov/react-google-map-components.git",
+  "author": "Umidbek Karimov <uma.karimov@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"{src,docs/src}/**/*.js\"",
+    "format": "prettier --write \"{src,docs/src}/**/*.js\"",
+    "build": "node ./tools/build.js",
+    "start": "babel ./src -d ./es --watch"
+  },
+  "dependencies": {
+    "eslint": "^4.5.0",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.5.10",
+    "recompose": "^0.25.0"
+  },
+  "peerDependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "7.2.3",
+    "babel-plugin-dev-expression": "0.2.1",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-react": "6.24.1",
+    "eslint-config-airbnb": "15.1.0",
+    "eslint-config-prettier": "2.3.0",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-react": "7.3.0",
+    "npm-run-all": "4.1.1",
+    "prettier": "^1.6.1",
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
+    "rimraf": "2.6.1"
+  }
+}
