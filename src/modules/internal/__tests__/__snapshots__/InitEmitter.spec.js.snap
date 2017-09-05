@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InitEmitter should throw on second initialize 1`] = `"Emitter is already initialized"`;
+
+exports[`InitEmitter should when listener is not a function 1`] = `"Expected init listener to be a function."`;
+
+exports[`InitEmitter should when listener is not a function 2`] = `"Expected init listener to be a function."`;

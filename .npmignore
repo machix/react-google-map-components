@@ -2,9 +2,10 @@ src
 build
 tools
 public
+coverage
 .idea
 .babelrc
-.eslintrc.js
+.eslintrc.json
 .prettierrc
 .travis.yml
 yarn.lock

@@ -1,48 +1,29 @@
 import get from "lodash/get";
 import has from "lodash/has";
+import { createInitEmitter } from "./InitEmitter";
 
 export class MapManager {
   constructor(maps) {
-    this.map = null;
     this.maps = maps;
-    this.attachQueue = [];
-    this.detachQueue = [];
+
+    this.attachEmmiter = createInitEmitter();
+    this.detachEmitter = createInitEmitter();
   }
 
   attach(map) {
-    if (this.map) {
-      throw new Error("MapManager: map instance is already initialized");
-    }
-
-    this.map = map;
-
-    while (this.attachQueue.length > 0) {
-      const fn = this.attachQueue.shift();
-
-      fn(map);
-    }
+    this.attachEmmiter.init(map);
   }
 
   onAttach(fn) {
-    if (this.map) {
-      fn(this.map);
-    } else {
-      this.attachQueue.push(fn);
-    }
+    return this.attachEmmiter.onInit(fn);
   }
 
   detach() {
-    while (this.detachQueue.length > 0) {
-      const fn = this.detachQueue.shift();
-
-      fn(this.map);
-    }
-
-    this.map = null;
+    this.detachEmitter.init();
   }
 
   onDetach(fn) {
-    this.detachQueue.push(fn);
+    return this.detachEmitter.onInit(fn);
   }
 
   createPoint(point) {
