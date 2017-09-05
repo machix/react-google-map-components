@@ -32,6 +32,7 @@ FullscreenControl.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
 
+/* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   FullscreenControl.propTypes = {
     position: ControlPositionType,
