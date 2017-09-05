@@ -14,7 +14,7 @@ script:
 - yarn build
 
 after_success:
-- then yarn codecov
+- yarn codecov
 
 branches:
   except:
