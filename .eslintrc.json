@@ -1,8 +1,8 @@
-module.exports = {
-  env: { browser: true },
-  parser: "babel-eslint",
-  extends: ["airbnb", "prettier", "prettier/react"],
-  rules: {
+{
+  "env": { "jest": true, "browser": true },
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "rules": {
     "no-use-before-define": ["error", "nofunc"],
     "no-return-assign": "off",
     "no-nested-ternary": "off",
@@ -11,6 +11,6 @@ module.exports = {
     "react/no-unused-prop-types": "off",
     "react/require-default-props": "off",
     "react/jsx-filename-extension": "off",
-    "import/prefer-default-export": "off",
-  },
-};
+    "import/prefer-default-export": "off"
+  }
+}
