@@ -13,6 +13,9 @@ script:
 - yarn cover -- --no-cache --ci
 - yarn build
 
+after_success:
+- then yarn codecov
+
 branches:
   except:
   - gh-pages
