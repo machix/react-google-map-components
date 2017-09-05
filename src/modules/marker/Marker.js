@@ -68,13 +68,6 @@ if (process.env.NODE_ENV !== "production") {
     visible: PropTypes.bool,
 
     /**
-     * Optimization renders many markers as a single static element. Optimized rendering is enabled by default.
-     * Disable optimized rendering for animated GIFs or PNGs,
-     * or when each marker must be rendered as a separate DOM element (advanced usage only).
-     */
-    place: PropTypes.bool,
-
-    /**
      * If true, the marker receives mouse and touch events. Default value is true.
      */
     clickable: PropTypes.bool,

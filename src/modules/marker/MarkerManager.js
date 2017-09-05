@@ -8,7 +8,6 @@ const pickProps = fpPick([
   "position",
   "title",
   "visible",
-  "place",
   "clickable",
   "draggable",
   "crossOnDrag",
