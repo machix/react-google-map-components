@@ -8,6 +8,7 @@ const pickProps = fpPick([
   "zoom",
   "center",
   "mapTypeId",
+  "clickableIcons",
   "backgroundColor",
 ]);
 

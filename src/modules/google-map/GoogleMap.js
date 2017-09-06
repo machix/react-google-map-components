@@ -87,6 +87,13 @@ if (process.env.NODE_ENV !== "production") {
      */
     children: PropTypes.node,
 
+    /**
+     * When false, map icons are not clickable.
+     * A map icon represents a point of interest, also known as a POI.
+     * By default map icons are clickable.
+     */
+    clickableIcons: PropTypes.bool,
+
     //
     // Styling
     //

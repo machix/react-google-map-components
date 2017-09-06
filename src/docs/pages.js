@@ -79,6 +79,7 @@ context
         number("zoom", "Zoom", 8),
         dynamicProps.mapTypeId,
         text("backgroundColor", "Background Color", "#ffffff"),
+        boolean("clickableIcons", "Clickable Icons", true),
       ],
       props => (
         <GoogleMap
@@ -86,6 +87,7 @@ context
           style={styles.map}
           zoom={props.zoom}
           mapTypeId={props.mapTypeId}
+          clickableIcons={props.clickableIcons}
           center={{ lat: props.lat, lng: props.lng }}
         />
       ),
