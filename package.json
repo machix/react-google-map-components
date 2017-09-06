@@ -4,6 +4,7 @@
   "description": "Declarative React Google Map Components",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "jsnext:main": "es/index.js",
   "homepage": "http://umidbekkarimov.github.io/react-google-map-components",
   "repository": "https://github.com/umidbekkarimov/react-google-map-components.git",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
