@@ -94,6 +94,12 @@ if (process.env.NODE_ENV !== "production") {
      */
     clickableIcons: PropTypes.bool,
 
+    /**
+     * Enables/disables zoom and center on double click.
+     * Enabled by default.
+     */
+    disableDoubleClickZoom: PropTypes.bool,
+
     //
     // Styling
     //

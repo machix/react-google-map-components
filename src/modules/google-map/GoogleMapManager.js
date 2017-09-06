@@ -10,6 +10,7 @@ const pickProps = fpPick([
   "mapTypeId",
   "clickableIcons",
   "backgroundColor",
+  "disableDoubleClickZoom",
 ]);
 
 export class GoogleMapManager {

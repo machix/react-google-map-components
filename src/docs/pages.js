@@ -80,6 +80,7 @@ context
         dynamicProps.mapTypeId,
         text("backgroundColor", "Background Color", "#ffffff"),
         boolean("clickableIcons", "Clickable Icons", true),
+        boolean("disableDoubleClickZoom", "Disable Double Click Zoom", false),
       ],
       props => (
         <GoogleMap
@@ -89,6 +90,7 @@ context
           mapTypeId={props.mapTypeId}
           clickableIcons={props.clickableIcons}
           center={{ lat: props.lat, lng: props.lng }}
+          disableDoubleClickZoom={props.disableDoubleClickZoom}
         />
       ),
     ),
