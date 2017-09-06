@@ -25,6 +25,9 @@ import {
   withDynamicProps,
 } from "./hocs/WithDynamicProps";
 import { withEventHandlers } from "./hocs/WithEventHandlers";
+import { PanByAnimation } from "../modules/animations/PanByAnimation";
+import { PanToAnimation } from "../modules/animations/PanToAnimation";
+import { PanToBoundsAnimation } from "../modules/animations/PanToBoundsAnimation";
 
 export const context = new DocsContext();
 
@@ -218,6 +221,70 @@ context
         {props.visible && <ZoomControl position={props.position} />}
       </GoogleMap>
     )),
+  );
+
+context
+  .addSection("Animations")
+  .addPage(
+    "<PanByAnimation />",
+    withDynamicProps([number("x", "X", 0), number("y", "Y", 0)], props => (
+      <GoogleMap maps={maps} zoom={8} style={styles.map} center={defaultCenter}>
+        <PanByAnimation x={props.x} y={props.y} />
+      </GoogleMap>
+    )),
+  )
+  .addPage(
+    "<PanToAnimation />",
+    withDynamicProps([dynamicProps.lat, dynamicProps.lng], props => {
+      const position = { lat: props.lat, lng: props.lng };
+
+      return (
+        <GoogleMap
+          maps={maps}
+          zoom={8}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          <Marker position={position} />
+          <PanToAnimation latLng={position} />
+        </GoogleMap>
+      );
+    }),
+  )
+  .addPage(
+    "<PanToBoundsAnimation />",
+    withDynamicProps(
+      [
+        number("lat1", "Latitude 1", defaultCenter.lat),
+        number("lng1", "Longitude 1", defaultCenter.lng),
+        number("lat2", "Latitude 2", defaultCenter.lat),
+        number("lng2", "Longitude 2", defaultCenter.lng),
+        number("lat3", "Latitude 3", defaultCenter.lat),
+        number("lng3", "Longitude 3", defaultCenter.lng),
+      ],
+      props => {
+        const position1 = { lat: props.lat1, lng: props.lng1 };
+        const position2 = { lat: props.lat2, lng: props.lng2 };
+        const position3 = { lat: props.lat3, lng: props.lng3 };
+
+        return (
+          <GoogleMap
+            maps={maps}
+            zoom={8}
+            style={styles.map}
+            center={defaultCenter}
+          >
+            <Marker position={position1} />
+            <Marker position={position2} />
+            <Marker position={position3} />
+
+            <PanToBoundsAnimation
+              latLngBounds={[position1, position2, position3]}
+            />
+          </GoogleMap>
+        );
+      },
+    ),
   );
 
 context

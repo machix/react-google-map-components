@@ -38,6 +38,13 @@ export class MapManager {
     return new this.maps.LatLng(latLng);
   }
 
+  createLatLngBounds(latLngBounds) {
+    return latLngBounds.reduce(
+      (acc, x) => acc.extend(this.createLatLng(x)),
+      new this.maps.LatLngBounds(),
+    );
+  }
+
   createIcon(options) {
     const icon = { url: options.url };
 
