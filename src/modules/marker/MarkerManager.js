@@ -68,7 +68,10 @@ export class MarkerManager {
   }
 
   detach() {
+    this.marker.setMap(null);
     this.maps.event.clearInstanceListeners(this.marker);
+
+    this.marker = null;
     this.manager = null;
   }
 
