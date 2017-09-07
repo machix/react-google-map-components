@@ -6,6 +6,12 @@ export class AnimationManager {
     this.maps = manager.maps;
   }
 
+  fitBounds(latLngBounds) {
+    this.manager.onAttach(map => {
+      map.fitBounds(this.manager.createLatLngBounds(latLngBounds));
+    });
+  }
+
   panBy(x, y) {
     this.manager.onAttach(map => map.panBy(x, y));
   }
