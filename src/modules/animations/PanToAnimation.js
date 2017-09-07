@@ -16,12 +16,12 @@ export class PanToAnimation extends React.Component {
     this.manager.panTo(this.props.latLng);
   }
 
-  componentDidUpdate(prevProps) {
-    const { latLng } = this.props;
+  shouldComponentUpdate(nextProps) {
+    return !isEqualProps(this.props.latLng, nextProps.latLng);
+  }
 
-    if (!isEqualProps(prevProps.latLng, latLng)) {
-      this.manager.panTo(latLng);
-    }
+  componentDidUpdate() {
+    this.manager.panTo(this.props.latLng);
   }
 
   render() {

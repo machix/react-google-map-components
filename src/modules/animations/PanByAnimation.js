@@ -16,12 +16,16 @@ export class PanByAnimation extends React.Component {
     this.manager.panBy(x, y);
   }
 
-  componentDidUpdate(prevProps) {
+  shouldComponentUpdate(nextProps) {
     const { x, y } = this.props;
 
-    if (prevProps.x !== x || prevProps.y !== y) {
-      this.manager.panBy(x, y);
-    }
+    return nextProps.x !== x || nextProps.y !== y;
+  }
+
+  componentDidUpdate() {
+    const { x, y } = this.props;
+
+    this.manager.panBy(x, y);
   }
 
   render() {

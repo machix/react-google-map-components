@@ -16,12 +16,12 @@ export class PanToBoundsAnimation extends React.Component {
     this.manager.panToBounds(this.props.latLngBounds);
   }
 
-  componentDidUpdate(prevProps) {
-    const { latLngBounds } = this.props;
+  shouldComponentUpdate(nextProps) {
+    return !isEqualProps(this.props.latLngBounds, nextProps.latLngBounds);
+  }
 
-    if (!isEqualProps(prevProps.latLngBounds, latLngBounds)) {
-      this.manager.panToBounds(latLngBounds);
-    }
+  componentDidUpdate() {
+    this.manager.panToBounds(this.props.latLngBounds);
   }
 
   render() {
