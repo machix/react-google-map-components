@@ -6,6 +6,9 @@ import {
   MapTypeControl,
   Marker,
   MarkerIcon,
+  PanByAnimation,
+  PanToAnimation,
+  PanToBoundsAnimation,
   RotateControl,
   ScaleControl,
   StreetViewControl,
@@ -21,6 +24,9 @@ test("Public Api", () => {
   expect(ScaleControl).toBeInstanceOf(Function);
   expect(StreetViewControl).toBeInstanceOf(Function);
   expect(ZoomControl).toBeInstanceOf(Function);
+  expect(PanByAnimation).toBeInstanceOf(Function);
+  expect(PanToAnimation).toBeInstanceOf(Function);
+  expect(PanToBoundsAnimation).toBeInstanceOf(Function);
   expect(Marker).toBeInstanceOf(Function);
   expect(MarkerIcon).toBeInstanceOf(Function);
   expect(InfoWindow).toBeInstanceOf(Function);

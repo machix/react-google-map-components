@@ -7,6 +7,10 @@ export { ScaleControl } from "./controls/ScaleControl";
 export { StreetViewControl } from "./controls/StreetViewControl";
 export { ZoomControl } from "./controls/ZoomControl";
 
+export { PanByAnimation } from "./animations/PanByAnimation";
+export { PanToAnimation } from "./animations/PanToAnimation";
+export { PanToBoundsAnimation } from "./animations/PanToBoundsAnimation";
+
 export { Marker } from "./marker/Marker";
 export { MarkerIcon } from "./marker/MarkerIcon";
 
