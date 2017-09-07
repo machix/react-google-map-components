@@ -1,5 +1,6 @@
 import {
   DataPolygon,
+  FitBoundsAnimation,
   FullscreenControl,
   GoogleMap,
   InfoWindow,
@@ -24,6 +25,7 @@ test("Public Api", () => {
   expect(ScaleControl).toBeInstanceOf(Function);
   expect(StreetViewControl).toBeInstanceOf(Function);
   expect(ZoomControl).toBeInstanceOf(Function);
+  expect(FitBoundsAnimation).toBeInstanceOf(Function);
   expect(PanByAnimation).toBeInstanceOf(Function);
   expect(PanToAnimation).toBeInstanceOf(Function);
   expect(PanToBoundsAnimation).toBeInstanceOf(Function);
