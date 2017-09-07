@@ -42,6 +42,7 @@ export class DataPolygonManager {
 
   attach(props) {
     this.updateGeometry(props);
+    this.updateStyles(pickStyles(props));
 
     this.manager.onAttach(map => {
       map.data.add(this.feature);
