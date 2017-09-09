@@ -55,7 +55,7 @@ const dynamicProps = {
     "HORIZONTAL_BAR",
   ]),
 
-  animation: select("animation", "", ["BOUNCE", "DROP"]),
+  animation: select("animation", "Animation", ["BOUNCE", "DROP"]),
 
   position: select("position", "Position", [
     "BOTTOM_CENTER",

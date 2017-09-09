@@ -1,15 +1,15 @@
 import {
   DataPolygon,
-  FitBoundsAnimation,
+  FitBounds,
   FullscreenControl,
   GoogleMap,
   InfoWindow,
   MapTypeControl,
   Marker,
   MarkerIcon,
-  PanByAnimation,
-  PanToAnimation,
-  PanToBoundsAnimation,
+  PanBy,
+  PanTo,
+  PanToBounds,
   RotateControl,
   ScaleControl,
   StreetViewControl,
@@ -27,10 +27,10 @@ test("Public Api", () => {
   expect(StreetViewControl).toBeInstanceOf(Function);
   expect(ZoomControl).toBeInstanceOf(Function);
   expect(DrawingControl).toBeInstanceOf(Function);
-  expect(FitBoundsAnimation).toBeInstanceOf(Function);
-  expect(PanByAnimation).toBeInstanceOf(Function);
-  expect(PanToAnimation).toBeInstanceOf(Function);
-  expect(PanToBoundsAnimation).toBeInstanceOf(Function);
+  expect(FitBounds).toBeInstanceOf(Function);
+  expect(PanBy).toBeInstanceOf(Function);
+  expect(PanTo).toBeInstanceOf(Function);
+  expect(PanToBounds).toBeInstanceOf(Function);
   expect(Marker).toBeInstanceOf(Function);
   expect(MarkerIcon).toBeInstanceOf(Function);
   expect(InfoWindow).toBeInstanceOf(Function);
