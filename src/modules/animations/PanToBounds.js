@@ -2,8 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
 import { AnimationManager } from "./AnimationManager";
+import { LatLngType } from "../internal/Props";
+import { isEqualProps } from "../internal/Utils";
 
-export class PanByAnimation extends React.Component {
+export class PanToBounds extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -11,21 +13,15 @@ export class PanByAnimation extends React.Component {
   }
 
   componentDidMount() {
-    const { x, y } = this.props;
-
-    this.manager.panBy(x, y);
+    this.manager.panToBounds(this.props.latLngBounds);
   }
 
   shouldComponentUpdate(nextProps) {
-    const { x, y } = this.props;
-
-    return nextProps.x !== x || nextProps.y !== y;
+    return !isEqualProps(this.props.latLngBounds, nextProps.latLngBounds);
   }
 
   componentDidUpdate() {
-    const { x, y } = this.props;
-
-    this.manager.panBy(x, y);
+    this.manager.panToBounds(this.props.latLngBounds);
   }
 
   render() {
@@ -33,14 +29,13 @@ export class PanByAnimation extends React.Component {
   }
 }
 
-PanByAnimation.contextTypes = {
+PanToBounds.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
 
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
-  PanByAnimation.propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
+  PanToBounds.propTypes = {
+    latLngBounds: PropTypes.arrayOf(LatLngType).isRequired,
   };
 }

@@ -9,10 +9,10 @@ export { ZoomControl } from "./controls/ZoomControl";
 
 export { DrawingControl } from "./drawing-control/DrawingControl";
 
-export { FitBoundsAnimation } from "./animations/FitBoundsAnimation";
-export { PanByAnimation } from "./animations/PanByAnimation";
-export { PanToAnimation } from "./animations/PanToAnimation";
-export { PanToBoundsAnimation } from "./animations/PanToBoundsAnimation";
+export { FitBounds } from "./animations/FitBounds";
+export { PanBy } from "./animations/PanBy";
+export { PanTo } from "./animations/PanTo";
+export { PanToBounds } from "./animations/PanToBounds";
 
 export { Marker } from "./marker/Marker";
 export { MarkerIcon } from "./marker/MarkerIcon";

@@ -25,10 +25,10 @@ import {
   withDynamicProps,
 } from "./hocs/WithDynamicProps";
 import { withEventHandlers } from "./hocs/WithEventHandlers";
-import { PanByAnimation } from "../modules/animations/PanByAnimation";
-import { PanToAnimation } from "../modules/animations/PanToAnimation";
-import { PanToBoundsAnimation } from "../modules/animations/PanToBoundsAnimation";
-import { FitBoundsAnimation } from "../modules/animations/FitBoundsAnimation";
+import { PanBy } from "../modules/animations/PanBy";
+import { PanTo } from "../modules/animations/PanTo";
+import { PanToBounds } from "../modules/animations/PanToBounds";
+import { FitBounds } from "../modules/animations/FitBounds";
 import { DrawingControl } from "../modules/drawing-control/DrawingControl";
 
 export const context = new DocsContext();
@@ -55,7 +55,7 @@ const dynamicProps = {
     "HORIZONTAL_BAR",
   ]),
 
-  animation: select("animation", "Animation", ["BOUNCE", "DROP"]),
+  animation: select("animation", "", ["BOUNCE", "DROP"]),
 
   position: select("position", "Position", [
     "BOTTOM_CENTER",
@@ -228,7 +228,7 @@ context
 context
   .addSection("Animations")
   .addPage(
-    "<FitBoundsAnimation />",
+    "<FitBounds />",
     withDynamicProps(
       [
         number("lat1", "Latitude 1", 36),
@@ -254,24 +254,22 @@ context
             <Marker position={position2} />
             <Marker position={position3} />
 
-            <FitBoundsAnimation
-              latLngBounds={[position1, position2, position3]}
-            />
+            <FitBounds latLngBounds={[position1, position2, position3]} />
           </GoogleMap>
         );
       },
     ),
   )
   .addPage(
-    "<PanByAnimation />",
+    "<PanBy />",
     withDynamicProps([number("x", "X", 0), number("y", "Y", 0)], props => (
       <GoogleMap maps={maps} zoom={8} style={styles.map} center={defaultCenter}>
-        <PanByAnimation x={props.x} y={props.y} />
+        <PanBy x={props.x} y={props.y} />
       </GoogleMap>
     )),
   )
   .addPage(
-    "<PanToAnimation />",
+    "<PanTo />",
     withDynamicProps([dynamicProps.lat, dynamicProps.lng], props => {
       const position = { lat: props.lat, lng: props.lng };
 
@@ -283,13 +281,13 @@ context
           center={defaultCenter}
         >
           <Marker position={position} />
-          <PanToAnimation latLng={position} />
+          <PanTo latLng={position} />
         </GoogleMap>
       );
     }),
   )
   .addPage(
-    "<PanToBoundsAnimation />",
+    "<PanToBounds />",
     withDynamicProps(
       [
         number("lat1", "Latitude 1", defaultCenter.lat),
@@ -315,9 +313,7 @@ context
             <Marker position={position2} />
             <Marker position={position3} />
 
-            <PanToBoundsAnimation
-              latLngBounds={[position1, position2, position3]}
-            />
+            <PanToBounds latLngBounds={[position1, position2, position3]} />
           </GoogleMap>
         );
       },

@@ -5,7 +5,7 @@ import { AnimationManager } from "./AnimationManager";
 import { LatLngType } from "../internal/Props";
 import { isEqualProps } from "../internal/Utils";
 
-export class PanToBoundsAnimation extends React.Component {
+export class FitBounds extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -13,7 +13,7 @@ export class PanToBoundsAnimation extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.panToBounds(this.props.latLngBounds);
+    this.manager.fitBounds(this.props.latLngBounds);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -21,7 +21,7 @@ export class PanToBoundsAnimation extends React.Component {
   }
 
   componentDidUpdate() {
-    this.manager.panToBounds(this.props.latLngBounds);
+    this.manager.fitBounds(this.props.latLngBounds);
   }
 
   render() {
@@ -29,13 +29,13 @@ export class PanToBoundsAnimation extends React.Component {
   }
 }
 
-PanToBoundsAnimation.contextTypes = {
+FitBounds.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
 
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
-  PanToBoundsAnimation.propTypes = {
+  FitBounds.propTypes = {
     latLngBounds: PropTypes.arrayOf(LatLngType).isRequired,
   };
 }

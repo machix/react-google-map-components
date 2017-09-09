@@ -2,10 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
 import { AnimationManager } from "./AnimationManager";
-import { LatLngType } from "../internal/Props";
-import { isEqualProps } from "../internal/Utils";
 
-export class FitBoundsAnimation extends React.Component {
+export class PanBy extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -13,15 +11,21 @@ export class FitBoundsAnimation extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.fitBounds(this.props.latLngBounds);
+    const { x, y } = this.props;
+
+    this.manager.panBy(x, y);
   }
 
   shouldComponentUpdate(nextProps) {
-    return !isEqualProps(this.props.latLngBounds, nextProps.latLngBounds);
+    const { x, y } = this.props;
+
+    return nextProps.x !== x || nextProps.y !== y;
   }
 
   componentDidUpdate() {
-    this.manager.fitBounds(this.props.latLngBounds);
+    const { x, y } = this.props;
+
+    this.manager.panBy(x, y);
   }
 
   render() {
@@ -29,13 +33,14 @@ export class FitBoundsAnimation extends React.Component {
   }
 }
 
-FitBoundsAnimation.contextTypes = {
+PanBy.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
 
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
-  FitBoundsAnimation.propTypes = {
-    latLngBounds: PropTypes.arrayOf(LatLngType).isRequired,
+  PanBy.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
   };
 }

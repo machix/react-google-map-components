@@ -5,7 +5,7 @@ import { AnimationManager } from "./AnimationManager";
 import { LatLngType } from "../internal/Props";
 import { isEqualProps } from "../internal/Utils";
 
-export class PanToAnimation extends React.Component {
+export class PanTo extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -29,13 +29,13 @@ export class PanToAnimation extends React.Component {
   }
 }
 
-PanToAnimation.contextTypes = {
+PanTo.contextTypes = {
   mapManager: PropTypes.instanceOf(MapManager).isRequired,
 };
 
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
-  PanToAnimation.propTypes = {
+  PanTo.propTypes = {
     latLng: LatLngType.isRequired,
   };
 }
