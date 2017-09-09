@@ -20,6 +20,10 @@ export class DrawingControl extends React.Component {
       this.manager.addListener(event, x => {
         const fn = this.props[handler];
 
+        if (x && x.setMap) {
+          x.setMap(null);
+        }
+
         if (fn) {
           fn(x);
         }
