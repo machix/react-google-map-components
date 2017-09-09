@@ -206,3 +206,38 @@ export const MapTypeControlStyleType = PropTypes.oneOf([
  * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#Data.LinearRing
  */
 export const DataLinearRingType = PropTypes.arrayOf(LatLngType);
+
+/**
+ * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#OverlayType
+ */
+export const OverlayType = PropTypes.oneOf([
+  /**
+   * Specifies that the DrawingManager creates circles,
+   * and that the overlay given in the onOverlayComplete event is a circle.
+   */
+  "circle",
+
+  /**
+   * Specifies that the DrawingManager creates markers,
+   * and that the overlay given in the onOverlayComplete event is a marker.
+   */
+  "marker",
+
+  /**
+   * Specifies that the DrawingManager creates polygons,
+   * and that the overlay given in the onOverlayComplete event is a polygon.
+   */
+  "polygon",
+
+  /**
+   * Specifies that the DrawingManager creates polylines,
+   * and that the overlay given in the onOverlayComplete event is a polyline.
+   */
+  "polyline",
+
+  /**
+   * Specifies that the DrawingManager creates rectangles,
+   * and that the overlay given in the onOverlayComplete event is a rectangle.
+   */
+  "rectangle",
+]);

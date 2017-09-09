@@ -29,6 +29,7 @@ import { PanByAnimation } from "../modules/animations/PanByAnimation";
 import { PanToAnimation } from "../modules/animations/PanToAnimation";
 import { PanToBoundsAnimation } from "../modules/animations/PanToBoundsAnimation";
 import { FitBoundsAnimation } from "../modules/animations/FitBoundsAnimation";
+import { DrawingControl } from "../modules/drawing-control/DrawingControl";
 
 export const context = new DocsContext();
 
@@ -617,6 +618,67 @@ context
               ]}
             />
           )}
+        </GoogleMap>
+      ),
+    ),
+  );
+
+context
+  .addSection("<DrawingControl />")
+  .addPage(
+    "Basics",
+    withDynamicProps(
+      [
+        dynamicProps.visible,
+        dynamicProps.position,
+        boolean("marker", "Marker", true),
+        boolean("polyline", "Polyline", true),
+        boolean("rectangle", "Rectangle", true),
+        boolean("circle", "Circle", true),
+        boolean("polygon", "Polygon", true),
+      ],
+      props => (
+        <GoogleMap
+          maps={maps}
+          zoom={8}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          {props.visible && (
+            <DrawingControl
+              position={props.position}
+              drawingModes={[
+                props.marker && "marker",
+                props.polyline && "polyline",
+                props.rectangle && "rectangle",
+                props.circle && "circle",
+                props.polygon && "polygon",
+              ].filter(Boolean)}
+            />
+          )}
+        </GoogleMap>
+      ),
+    ),
+  )
+  .addPage(
+    "Events",
+    withEventHandlers(
+      [
+        "onCircleComplete",
+        "onMarkerComplete",
+        "onOverlayComplete",
+        "onPolygonComplete",
+        "onPolylineComplete",
+        "onRectangleComplete",
+      ],
+      props => (
+        <GoogleMap
+          zoom={8}
+          maps={maps}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          <DrawingControl {...props} />
         </GoogleMap>
       ),
     ),

@@ -15,6 +15,7 @@ import {
   StreetViewControl,
   withMapInstance,
   ZoomControl,
+  DrawingControl,
 } from "../index";
 
 test("Public Api", () => {
@@ -25,6 +26,7 @@ test("Public Api", () => {
   expect(ScaleControl).toBeInstanceOf(Function);
   expect(StreetViewControl).toBeInstanceOf(Function);
   expect(ZoomControl).toBeInstanceOf(Function);
+  expect(DrawingControl).toBeInstanceOf(Function);
   expect(FitBoundsAnimation).toBeInstanceOf(Function);
   expect(PanByAnimation).toBeInstanceOf(Function);
   expect(PanToAnimation).toBeInstanceOf(Function);
