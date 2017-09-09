@@ -35,6 +35,9 @@ StreetViewControl.contextTypes = {
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   StreetViewControl.propTypes = {
+    /**
+     * Position id. Used to specify the position of the control on the map.
+     */
     position: ControlPositionType,
   };
 }

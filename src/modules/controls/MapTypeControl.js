@@ -62,8 +62,17 @@ MapTypeControl.contextTypes = {
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   MapTypeControl.propTypes = {
+    /**
+     * Position id. Used to specify the position of the control on the map.
+     */
     position: ControlPositionType,
+    /**
+     * Style id. Used to select what style of map type control to display.
+     */
     style: MapTypeControlStyleType,
+    /**
+     * IDs of map types to show in the control.
+     */
     mapTypeIds: PropTypes.arrayOf(MapTypeIdType),
   };
 }
