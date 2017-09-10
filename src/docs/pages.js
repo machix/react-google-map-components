@@ -31,11 +31,27 @@ import { PanToBounds } from "../modules/animations/PanToBounds";
 import { FitBounds } from "../modules/animations/FitBounds";
 import { DrawingControl } from "../modules/drawing-control/DrawingControl";
 
+import PolylineContainer from "./containers/PolylineContainer";
+
 export const context = new DocsContext();
 
 const { google: { maps } } = window;
 const styles = { map: { minHeight: "320px", height: "100%" } };
 const defaultCenter = { lat: 36.964, lng: -122.015 };
+const cities = [
+  "chicago, il",
+  "st louis, mo",
+  "joplin, mo",
+  "oklahoma city, ok",
+  "amarillo, tx",
+  "gallup, nm",
+  "flagstaff, az",
+  "winona, az",
+  "kingman, az",
+  "barstow, ca",
+  "san bernardino, ca",
+  "los angeles, ca",
+];
 
 const dynamicProps = {
   lat: number("lat", "Latitude", defaultCenter.lat),
@@ -677,5 +693,45 @@ context
           <DrawingControl {...props} />
         </GoogleMap>
       ),
+    ),
+  );
+
+context
+  .addSection("<Polyline />")
+  .addPage(
+    "Basics",
+    withDynamicProps(
+      [
+        boolean("draggable", "Draggable", true),
+        boolean("editable", "Editable", false),
+        select(
+          "travelMode",
+          "Travel Mode",
+          ["DRIVING", "BICYCLING", "TRANSIT", "WALKING"],
+          "DRIVING",
+        ),
+        select("origin", "Start", cities, "chicago, il"),
+        select("destination", "End", cities, "st louis, mo"),
+      ],
+      props => <PolylineContainer {...props} />,
+    ),
+  )
+  .addPage(
+    "Events",
+    withEventHandlers(
+      [
+        "onDrag",
+        "onClick",
+        "onMouseUp",
+        "onDragEnd",
+        "onMouseOut",
+        "onMouseDown",
+        "onDragStart",
+        "onMouseOver",
+        "onMouseMove",
+        "onRightClick",
+        "onDoubleClick",
+      ],
+      props => <PolylineContainer {...props} />,
     ),
   );

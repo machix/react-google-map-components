@@ -16,6 +16,7 @@ import {
   withMapInstance,
   ZoomControl,
   DrawingControl,
+  Polyline,
 } from "../index";
 
 test("Public Api", () => {
@@ -32,6 +33,7 @@ test("Public Api", () => {
   expect(PanTo).toBeInstanceOf(Function);
   expect(PanToBounds).toBeInstanceOf(Function);
   expect(Marker).toBeInstanceOf(Function);
+  expect(Polyline).toBeInstanceOf(Function);
   expect(MarkerIcon).toBeInstanceOf(Function);
   expect(InfoWindow).toBeInstanceOf(Function);
   expect(DataPolygon).toBeInstanceOf(Function);

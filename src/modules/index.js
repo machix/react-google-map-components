@@ -22,3 +22,5 @@ export { InfoWindow } from "./info-window/InfoWindow";
 export { DataPolygon } from "./data-polygon/DataPolygon";
 
 export { withMapInstance } from "./with-map-instance/WithMapInstance";
+
+export { Polyline } from "./polyline/Polyline";
