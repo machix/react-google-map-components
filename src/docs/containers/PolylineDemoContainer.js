@@ -9,7 +9,7 @@ const { google: { maps } } = window;
 const defaultCenter = { lat: 40, lng: -89 };
 const styles = { map: { minHeight: "320px", height: "100%" } };
 
-const getPath = fpGet("routes.0.overview_path");
+const getPath = fpGet(["routes", 0, "overview_path"]);
 const omitProps = fpOmit(["origin", "destination", "travelMode"]);
 
 export default class PolylineContainer extends React.Component {
@@ -26,15 +26,15 @@ export default class PolylineContainer extends React.Component {
     destination: "st louis, mo",
   };
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       path: null,
     };
   }
 
-  gettingDirections(props) {
+  fetchDirections(props) {
     const { DirectionsService } = maps;
     const { origin, destination, travelMode } = props;
 
@@ -42,17 +42,10 @@ export default class PolylineContainer extends React.Component {
 
     if (origin && destination) {
       directionsService.route(
-        {
-          origin,
-          destination,
-          travelMode,
-        },
+        { origin, travelMode, destination },
         (result, status) => {
           if (status === "OK") {
-            this.setState(state => ({
-              ...state,
-              path: getPath(result),
-            }));
+            this.setState({ path: getPath(result) });
           }
         },
       );
@@ -60,11 +53,11 @@ export default class PolylineContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.gettingDirections(this.props);
+    this.fetchDirections(this.props);
   }
 
   componentWillReceiveProps(props) {
-    this.gettingDirections(props);
+    this.fetchDirections(props);
   }
 
   render() {
@@ -75,8 +68,8 @@ export default class PolylineContainer extends React.Component {
         {this.state.path && (
           <Polyline
             {...polylineProps}
-            strokeColor="#ff0000"
             strokeOpacity={0.5}
+            strokeColor="#ff0000"
             path={this.state.path}
           />
         )}

@@ -31,7 +31,7 @@ import { PanToBounds } from "../modules/animations/PanToBounds";
 import { FitBounds } from "../modules/animations/FitBounds";
 import { DrawingControl } from "../modules/drawing-control/DrawingControl";
 
-import PolylineContainer from "./containers/PolylineContainer";
+import PolylineDemoContainer from "./containers/PolylineDemoContainer";
 
 export const context = new DocsContext();
 
@@ -530,6 +530,46 @@ context
   );
 
 context
+  .addSection("<Polyline />")
+  .addPage(
+    "Basics",
+    withDynamicProps(
+      [
+        boolean("draggable", "Draggable", true),
+        boolean("editable", "Editable", false),
+        select(
+          "travelMode",
+          "Travel Mode",
+          ["DRIVING", "BICYCLING", "TRANSIT", "WALKING"],
+          "DRIVING",
+        ),
+        select("origin", "Start", cities, "chicago, il"),
+        select("destination", "End", cities, "st louis, mo"),
+      ],
+      props => <PolylineDemoContainer {...props} />,
+    ),
+  )
+  .addPage(
+    "Events",
+    withEventHandlers(
+      [
+        "onDrag",
+        "onClick",
+        "onMouseUp",
+        "onDragEnd",
+        "onMouseOut",
+        "onMouseDown",
+        "onDragStart",
+        "onMouseOver",
+        "onMouseMove",
+        "onRightClick",
+        "onDoubleClick",
+      ],
+      props => <PolylineDemoContainer {...props} />,
+    ),
+  );
+
+context
   .addSection("<DataPolygon />")
   .addPage(
     "Basics",
@@ -693,45 +733,5 @@ context
           <DrawingControl {...props} />
         </GoogleMap>
       ),
-    ),
-  );
-
-context
-  .addSection("<Polyline />")
-  .addPage(
-    "Basics",
-    withDynamicProps(
-      [
-        boolean("draggable", "Draggable", true),
-        boolean("editable", "Editable", false),
-        select(
-          "travelMode",
-          "Travel Mode",
-          ["DRIVING", "BICYCLING", "TRANSIT", "WALKING"],
-          "DRIVING",
-        ),
-        select("origin", "Start", cities, "chicago, il"),
-        select("destination", "End", cities, "st louis, mo"),
-      ],
-      props => <PolylineContainer {...props} />,
-    ),
-  )
-  .addPage(
-    "Events",
-    withEventHandlers(
-      [
-        "onDrag",
-        "onClick",
-        "onMouseUp",
-        "onDragEnd",
-        "onMouseOut",
-        "onMouseDown",
-        "onDragStart",
-        "onMouseOver",
-        "onMouseMove",
-        "onRightClick",
-        "onDoubleClick",
-      ],
-      props => <PolylineContainer {...props} />,
     ),
   );
