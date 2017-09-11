@@ -1,5 +1,7 @@
 import {
+  CustomControl,
   DataPolygon,
+  DrawingControl,
   FitBounds,
   FullscreenControl,
   GoogleMap,
@@ -10,13 +12,12 @@ import {
   PanBy,
   PanTo,
   PanToBounds,
+  Polyline,
   RotateControl,
   ScaleControl,
   StreetViewControl,
   withMapInstance,
   ZoomControl,
-  DrawingControl,
-  Polyline,
 } from "../index";
 
 test("Public Api", () => {
@@ -27,6 +28,7 @@ test("Public Api", () => {
   expect(ScaleControl).toBeInstanceOf(Function);
   expect(StreetViewControl).toBeInstanceOf(Function);
   expect(ZoomControl).toBeInstanceOf(Function);
+  expect(CustomControl).toBeInstanceOf(Function);
   expect(DrawingControl).toBeInstanceOf(Function);
   expect(FitBounds).toBeInstanceOf(Function);
   expect(PanBy).toBeInstanceOf(Function);

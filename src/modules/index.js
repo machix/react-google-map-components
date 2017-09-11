@@ -7,6 +7,7 @@ export { ScaleControl } from "./controls/ScaleControl";
 export { StreetViewControl } from "./controls/StreetViewControl";
 export { ZoomControl } from "./controls/ZoomControl";
 
+export { CustomControl } from "./custom-control/CustomControl";
 export { DrawingControl } from "./drawing-control/DrawingControl";
 
 export { FitBounds } from "./animations/FitBounds";

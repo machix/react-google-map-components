@@ -12,26 +12,20 @@ import {
   StreetViewControl,
   ZoomControl,
 } from "../modules";
-
-import Icon from "./assets/icon.svg";
-
-import { DocsContext } from "./docs-context/DocsContext";
-import {
-  boolean,
-  number,
-  select,
-  text,
-  textArea,
-  withDynamicProps,
-} from "./hocs/WithDynamicProps";
-import { withEventHandlers } from "./hocs/WithEventHandlers";
+import { FitBounds } from "../modules/animations/FitBounds";
 import { PanBy } from "../modules/animations/PanBy";
 import { PanTo } from "../modules/animations/PanTo";
 import { PanToBounds } from "../modules/animations/PanToBounds";
-import { FitBounds } from "../modules/animations/FitBounds";
+import { CustomControl } from "../modules/custom-control/CustomControl";
 import { DrawingControl } from "../modules/drawing-control/DrawingControl";
 
+import Icon from "./assets/icon.svg";
+
 import PolylineDemoContainer from "./containers/PolylineDemoContainer";
+
+import { DocsContext } from "./docs-context/DocsContext";
+import { boolean, number, select, text, textArea, withDynamicProps, } from "./hocs/WithDynamicProps";
+import { withEventHandlers } from "./hocs/WithEventHandlers";
 
 export const context = new DocsContext();
 
@@ -239,6 +233,40 @@ context
         {props.visible && <ZoomControl position={props.position} />}
       </GoogleMap>
     )),
+  )
+  .addPage(
+    "<CustomControl />",
+    withDynamicProps(
+      [
+        dynamicProps.visible,
+        {
+          ...dynamicProps.position,
+          defaultValue: dynamicProps.position.options[0],
+        },
+        text("label", "Label", "Click It!"),
+        text("message", "Message", "Boom!"),
+      ],
+      props => (
+        <GoogleMap
+          maps={maps}
+          zoom={8}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          {props.visible && (
+            <CustomControl position={props.position}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => alert(props.message)}
+              >
+                {props.label}
+              </button>
+            </CustomControl>
+          )}
+        </GoogleMap>
+      ),
+    ),
   );
 
 context
