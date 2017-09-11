@@ -22,6 +22,12 @@
     "build:lib": "node ./tools/build.js",
     "build:docs": "react-scripts build"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/modules/**/*.js",
+      "!<rootDir>/node_modules/"
+    ]
+  },
   "dependencies": {
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10"
