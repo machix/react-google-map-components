@@ -48,17 +48,24 @@ Polyline.contextTypes = {
 if (process.env.NODE_ENV !== "production") {
   Polyline.propTypes = {
     /**
-     * If set to true, the user can drag this shape over the map. The geodesic property defines the mode of dragging. Defaults to false.
+     * If set to true, the user can drag this shape over the map.
+     * The geodesic property defines the mode of dragging.
+     *
+     * Defaults to false.
      */
     draggable: PropTypes.bool,
 
     /**
-     * Indicates whether this Polyline handles mouse events. Defaults to true.
+     * Indicates whether this Polyline handles mouse events.
+     *
+     * Defaults to true.
      */
     clickable: PropTypes.bool,
 
     /**
-     * If set to true, the user can edit this shape by dragging the control points shown at the vertices and on each segment.
+     * If set to true, the user can edit this shape by dragging the control
+     * points shown at the vertices and on each segment.
+     *
      * Defaults to false.
      */
     editable: PropTypes.bool,
@@ -67,7 +74,9 @@ if (process.env.NODE_ENV !== "production") {
      * When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth.
      * When false, edges of the polygon are rendered as straight lines in screen space.
      * Note that the shape of a geodesic polygon may appear to change when dragged,
-     * as the dimensions are maintained relative to the surface of the earth. Defaults to false.
+     * as the dimensions are maintained relative to the surface of the earth.
+     *
+     * Defaults to false.
      */
     geodesic: PropTypes.bool,
 
@@ -81,16 +90,7 @@ if (process.env.NODE_ENV !== "production") {
     icons: PropTypes.array,
 
     /**
-     * Type: MVCArray<LatLng>|Array<LatLng|LatLngLiteral>
-     *
-     * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#MVCArray
-     * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#LatLng
-     * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#LatLngLiteral
-     *
      * The ordered sequence of coordinates of the Polyline.
-     * This path may be specified using either a simple array of LatLngs, or an MVCArray of LatLngs.
-     * Note that if you pass a simple array, it will be converted toan MVCArray Inserting
-     * or removing LatLngs in the MVCArray will automatically update the polyline on the map.
      */
     path: PropTypes.arrayOf(LatLngType),
 
@@ -110,7 +110,9 @@ if (process.env.NODE_ENV !== "production") {
     strokeWeight: PropTypes.number,
 
     /**
-     * Whether this polyline is visible on the map. Defaults to true.
+     * Whether this polyline is visible on the map.
+     *
+     * Defaults to true.
      */
     visible: PropTypes.bool,
 
