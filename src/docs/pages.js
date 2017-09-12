@@ -1,4 +1,5 @@
 import React from "react";
+import { PolylineWithDirectionService } from "../examples/polyline/PolylineWithDirectionService";
 import {
   DataPolygon,
   FullscreenControl,
@@ -18,13 +19,19 @@ import { PanTo } from "../modules/animations/PanTo";
 import { PanToBounds } from "../modules/animations/PanToBounds";
 import { CustomControl } from "../modules/custom-control/CustomControl";
 import { DrawingControl } from "../modules/drawing-control/DrawingControl";
+import { Polyline } from "../modules/polyline/Polyline";
 
 import Icon from "./assets/icon.svg";
 
-import PolylineDemoContainer from "./containers/PolylineDemoContainer";
-
 import { DocsContext } from "./docs-context/DocsContext";
-import { boolean, number, select, text, textArea, withDynamicProps, } from "./hocs/WithDynamicProps";
+import {
+  boolean,
+  number,
+  select,
+  text,
+  textArea,
+  withDynamicProps,
+} from "./hocs/WithDynamicProps";
 import { withEventHandlers } from "./hocs/WithEventHandlers";
 
 export const context = new DocsContext();
@@ -33,18 +40,11 @@ const { google: { maps } } = window;
 const styles = { map: { minHeight: "320px", height: "100%" } };
 const defaultCenter = { lat: 36.964, lng: -122.015 };
 const cities = [
-  "chicago, il",
-  "st louis, mo",
-  "joplin, mo",
-  "oklahoma city, ok",
-  "amarillo, tx",
-  "gallup, nm",
-  "flagstaff, az",
-  "winona, az",
-  "kingman, az",
-  "barstow, ca",
-  "san bernardino, ca",
-  "los angeles, ca",
+  "san jose, ca",
+  "palo alto, ca",
+  "gilroy, ca",
+  "salinas, ca",
+  "monterey, ca",
 ];
 
 const dynamicProps = {
@@ -563,18 +563,30 @@ context
     "Basics",
     withDynamicProps(
       [
-        boolean("draggable", "Draggable", true),
+        boolean("visible", "Visible", true),
         boolean("editable", "Editable", false),
-        select(
-          "travelMode",
-          "Travel Mode",
-          ["DRIVING", "BICYCLING", "TRANSIT", "WALKING"],
-          "DRIVING",
-        ),
-        select("origin", "Start", cities, "chicago, il"),
-        select("destination", "End", cities, "st louis, mo"),
+        boolean("draggable", "Draggable", false),
+        boolean("clickable", "Clickable", false),
+        text("strokeColor", "Stroke Color", "#FF0000"),
+        number("strokeWidth", "Stroke Width", 1),
+        number("strokeOpacity", "Stroke Opacity", 1),
       ],
-      props => <PolylineDemoContainer {...props} />,
+      props => (
+        <GoogleMap
+          zoom={8}
+          maps={maps}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          <Polyline
+            {...props}
+            path={[
+              { lat: 37.33821, lng: -121.88633 },
+              { lat: 37.00578, lng: -121.56826 },
+            ]}
+          />
+        </GoogleMap>
+      ),
     ),
   )
   .addPage(
@@ -593,7 +605,50 @@ context
         "onRightClick",
         "onDoubleClick",
       ],
-      props => <PolylineDemoContainer {...props} />,
+      props => (
+        <GoogleMap
+          zoom={8}
+          maps={maps}
+          style={styles.map}
+          center={defaultCenter}
+        >
+          <Polyline
+            {...props}
+            draggable
+            clickable
+            path={[
+              { lat: 37.33821, lng: -121.88633 },
+              { lat: 37.00578, lng: -121.56826 },
+            ]}
+          />
+        </GoogleMap>
+      ),
+    ),
+  )
+  .addPage(
+    "With DirectionService",
+    withDynamicProps(
+      [
+        select(
+          "travelMode",
+          "Travel Mode",
+          ["DRIVING", "BICYCLING", "TRANSIT", "WALKING"],
+          "DRIVING",
+        ),
+        select("origin", "Origin", cities),
+        select("destination", "Destination", cities),
+      ],
+      props => (
+        <PolylineWithDirectionService
+          zoom={8}
+          maps={maps}
+          style={styles.map}
+          center={defaultCenter}
+          origin={props.origin}
+          travelMode={props.travelMode}
+          destination={props.destination}
+        />
+      ),
     ),
   );
 
