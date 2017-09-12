@@ -7,11 +7,17 @@ import HashRouter from "react-router-dom/HashRouter";
 
 import App from "./docs/components/app/App";
 
-import { context } from "./docs/pages";
+renderApp();
 
-ReactDOM.render(
-  <HashRouter>
-    <App context={context} />
-  </HashRouter>,
-  document.getElementById("root"),
-);
+if (module.hot) {
+  module.hot.accept("./docs/components/app/App", renderApp);
+}
+
+function renderApp() {
+  ReactDOM.render(
+    <HashRouter>
+      <App />
+    </HashRouter>,
+    document.getElementById("root"),
+  );
+}

@@ -1,7 +1,6 @@
 import flatMap from "lodash/flatMap";
 import get from "lodash/get";
 import map from "lodash/map";
-
 import PropTypes from "prop-types";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -11,19 +10,23 @@ import {
   DocsPage,
   DocsSection,
 } from "../../docs-context/DocsContext";
+
+import { context } from "../../pages";
 import Sidebar from "../sidebar/Sidebar";
 
 import "./App.css";
 
-App.propTypes = {
-  context: PropTypes.instanceOf(DocsContext).isRequired,
-};
+export default class App extends React.Component {
+  static childContextTypes = {
+    context: PropTypes.instanceOf(DocsContext).isRequired,
+  };
 
-export default function App(props) {
-  const context: DocsContext = props.context;
+  getChildContext() {
+    return { context };
+  }
 
-  return (
-    <div>
+  render() {
+    return (
       <div className="container-fluid">
         <div className="row">
           <Sidebar context={context} />
@@ -39,6 +42,6 @@ export default function App(props) {
           </Switch>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
