@@ -13,8 +13,8 @@ const pickProps = fpPick([
   "clickable",
   "draggable",
   "strokeColor",
-  "strokeOpacit",
   "strokeWeight",
+  "strokeOpacity",
 ]);
 
 export class PolylineManager {
