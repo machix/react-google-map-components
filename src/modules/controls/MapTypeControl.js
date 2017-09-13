@@ -19,7 +19,7 @@ export class MapTypeControlManager extends ControlManager {
     const ctx = this.context;
     const options = super.getOptions(props);
 
-    options.style = ctx.getEnum("MapTypeControlStyle", options.style);
+    options.style = ctx.getEnum("MapTypeControlStyle", props.style);
 
     if (props.mapTypeIds) {
       options.mapTypeIds = map(props.mapTypeIds, x =>
