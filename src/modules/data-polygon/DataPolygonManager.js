@@ -5,7 +5,6 @@ import { getChangedProps } from "../internal/Utils";
 
 const pickStyles = fpPick([
   "clickable",
-  "draggable",
   "fillColor",
   "fillOpacity",
   "strokeColor",

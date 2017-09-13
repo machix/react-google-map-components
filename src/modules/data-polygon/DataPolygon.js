@@ -97,12 +97,6 @@ if (process.env.NODE_ENV !== "production") {
     clickable: PropTypes.bool,
 
     /**
-     * If true, the object can be dragged across the map and the underlying feature will have its geometry updated.
-     * Default value is false.
-     */
-    draggable: PropTypes.bool,
-
-    /**
      * The fill color. All CSS3 colors are supported except for extended named colors.
      */
     fillColor: PropTypes.string,
