@@ -1,11 +1,18 @@
 {
   "env": { "jest": true, "browser": true },
   "parser": "babel-eslint",
+  "plugins": ["prettier"],
   "extends": ["airbnb", "prettier", "prettier/react"],
   "rules": {
     "no-use-before-define": ["error", "nofunc"],
     "no-return-assign": "off",
     "no-nested-ternary": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "all"
+      }
+    ],
     "react/sort-comp": "off",
     "react/forbid-prop-types": "off",
     "react/no-unused-prop-types": "off",
