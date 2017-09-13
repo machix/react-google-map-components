@@ -4,7 +4,6 @@ import { MapManager } from "../internal/MapManager";
 import { getChangedProps } from "../internal/Utils";
 
 const pickStyles = fpPick([
-  "editable",
   "clickable",
   "draggable",
   "fillColor",

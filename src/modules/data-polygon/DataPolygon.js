@@ -91,13 +91,6 @@ if (process.env.NODE_ENV !== "production") {
     //
 
     /**
-     * If true, the object can be edited by dragging control points and the underlying feature will
-     * have its geometry updated.
-     * Default value is false.
-     */
-    editable: PropTypes.bool,
-
-    /**
      * If true, the marker receives mouse and touch events.
      * Default value is true.
      */

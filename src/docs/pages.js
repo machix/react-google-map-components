@@ -719,7 +719,6 @@ context
     withDynamicProps(
       [
         dynamicProps.visible,
-        boolean("editable", "Editable", false),
         boolean("clickable", "Clickable", false),
         boolean("draggable", "Draggable", false),
         text("fillColor", "Fill Color", "#000000"),
@@ -737,7 +736,6 @@ context
         >
           {props.visible && (
             <DataPolygon
-              editable={props.editable}
               clickable={props.clickable}
               draggable={props.draggable}
               fillColor={props.fillColor}
