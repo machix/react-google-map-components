@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { ControlPositionType } from "../internal/Props";
 import { CustomControlManager } from "./CustomControlManager";
 
@@ -10,7 +10,7 @@ export class CustomControl extends React.Component {
     super(props, context);
 
     this.manager = new CustomControlManager(
-      context.mapManager,
+      context.mapContext,
       (element, container) => {
         ReactDOM.unstable_renderSubtreeIntoContainer(
           this,
@@ -39,7 +39,7 @@ export class CustomControl extends React.Component {
 }
 
 CustomControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

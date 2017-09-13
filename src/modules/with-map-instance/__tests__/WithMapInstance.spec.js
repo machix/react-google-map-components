@@ -1,14 +1,14 @@
 import { shallow } from "enzyme";
 import React from "react";
-import { MapManager } from "../../internal/MapManager";
+import { MapContext } from "../../internal/MapContext";
 import { withMapInstance } from "../WithMapInstance";
 
 describe("withMapInstance", () => {
   const Foo = () => null;
-  let mapManager: MapManager;
+  let mapContext: MapContext;
 
   beforeEach(() => {
-    mapManager = new MapManager();
+    mapContext = new MapContext();
   });
 
   it("should return hoc function", () => {
@@ -18,7 +18,7 @@ describe("withMapInstance", () => {
   it("should render base component", () => {
     const hoc = withMapInstance();
     const WrappedFoo = hoc(Foo);
-    const wrapper = shallow(<WrappedFoo />, { context: { mapManager } });
+    const wrapper = shallow(<WrappedFoo />, { context: { mapContext } });
 
     expect(wrapper.find(Foo).length).toBe(1);
   });
@@ -26,12 +26,12 @@ describe("withMapInstance", () => {
   it("should pass map instance to child", () => {
     const hoc = withMapInstance();
     const WrappedFoo = hoc(Foo);
-    const wrapper = shallow(<WrappedFoo />, { context: { mapManager } });
+    const wrapper = shallow(<WrappedFoo />, { context: { mapContext } });
 
     const map = {};
 
     expect(wrapper.find(Foo).prop("map")).toBeNull();
-    mapManager.attach(map);
+    mapContext.attach(map);
     expect(wrapper.find(Foo).prop("map")).toBe(map);
   });
 
@@ -41,7 +41,7 @@ describe("withMapInstance", () => {
 
     const props = { foo: 1, bar: "baz", quoz: () => {} };
     const wrapper = shallow(<WrappedFoo {...props} />, {
-      context: { mapManager },
+      context: { mapContext },
     });
 
     expect(wrapper.find(Foo).prop("map")).toBeNull();
@@ -55,7 +55,7 @@ describe("withMapInstance", () => {
     const WrappedFoo = hoc(Foo);
 
     const wrapper = shallow(<WrappedFoo map="foo" bar="baz" />, {
-      context: { mapManager },
+      context: { mapContext },
     });
 
     expect(wrapper.find(Foo).prop("map")).toBeNull();
@@ -67,7 +67,7 @@ describe("withMapInstance", () => {
     const WrappedFoo = hoc(Foo);
 
     const wrapper = shallow(<WrappedFoo map="foo" bar="baz" />, {
-      context: { mapManager },
+      context: { mapContext },
     });
 
     expect(() => wrapper.unmount()).not.toThrow();

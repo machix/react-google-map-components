@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { LatLngType, MapTypeIdType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import GoogleMapEvents from "./GoogleMapEvents";
@@ -12,12 +12,12 @@ export class GoogleMap extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.mapManager = new MapManager(props.maps);
-    this.manager = new GoogleMapManager(this.mapManager);
+    this.mapContext = new MapContext(props.maps);
+    this.manager = new GoogleMapManager(this.mapContext);
   }
 
   getChildContext() {
-    return { mapManager: this.mapManager };
+    return { mapContext: this.mapContext };
   }
 
   componentDidMount() {
@@ -48,7 +48,7 @@ export class GoogleMap extends React.Component {
 }
 
 GoogleMap.childContextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

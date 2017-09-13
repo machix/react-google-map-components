@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { ControlManager } from "./ControlManager";
 
 export class ScaleControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new ControlManager("scaleControl", context.mapManager);
+    this.manager = new ControlManager("scaleControl", context.mapContext);
   }
 
   componentDidMount() {
@@ -28,5 +28,5 @@ export class ScaleControl extends React.Component {
 }
 
 ScaleControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };

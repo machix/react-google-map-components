@@ -2,7 +2,7 @@ import get from "lodash/get";
 import has from "lodash/has";
 import { createInitEmitter } from "./InitEmitter";
 
-export class MapManager {
+export class MapContext {
   constructor(maps) {
     this.maps = maps;
 

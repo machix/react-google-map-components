@@ -1,7 +1,7 @@
 import fpPick from "lodash/fp/pick";
 import GenericEvents from "../internal/GenericEvents";
 
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
 
 const pickProps = fpPick([
@@ -18,9 +18,9 @@ const pickProps = fpPick([
 ]);
 
 export class PolylineManager {
-  constructor(props, manager: MapManager) {
-    this.maps = manager.maps;
-    this.manager = manager;
+  constructor(props, context: MapContext) {
+    this.maps = context.maps;
+    this.context = context;
 
     const { Polyline } = this.maps;
     const options = pickProps(props);
@@ -51,7 +51,7 @@ export class PolylineManager {
       this.polyline.addListener(event, listener);
     });
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       this.polyline.setMap(map);
     });
   }
@@ -67,7 +67,7 @@ export class PolylineManager {
     this.polyline.setMap(null);
     this.maps.event.clearInstanceListeners(this.polyline);
 
+    this.context = null;
     this.polyline = null;
-    this.manager = null;
   }
 }

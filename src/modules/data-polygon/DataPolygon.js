@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import DataLayerEvents from "../data-layer/DataLayerEvents";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { DataLinearRingType, LatLngType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import { DataPolygonManager } from "./DataPolygonManager";
@@ -10,7 +10,7 @@ export class DataPolygon extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new DataPolygonManager(context.mapManager);
+    this.manager = new DataPolygonManager(context.mapContext);
   }
 
   componentDidMount() {
@@ -33,7 +33,7 @@ export class DataPolygon extends React.Component {
 }
 
 DataPolygon.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

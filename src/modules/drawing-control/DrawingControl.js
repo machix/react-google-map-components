@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { ControlPositionType, OverlayType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import DrawingControlEvents from "./DrawingControlEvents";
@@ -11,7 +11,7 @@ export class DrawingControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new DrawingControlManager(props, context.mapManager);
+    this.manager = new DrawingControlManager(props, context.mapContext);
   }
 
   componentDidMount() {
@@ -34,7 +34,7 @@ export class DrawingControl extends React.Component {
 }
 
 DrawingControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

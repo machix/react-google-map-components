@@ -2,7 +2,7 @@ import map from "lodash/map";
 import PropTypes from "prop-types";
 
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import {
   ControlPositionType,
   MapTypeControlStyleType,
@@ -11,19 +11,19 @@ import {
 import { ControlManager } from "./ControlManager";
 
 export class MapTypeControlManager extends ControlManager {
-  constructor(manager: MapManager) {
-    super("mapTypeControl", manager);
+  constructor(context: MapContext) {
+    super("mapTypeControl", context);
   }
 
   getOptions(props) {
-    const manager = this.manager;
+    const ctx = this.context;
     const options = super.getOptions(props);
 
-    options.style = manager.getEnum("MapTypeControlStyle", options.style);
+    options.style = ctx.getEnum("MapTypeControlStyle", options.style);
 
     if (props.mapTypeIds) {
       options.mapTypeIds = map(props.mapTypeIds, x =>
-        manager.getEnum("MapTypeId", x),
+        ctx.getEnum("MapTypeId", x),
       );
     }
 
@@ -35,19 +35,19 @@ export class MapTypeControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new MapTypeControlManager(context.mapManager);
+    this.context = new MapTypeControlManager(context.mapContext);
   }
 
   componentDidMount() {
-    this.manager.attach(this.props);
+    this.context.attach(this.props);
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    this.context.update(prevProps, this.props);
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.context.detach();
   }
 
   render() {
@@ -56,7 +56,7 @@ export class MapTypeControl extends React.Component {
 }
 
 MapTypeControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

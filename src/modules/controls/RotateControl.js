@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { ControlPositionType } from "../internal/Props";
 import { ControlManager } from "./ControlManager";
 
@@ -8,7 +8,7 @@ export class RotateControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new ControlManager("rotateControl", context.mapManager);
+    this.manager = new ControlManager("rotateControl", context.mapContext);
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ export class RotateControl extends React.Component {
 }
 
 RotateControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

@@ -2,7 +2,7 @@ import fpPick from "lodash/fp/pick";
 import isString from "lodash/isString";
 import React from "react";
 import ReactDOM from "react-dom";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
 
 const pickProps = fpPick([
@@ -14,9 +14,9 @@ const pickProps = fpPick([
 ]);
 
 export class InfoWindowManager {
-  constructor(manager: MapManager, render) {
-    this.manager = manager;
-    this.maps = manager.maps;
+  constructor(context: MapContext, render) {
+    this.context = context;
+    this.maps = context.maps;
 
     this.render = render;
 
@@ -46,7 +46,7 @@ export class InfoWindowManager {
     }
 
     if (options.pixelOffset) {
-      options.pixelOffset = this.manager.createSize(options.pixelOffset);
+      options.pixelOffset = this.context.createSize(options.pixelOffset);
     }
 
     return options;
@@ -61,7 +61,7 @@ export class InfoWindowManager {
       this.infowindow.addListener(event, listener);
     });
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       this.infowindow.open(map);
     });
   }
@@ -71,7 +71,7 @@ export class InfoWindowManager {
     const options = this.getOptions(diff);
 
     if (options.maxWidth) {
-      this.manager.onAttach(map => {
+      this.context.onAttach(map => {
         this.infowindow.close();
         this.infowindow.setOptions(options);
         this.infowindow.open(map);

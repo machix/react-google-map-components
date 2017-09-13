@@ -1,6 +1,6 @@
 import fpPick from "lodash/fp/pick";
 import isEqual from "lodash/isEqual";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
 
 const pickStyles = fpPick([
@@ -14,11 +14,11 @@ const pickStyles = fpPick([
 ]);
 
 export class DataPolygonManager {
-  constructor(manager: MapManager) {
-    const { Data: { Feature } } = manager.maps;
+  constructor(context: MapContext) {
+    const { Data: { Feature } } = context.maps;
 
-    this.manager = manager;
-    this.maps = manager.maps;
+    this.context = context;
+    this.maps = context.maps;
 
     this.listeners = [];
 
@@ -26,7 +26,7 @@ export class DataPolygonManager {
   }
 
   updateStyles(style) {
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       map.data.overrideStyle(this.feature, style);
     });
   }
@@ -42,7 +42,7 @@ export class DataPolygonManager {
     this.updateGeometry(props);
     this.updateStyles(pickStyles(props));
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       map.data.add(this.feature);
 
       listeners.forEach(([event, listener]) => {
@@ -74,7 +74,7 @@ export class DataPolygonManager {
       listener.remove();
     }
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       map.data.remove(this.feature);
     });
   }

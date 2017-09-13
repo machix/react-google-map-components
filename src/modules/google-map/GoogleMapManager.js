@@ -1,6 +1,6 @@
 import fpPick from "lodash/fp/pick";
 import has from "lodash/has";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
 
 const pickProps = fpPick([
@@ -14,9 +14,9 @@ const pickProps = fpPick([
 ]);
 
 export class GoogleMapManager {
-  constructor(manager: MapManager) {
-    this.manager = manager;
-    this.maps = manager.maps;
+  constructor(context: MapContext) {
+    this.context = context;
+    this.maps = context.maps;
   }
 
   getOptions(props) {
@@ -36,8 +36,8 @@ export class GoogleMapManager {
 
     options.disableDefaultUI = true;
 
-    this.manager.attach(new Map(node, options));
-    this.manager.onAttach(map => {
+    this.context.attach(new Map(node, options));
+    this.context.onAttach(map => {
       listeners.forEach(([event, listener]) => {
         map.addListener(event, listener);
       });
@@ -45,7 +45,7 @@ export class GoogleMapManager {
   }
 
   detach() {
-    this.manager.detach();
+    this.context.detach();
   }
 
   update(prev, next) {
@@ -53,14 +53,14 @@ export class GoogleMapManager {
     const nextOptions = this.getOptions(next);
     const options = getChangedProps(prevOptions, nextOptions);
 
-    this.manager.onAttach(map => map.setValues(options));
+    this.context.onAttach(map => map.setValues(options));
   }
 
   addListener(event, fn) {
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       map.addListener(event, fn);
 
-      this.manager.onDetach(() => {});
+      this.context.onDetach(() => {});
     });
   }
 }

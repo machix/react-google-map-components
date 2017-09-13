@@ -1,28 +1,28 @@
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 
 export class AnimationManager {
-  constructor(manager: MapManager) {
-    this.manager = manager;
-    this.maps = manager.maps;
+  constructor(context: MapContext) {
+    this.context = context;
+    this.maps = context.maps;
   }
 
   fitBounds(latLngBounds) {
-    this.manager.onAttach(map => {
-      map.fitBounds(this.manager.createLatLngBounds(latLngBounds));
+    this.context.onAttach(map => {
+      map.fitBounds(this.context.createLatLngBounds(latLngBounds));
     });
   }
 
   panBy(x, y) {
-    this.manager.onAttach(map => map.panBy(x, y));
+    this.context.onAttach(map => map.panBy(x, y));
   }
 
   panTo(latLng) {
-    this.manager.onAttach(map => map.panTo(latLng));
+    this.context.onAttach(map => map.panTo(latLng));
   }
 
   panToBounds(latLngBounds) {
-    this.manager.onAttach(map => {
-      map.panToBounds(this.manager.createLatLngBounds(latLngBounds));
+    this.context.onAttach(map => {
+      map.panToBounds(this.context.createLatLngBounds(latLngBounds));
     });
   }
 }

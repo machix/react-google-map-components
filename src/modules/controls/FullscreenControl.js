@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { ControlPositionType } from "../internal/Props";
 import { ControlManager } from "./ControlManager";
 
@@ -8,7 +8,7 @@ export class FullscreenControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new ControlManager("fullscreenControl", context.mapManager);
+    this.manager = new ControlManager("fullscreenControl", context.mapContext);
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ export class FullscreenControl extends React.Component {
 }
 
 FullscreenControl.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

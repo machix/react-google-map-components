@@ -1,6 +1,6 @@
 import fpPick from "lodash/fp/pick";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
 import MarkerEvents from "./MarkerEvents";
 
@@ -23,9 +23,9 @@ const pickProps = fpPick([
 ]);
 
 export class MarkerManager {
-  constructor(props, manager: MapManager) {
-    this.maps = manager.maps;
-    this.manager = manager;
+  constructor(props, context: MapContext) {
+    this.maps = context.maps;
+    this.context = context;
 
     const { Marker } = this.maps;
     const options = this.getOptions(props);
@@ -46,20 +46,20 @@ export class MarkerManager {
 
   getOptions(props) {
     const options = pickProps(props);
-    const manager = this.manager;
+    const ctx = this.context;
 
-    options.animation = manager.getEnum("Animation", options.animation);
+    options.animation = ctx.getEnum("Animation", options.animation);
 
     if (React.isValidElement(options.icon)) {
-      options.icon = manager.createIcon(options.icon.props);
+      options.icon = ctx.createIcon(options.icon.props);
     }
 
     if (options.position) {
-      options.position = manager.createLatLng(options.position);
+      options.position = ctx.createLatLng(options.position);
     }
 
     if (options.anchorPoint) {
-      options.anchorPoint = manager.createPoint(options.anchorPoint);
+      options.anchorPoint = ctx.createPoint(options.anchorPoint);
     }
 
     return options;
@@ -70,7 +70,7 @@ export class MarkerManager {
       this.marker.addListener(event, listener);
     });
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       this.marker.setMap(map);
     });
   }
@@ -87,6 +87,6 @@ export class MarkerManager {
     this.maps.event.clearInstanceListeners(this.marker);
 
     this.marker = null;
-    this.manager = null;
+    this.context = null;
   }
 }

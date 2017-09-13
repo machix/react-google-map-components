@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 
 export function withMapInstance() {
   return BaseComponent => {
@@ -9,11 +9,10 @@ export function withMapInstance() {
         super(props, context);
 
         this.state = { map: null };
-        this.manager = context.mapManager;
       }
 
       componentWillMount() {
-        this.unsubscribe = this.manager.onAttach(map => {
+        this.unsubscribe = this.context.mapContext.onAttach(map => {
           this.setState({ map });
         });
       }
@@ -28,7 +27,7 @@ export function withMapInstance() {
     }
 
     WithMapInstance.contextTypes = {
-      mapManager: PropTypes.instanceOf(MapManager).isRequired,
+      mapContext: PropTypes.instanceOf(MapContext).isRequired,
     };
 
     return WithMapInstance;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { LatLngType, SizeType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import InfoWindowEvents from "./InfoWindowEvents";
@@ -12,7 +12,7 @@ export class InfoWindow extends React.Component {
     super(props, context);
 
     this.manager = new InfoWindowManager(
-      context.mapManager,
+      context.mapContext,
       (element, container) => {
         ReactDOM.unstable_renderSubtreeIntoContainer(
           this,
@@ -43,7 +43,7 @@ export class InfoWindow extends React.Component {
 }
 
 InfoWindow.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

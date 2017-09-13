@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { AnimationManager } from "./AnimationManager";
 
 export class PanBy extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new AnimationManager(context.mapManager);
+    this.manager = new AnimationManager(context.mapContext);
   }
 
   componentDidMount() {
@@ -34,7 +34,7 @@ export class PanBy extends React.Component {
 }
 
 PanBy.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

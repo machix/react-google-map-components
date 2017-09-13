@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import {
   AnimationType,
   LatLngType,
@@ -16,7 +16,7 @@ export class Marker extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new MarkerManager(props, context.mapManager);
+    this.manager = new MarkerManager(props, context.mapContext);
   }
 
   componentDidMount() {
@@ -39,7 +39,7 @@ export class Marker extends React.Component {
 }
 
 Marker.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

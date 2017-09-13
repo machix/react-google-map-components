@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 
 function addControl(map, position, div) {
   const controls = map.controls[position];
@@ -27,9 +27,9 @@ function removeControl(map, position, div) {
 }
 
 export class CustomControlManager {
-  constructor(manager: MapManager, render) {
-    this.manager = manager;
-    this.maps = manager.maps;
+  constructor(context: MapContext, render) {
+    this.context = context;
+    this.maps = context.maps;
 
     this.render = render;
     this.div = document.createElement("div");
@@ -44,11 +44,9 @@ export class CustomControlManager {
   }
 
   getOptions(props) {
-    const manager = this.manager;
-
     return {
       children: props.children,
-      position: manager.getEnum("ControlPosition", props.position),
+      position: this.context.getEnum("ControlPosition", props.position),
     };
   }
 
@@ -57,7 +55,7 @@ export class CustomControlManager {
 
     this.renderDiv(options.children);
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       addControl(map, options.position, this.div);
     });
   }
@@ -67,7 +65,7 @@ export class CustomControlManager {
     const nextOptions = this.getOptions(next);
 
     if (prevOptions.position !== nextOptions.position) {
-      this.manager.onAttach(map => {
+      this.context.onAttach(map => {
         removeControl(map, prevOptions.position, this.div);
         addControl(map, nextOptions.position, this.div);
       });
@@ -85,7 +83,7 @@ export class CustomControlManager {
     this.div = null;
     ReactDOM.unmountComponentAtNode(div);
 
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       removeControl(map, options.position, div);
     });
   }

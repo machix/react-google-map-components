@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import GenericEvents from "../internal/GenericEvents";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { LatLngType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import { PolylineManager } from "./PolylineManager";
@@ -10,7 +10,7 @@ export class Polyline extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new PolylineManager(props, context.mapManager);
+    this.manager = new PolylineManager(props, context.mapContext);
   }
 
   componentDidMount() {
@@ -33,7 +33,7 @@ export class Polyline extends React.Component {
 }
 
 Polyline.contextTypes = {
-  mapManager: PropTypes.instanceOf(MapManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
 /* istanbul ignore else */

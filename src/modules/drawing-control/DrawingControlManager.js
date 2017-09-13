@@ -1,12 +1,12 @@
 import map from "lodash/map";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 import { isEqualProps } from "../internal/Utils";
 import DrawingControlEvents from "./DrawingControlEvents";
 
 export class DrawingControlManager {
-  constructor(props, manager: MapManager) {
-    this.maps = manager.maps;
-    this.manager = manager;
+  constructor(props, context: MapContext) {
+    this.maps = context.maps;
+    this.context = context;
 
     const { drawing: { DrawingManager } } = this.maps;
     const options = this.getOptions(props);
@@ -19,7 +19,7 @@ export class DrawingControlManager {
   }
 
   getOptions(props) {
-    const manager = this.manager;
+    const manager = this.context;
     const options = {
       position: manager.getEnum("ControlPosition", props.position),
     };
@@ -41,7 +41,7 @@ export class DrawingControlManager {
       this.drawingManager.addListener(event, listener);
     });
 
-    this.manager.onAttach(x => this.drawingManager.setMap(x));
+    this.context.onAttach(x => this.drawingManager.setMap(x));
   }
 
   update(prev, next) {

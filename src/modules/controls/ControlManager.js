@@ -1,20 +1,20 @@
 import fpPick from "lodash/fp/pick";
 import isEqual from "lodash/isEqual";
-import { MapManager } from "../internal/MapManager";
+import { MapContext } from "../internal/MapContext";
 
 const pickProps = fpPick(["position"]);
 
 export class ControlManager {
-  constructor(name, manager: MapManager) {
+  constructor(name, context: MapContext) {
     this.name = name;
-    this.manager = manager;
-    this.maps = manager.maps;
+    this.context = context;
+    this.maps = context.maps;
   }
 
   getOptions(props) {
     const options = pickProps(props);
 
-    options.position = this.manager.getEnum(
+    options.position = this.context.getEnum(
       "ControlPosition",
       options.position,
     );
@@ -23,7 +23,7 @@ export class ControlManager {
   }
 
   setOptions(visible, options) {
-    this.manager.onAttach(map => {
+    this.context.onAttach(map => {
       const values = {
         [this.name]: visible,
         [`${this.name}Options`]: options,
