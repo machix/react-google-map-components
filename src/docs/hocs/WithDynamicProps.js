@@ -216,11 +216,15 @@ export function withDynamicProps(fields, render) {
       this.state = getInitialState();
     }
 
+    handleChange = (key, value) => this.setState({ [key]: value });
+
     render() {
       return (
         <Page>
           <div className="row">
-            <div className="col-sm-6">{render(this.state)}</div>
+            <div className="col-sm-6">
+              {render({ ...this.state, change: this.handleChange })}
+            </div>
 
             <div className="col-sm-6">
               {fields.map(field => (
@@ -229,7 +233,7 @@ export function withDynamicProps(fields, render) {
                   key={field.key}
                   {...field}
                   value={this.state[field.key]}
-                  onChange={x => this.setState({ [field.key]: x })}
+                  onChange={x => this.handleChange(field.key, x)}
                 />
               ))}
 

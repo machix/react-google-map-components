@@ -2,6 +2,7 @@ import fpPick from "lodash/fp/pick";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
 import { getChangedProps } from "../internal/Utils";
+import MarkerEvents from "./MarkerEvents";
 
 const pickProps = fpPick([
   "position",
@@ -29,7 +30,18 @@ export class MarkerManager {
     const { Marker } = this.maps;
     const options = this.getOptions(props);
 
-    this.marker = new Marker(options);
+    const marker = new Marker(options);
+    let position;
+
+    marker.addListener(MarkerEvents.ON_DRAG_START, () => {
+      position = marker.getPosition();
+    });
+
+    marker.addListener(MarkerEvents.ON_DRAG_END, () => {
+      marker.setPosition(position);
+    });
+
+    this.marker = marker;
   }
 
   getOptions(props) {

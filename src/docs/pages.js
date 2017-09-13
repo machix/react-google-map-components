@@ -394,6 +394,10 @@ context
             draggable={props.draggable}
             crossOnDrag={props.crossOnDrag}
             animation={props.animation}
+            onDragEnd={x => {
+              props.change("lat", x.latLng.lat());
+              props.change("lng", x.latLng.lng());
+            }}
           />
         </GoogleMap>
       ),
