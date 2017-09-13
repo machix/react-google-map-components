@@ -569,11 +569,15 @@ context
       [
         boolean("visible", "Visible", true),
         boolean("editable", "Editable", false),
+        boolean("clickable", "Clickable", true),
         boolean("draggable", "Draggable", false),
-        boolean("clickable", "Clickable", false),
         text("strokeColor", "Stroke Color", "#FF0000"),
         number("strokeWidth", "Stroke Width", 1),
         number("strokeOpacity", "Stroke Opacity", 1),
+        number("lat1", "Latitude 1", 37.33821),
+        number("lng1", "Longitude 1", -121.88633),
+        number("lat2", "Latitude 2", 37.00578),
+        number("lng2", "Longitude 2", -121.56826),
       ],
       props => (
         <GoogleMap
@@ -585,9 +589,16 @@ context
           <Polyline
             {...props}
             path={[
-              { lat: 37.33821, lng: -121.88633 },
-              { lat: 37.00578, lng: -121.56826 },
+              { lat: props.lat1, lng: props.lng1 },
+              { lat: props.lat2, lng: props.lng2 },
             ]}
+            onDragEnd={x => {
+              props.change("lat1", x.path[0].lat());
+              props.change("lng1", x.path[0].lng());
+
+              props.change("lat2", x.path[1].lat());
+              props.change("lng2", x.path[1].lng());
+            }}
           />
         </GoogleMap>
       ),

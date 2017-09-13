@@ -1,4 +1,5 @@
 import fpPick from "lodash/fp/pick";
+import GenericEvents from "../internal/GenericEvents";
 
 import { MapManager } from "../internal/MapManager";
 import { getChangedProps } from "../internal/Utils";
@@ -25,7 +26,25 @@ export class PolylineManager {
     const { Polyline } = this.maps;
     const options = pickProps(props);
 
-    this.polyline = new Polyline(options);
+    const polyline = new Polyline(options);
+
+    let path;
+
+    polyline.addListener(GenericEvents.ON_DRAG_START, () => {
+      path = polyline
+        .getPath()
+        .getArray()
+        .map(x => ({ lat: x.lat(), lng: x.lng() }));
+    });
+
+    polyline.addListener(GenericEvents.ON_DRAG_END, event => {
+      // eslint-disable-next-line no-param-reassign
+      event.path = polyline.getPath().getArray();
+
+      polyline.setPath(path);
+    });
+
+    this.polyline = polyline;
   }
 
   attach(listeners) {
