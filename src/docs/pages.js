@@ -258,6 +258,7 @@ context
               <button
                 type="button"
                 className="btn btn-primary"
+                // eslint-disable-next-line no-alert
                 onClick={() => alert(props.message)}
               >
                 {props.label}
