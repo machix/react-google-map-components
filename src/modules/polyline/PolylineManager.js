@@ -9,7 +9,6 @@ const pickProps = fpPick([
   "icons",
   "zIndex",
   "visible",
-  "editable",
   "geodesic",
   "clickable",
   "draggable",

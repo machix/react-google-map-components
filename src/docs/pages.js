@@ -568,7 +568,6 @@ context
     withDynamicProps(
       [
         boolean("visible", "Visible", true),
-        boolean("editable", "Editable", false),
         boolean("clickable", "Clickable", true),
         boolean("draggable", "Draggable", false),
         text("strokeColor", "Stroke Color", "#FF0000"),

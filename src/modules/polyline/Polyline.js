@@ -55,14 +55,6 @@ if (process.env.NODE_ENV !== "production") {
     clickable: PropTypes.bool,
 
     /**
-     * If set to true, the user can edit this shape by dragging the control
-     * points shown at the vertices and on each segment.
-     *
-     * Defaults to false.
-     */
-    editable: PropTypes.bool,
-
-    /**
      * When true, edges of the polygon are interpreted as geodesic and will follow the curvature of the Earth.
      * When false, edges of the polygon are rendered as straight lines in screen space.
      * Note that the shape of a geodesic polygon may appear to change when dragged,
