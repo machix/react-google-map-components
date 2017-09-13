@@ -35,19 +35,19 @@ export class MapTypeControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.context = new MapTypeControlManager(context.mapContext);
+    this.manager = new MapTypeControlManager(context.mapContext);
   }
 
   componentDidMount() {
-    this.context.attach(this.props);
+    this.manager.attach(this.props);
   }
 
   componentDidUpdate(prevProps) {
-    this.context.update(prevProps, this.props);
+    this.manager.update(prevProps, this.props);
   }
 
   componentWillUnmount() {
-    this.context.detach();
+    this.manager.detach();
   }
 
   render() {
