@@ -2,7 +2,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
 import { LatLngType, MapTypeIdType } from "../internal/Props";
-import { forEachGoogleMapsEvent } from "./GoogleMapHandlers";
+import { createListeners } from "../internal/Utils";
+import GoogleMapEvents from "./GoogleMapEvents";
 import { GoogleMapManager } from "./GoogleMapManager";
 
 const styles = { map: { height: "100%" } };
@@ -20,17 +21,9 @@ export class GoogleMap extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach(this.node, this.props);
+    const listeners = createListeners(GoogleMapEvents, x => this.props[x]);
 
-    forEachGoogleMapsEvent((event, handler) => {
-      this.manager.addListener(event, x => {
-        const fn = this.props[handler];
-
-        if (fn) {
-          fn(x);
-        }
-      });
-    });
+    this.manager.attach(this.node, this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {

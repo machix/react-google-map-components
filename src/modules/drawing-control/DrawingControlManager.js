@@ -1,6 +1,7 @@
 import map from "lodash/map";
 import { MapManager } from "../internal/MapManager";
 import { isEqualProps } from "../internal/Utils";
+import DrawingControlEvents from "./DrawingControlEvents";
 
 export class DrawingControlManager {
   constructor(props, manager: MapManager) {
@@ -11,6 +12,10 @@ export class DrawingControlManager {
     const options = this.getOptions(props);
 
     this.drawingManager = new DrawingManager(options);
+    this.drawingManager.addListener(
+      DrawingControlEvents.ON_OVERLAY_COMPLETE,
+      x => x.overlay.setMap(null),
+    );
   }
 
   getOptions(props) {
@@ -31,7 +36,11 @@ export class DrawingControlManager {
     };
   }
 
-  attach() {
+  attach(listeners) {
+    listeners.forEach(([event, listener]) => {
+      this.drawingManager.addListener(event, listener);
+    });
+
     this.manager.onAttach(x => this.drawingManager.setMap(x));
   }
 

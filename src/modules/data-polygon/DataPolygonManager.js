@@ -40,12 +40,20 @@ export class DataPolygonManager {
     this.feature.setGeometry(geometry);
   }
 
-  attach(props) {
+  attach(props, listeners) {
     this.updateGeometry(props);
     this.updateStyles(pickStyles(props));
 
     this.manager.onAttach(map => {
       map.data.add(this.feature);
+
+      listeners.forEach(([event, listener]) => {
+        map.data.addListener(event, x => {
+          if (x.feature === this.feature) {
+            listener(x);
+          }
+        });
+      });
     });
   }
 
@@ -70,18 +78,6 @@ export class DataPolygonManager {
 
     this.manager.onAttach(map => {
       map.data.remove(this.feature);
-    });
-  }
-
-  addListener(event, fn) {
-    this.manager.onAttach(map => {
-      const listener = map.data.addListener(event, x => {
-        if (x.feature === this.feature) {
-          fn(x);
-        }
-      });
-
-      this.listeners.push(listener);
     });
   }
 }

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
-
 import {
   AnimationType,
   LatLngType,
@@ -9,7 +8,8 @@ import {
   MarkerShapeType,
   PointType,
 } from "../internal/Props";
-import { forEachMarkerEvent } from "./MarkerHandlers";
+import { createListeners } from "../internal/Utils";
+import MarkerEvents from "./MarkerEvents";
 import { MarkerManager } from "./MarkerManager";
 
 export class Marker extends React.Component {
@@ -20,17 +20,9 @@ export class Marker extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach();
+    const listeners = createListeners(MarkerEvents, x => this.props[x]);
 
-    forEachMarkerEvent((event, handler) => {
-      this.manager.addListener(event, x => {
-        const fn = this.props[handler];
-
-        if (fn) {
-          fn(x);
-        }
-      });
-    });
+    this.manager.attach(listeners);
   }
 
   componentDidUpdate(prevProps) {

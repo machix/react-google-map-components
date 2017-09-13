@@ -30,13 +30,18 @@ export class GoogleMapManager {
     return options;
   }
 
-  attach(node, props) {
+  attach(node, props, listeners) {
     const options = this.getOptions(props);
     const { Map } = this.maps;
 
     options.disableDefaultUI = true;
 
     this.manager.attach(new Map(node, options));
+    this.manager.onAttach(map => {
+      listeners.forEach(([event, listener]) => {
+        map.addListener(event, listener);
+      });
+    });
   }
 
   detach() {

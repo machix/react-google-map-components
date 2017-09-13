@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { MapManager } from "../internal/MapManager";
 import { ControlPositionType, OverlayType } from "../internal/Props";
-import { forEachDrawingControlEvent } from "./DrawingControlHandlers";
+import { createListeners } from "../internal/Utils";
+import DrawingControlEvents from "./DrawingControlEvents";
 import { DrawingControlManager } from "./DrawingControlManager";
 
 export class DrawingControl extends React.Component {
@@ -14,21 +15,9 @@ export class DrawingControl extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach(this.props);
+    const listeners = createListeners(DrawingControlEvents, x => this.props[x]);
 
-    forEachDrawingControlEvent((event, handler) => {
-      this.manager.addListener(event, x => {
-        const fn = this.props[handler];
-
-        if (x && x.setMap) {
-          x.setMap(null);
-        }
-
-        if (fn) {
-          fn(x);
-        }
-      });
-    });
+    this.manager.attach(listeners);
   }
 
   componentDidUpdate(prevProps) {

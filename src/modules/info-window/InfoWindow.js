@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { MapManager } from "../internal/MapManager";
 import { LatLngType, SizeType } from "../internal/Props";
-
-import { ON_CLOSE_CLICK } from "./InfoWindowEvents";
+import { createListeners } from "../internal/Utils";
+import InfoWindowEvents from "./InfoWindowEvents";
 import { InfoWindowManager } from "./InfoWindowManager";
 
 export class InfoWindow extends React.Component {
@@ -25,15 +24,9 @@ export class InfoWindow extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach(this.props);
+    const listeners = createListeners(InfoWindowEvents, x => this.props[x]);
 
-    this.manager.addListener(ON_CLOSE_CLICK, x => {
-      const fn = this.props.onCloseClick;
-
-      if (fn) {
-        fn(x);
-      }
-    });
+    this.manager.attach(this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {

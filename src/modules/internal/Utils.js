@@ -1,3 +1,4 @@
+import camelCase from "lodash/camelCase";
 import isEqualWith from "lodash/isEqualWith";
 import isFunction from "lodash/isFunction";
 import keys from "lodash/keys";
@@ -31,3 +32,20 @@ export const getChangedProps = (prev, next) => {
     return acc;
   }, {});
 };
+
+export const createListeners = (events, getHandler) =>
+  keys(events).map(handler => {
+    const handlerName = camelCase(handler);
+    const event = events[handler];
+
+    return [
+      event,
+      x => {
+        const fn = getHandler(handlerName);
+
+        if (fn) {
+          fn(x);
+        }
+      },
+    ];
+  });

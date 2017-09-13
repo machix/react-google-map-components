@@ -28,7 +28,11 @@ export class PolylineManager {
     this.polyline = new Polyline(options);
   }
 
-  attach() {
+  attach(listeners) {
+    listeners.forEach(([event, listener]) => {
+      this.polyline.addListener(event, listener);
+    });
+
     this.manager.onAttach(map => {
       this.polyline.setMap(map);
     });
@@ -47,9 +51,5 @@ export class PolylineManager {
 
     this.polyline = null;
     this.manager = null;
-  }
-
-  addListener(event, fn) {
-    this.polyline.addListener(event, fn);
   }
 }

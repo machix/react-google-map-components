@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-
 import React from "react";
-import { forEachDataLayerEvent } from "../data-layer/DataLayerHandlers";
+import DataLayerEvents from "../data-layer/DataLayerEvents";
 import { MapManager } from "../internal/MapManager";
 import { DataLinearRingType, LatLngType } from "../internal/Props";
+import { createListeners } from "../internal/Utils";
 import { DataPolygonManager } from "./DataPolygonManager";
 
 export class DataPolygon extends React.Component {
@@ -14,17 +14,9 @@ export class DataPolygon extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach(this.props);
+    const listeners = createListeners(DataLayerEvents, x => this.props[x]);
 
-    forEachDataLayerEvent((event, handler) => {
-      this.manager.addListener(event, x => {
-        const fn = this.props[handler];
-
-        if (fn) {
-          fn(x);
-        }
-      });
-    });
+    this.manager.attach(this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {
@@ -75,11 +67,6 @@ if (process.env.NODE_ENV !== "production") {
     onRightClick: PropTypes.func,
 
     /**
-     * This handler is called for a mouse down on the geometry.
-     */
-    onMouseDown: PropTypes.func,
-
-    /**
      * This handler is called when the mouse leaves the area of the geometry.
      */
     onMouseOut: PropTypes.func,
@@ -88,6 +75,11 @@ if (process.env.NODE_ENV !== "production") {
      * This handler is called when the mouse enters the area of the geometry.
      */
     onMouseOver: PropTypes.func,
+
+    /**
+     * This handler is called for a mouse down on the geometry.
+     */
+    onMouseDown: PropTypes.func,
 
     /**
      * This handler is called for a mouse up on the geometry.

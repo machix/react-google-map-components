@@ -1,10 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
-
+import React from "react";
+import GenericEvents from "../internal/GenericEvents";
 import { MapManager } from "../internal/MapManager";
-import { PolylineManager } from "./PolylineManager";
 import { LatLngType } from "../internal/Props";
-import { forEachPolylineEvent } from "./PolylineHandlers";
+import { createListeners } from "../internal/Utils";
+import { PolylineManager } from "./PolylineManager";
 
 export class Polyline extends React.Component {
   constructor(props, context) {
@@ -14,17 +14,9 @@ export class Polyline extends React.Component {
   }
 
   componentDidMount() {
-    this.manager.attach();
+    const listeners = createListeners(GenericEvents, x => this.props[x]);
 
-    forEachPolylineEvent((event, handler) => {
-      this.manager.addListener(event, x => {
-        const fn = this.props[handler];
-
-        if (fn) {
-          fn(x);
-        }
-      });
-    });
+    this.manager.attach(listeners);
   }
 
   componentDidUpdate(prevProps) {
@@ -139,10 +131,6 @@ if (process.env.NODE_ENV !== "production") {
     onRightClick: PropTypes.func,
 
     /**
-     * This handler is fired when the DOM mousedown handlers is fired on the Polyline.
-     */
-    onMouseDown: PropTypes.func,
-    /**
      * This handler is fired on Polyline mouseout.
      */
     onMouseOut: PropTypes.func,
@@ -150,10 +138,15 @@ if (process.env.NODE_ENV !== "production") {
      * This handler is fired on Polyline mouseover.
      */
     onMouseOver: PropTypes.func,
+
     /**
      * This handler is fired when the DOM mousemove handlers is fired on the Polyline.
      */
     onMouseMove: PropTypes.func,
+    /**
+     * This handler is fired when the DOM mousedown handlers is fired on the Polyline.
+     */
+    onMouseDown: PropTypes.func,
     /**
      * This handler is fired when the DOM mouseup handlers is fired on the Polyline.
      */

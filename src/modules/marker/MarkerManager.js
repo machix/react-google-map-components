@@ -1,6 +1,5 @@
 import fpPick from "lodash/fp/pick";
 import React from "react";
-
 import { MapManager } from "../internal/MapManager";
 import { getChangedProps } from "../internal/Utils";
 
@@ -54,7 +53,11 @@ export class MarkerManager {
     return options;
   }
 
-  attach() {
+  attach(listeners) {
+    listeners.forEach(([event, listener]) => {
+      this.marker.addListener(event, listener);
+    });
+
     this.manager.onAttach(map => {
       this.marker.setMap(map);
     });
@@ -73,9 +76,5 @@ export class MarkerManager {
 
     this.marker = null;
     this.manager = null;
-  }
-
-  addListener(event, fn) {
-    this.marker.addListener(event, fn);
   }
 }

@@ -756,6 +756,54 @@ context
         </GoogleMap>
       ),
     ),
+  )
+  .addPage(
+    "Events",
+    withEventHandlers(
+      [
+        "onClick",
+        "onDoubleClick",
+        "onRightClick",
+        "onMouseOut",
+        "onMouseOver",
+        "onMouseDown",
+        "onMouseUp",
+      ],
+      props => (
+        <GoogleMap
+          zoom={5}
+          maps={maps}
+          style={styles.map}
+          center={{ lat: -33, lng: 151 }}
+        >
+          <DataPolygon
+            {...props}
+            clickable
+            draggable
+            geometry={[
+              [
+                { lat: -32, lng: 153 },
+                { lat: -35, lng: 153 },
+                { lat: -35, lng: 158 },
+                { lat: -32, lng: 158 },
+              ],
+              [
+                { lat: -33, lng: 154 },
+                { lat: -34, lng: 154 },
+                { lat: -34, lng: 155 },
+                { lat: -33, lng: 155 },
+              ],
+              [
+                { lat: -33, lng: 156 },
+                { lat: -34, lng: 156 },
+                { lat: -34, lng: 157 },
+                { lat: -33, lng: 157 },
+              ],
+            ]}
+          />
+        </GoogleMap>
+      ),
+    ),
   );
 
 context

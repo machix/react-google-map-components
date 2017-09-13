@@ -52,10 +52,14 @@ export class InfoWindowManager {
     return options;
   }
 
-  attach(props) {
+  attach(props, listeners) {
     const options = this.getOptions(props);
 
     this.infowindow.setOptions(options);
+
+    listeners.forEach(([event, listener]) => {
+      this.infowindow.addListener(event, listener);
+    });
 
     this.manager.onAttach(map => {
       this.infowindow.open(map);
@@ -84,9 +88,5 @@ export class InfoWindowManager {
 
     this.div = null;
     this.infowindow = null;
-  }
-
-  addListener(event, fn) {
-    this.infowindow.addListener(event, fn);
   }
 }

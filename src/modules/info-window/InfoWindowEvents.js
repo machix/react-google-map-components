@@ -1,1 +1,3 @@
-export const ON_CLOSE_CLICK = "closeclick";
+export default {
+  ON_CLOSE_CLICK: "closeclick",
+};
