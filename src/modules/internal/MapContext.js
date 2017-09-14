@@ -1,29 +1,10 @@
 import get from "lodash/get";
 import has from "lodash/has";
-import { createInitEmitter } from "./InitEmitter";
 
 export class MapContext {
-  constructor(maps) {
+  constructor(map, maps) {
+    this.map = map;
     this.maps = maps;
-
-    this.attachEmmiter = createInitEmitter();
-    this.detachEmitter = createInitEmitter();
-  }
-
-  attach(map) {
-    this.attachEmmiter.init(map);
-  }
-
-  onAttach(fn) {
-    return this.attachEmmiter.onInit(fn);
-  }
-
-  detach() {
-    this.detachEmitter.init();
-  }
-
-  onDetach(fn) {
-    return this.detachEmitter.onInit(fn);
   }
 
   createPoint(point) {

@@ -12,18 +12,18 @@ export class GoogleMap extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.mapContext = new MapContext(props.maps);
-    this.manager = new GoogleMapManager(this.mapContext);
+    this.manager = new GoogleMapManager(props.maps);
   }
 
   getChildContext() {
-    return { mapContext: this.mapContext };
+    return { mapContext: this.manager.context };
   }
 
   componentDidMount() {
     const listeners = createListeners(GoogleMapEvents, x => this.props[x]);
 
     this.manager.attach(this.node, this.props, listeners);
+    this.forceUpdate();
   }
 
   componentDidUpdate(prevProps) {
@@ -41,14 +41,14 @@ export class GoogleMap extends React.Component {
       <div style={style} className={className}>
         <div style={styles.map} ref={x => (this.node = x)} />
 
-        {this.props.children}
+        {Boolean(this.manager.map) && this.props.children}
       </div>
     );
   }
 }
 
 GoogleMap.childContextTypes = {
-  mapContext: PropTypes.instanceOf(MapContext).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext),
 };
 
 /* istanbul ignore else */

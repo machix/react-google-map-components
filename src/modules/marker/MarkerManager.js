@@ -23,25 +23,45 @@ const pickProps = fpPick([
 ]);
 
 export class MarkerManager {
-  constructor(props, context: MapContext) {
-    this.maps = context.maps;
+  constructor(context: MapContext) {
     this.context = context;
 
-    const { Marker } = this.maps;
-    const options = this.getOptions(props);
+    const { Marker } = context.maps;
 
-    const marker = new Marker(options);
-    let position;
+    this.position = null;
+    this.marker = new Marker();
+  }
+
+  attach(props, listeners) {
+    const options = this.getOptions(props);
+    const marker = this.marker;
+
+    marker.setValues(options);
+    marker.setMap(this.context.map);
 
     marker.addListener(MarkerEvents.ON_DRAG_START, () => {
-      position = marker.getPosition();
+      this.position = marker.getPosition();
     });
 
     marker.addListener(MarkerEvents.ON_DRAG_END, () => {
-      marker.setPosition(position);
+      marker.setPosition(this.position);
     });
 
-    this.marker = marker;
+    listeners.forEach(([event, listener]) => {
+      marker.addListener(event, listener);
+    });
+  }
+
+  update(prev, next) {
+    const diff = getChangedProps(prev, next);
+    const options = this.getOptions(diff);
+
+    this.marker.setValues(options);
+  }
+
+  detach() {
+    this.marker.setMap(null);
+    this.context.maps.event.clearInstanceListeners(this.marker);
   }
 
   getOptions(props) {
@@ -63,30 +83,5 @@ export class MarkerManager {
     }
 
     return options;
-  }
-
-  attach(listeners) {
-    listeners.forEach(([event, listener]) => {
-      this.marker.addListener(event, listener);
-    });
-
-    this.context.onAttach(map => {
-      this.marker.setMap(map);
-    });
-  }
-
-  update(prev, next) {
-    const diff = getChangedProps(prev, next);
-    const options = this.getOptions(diff);
-
-    this.marker.setValues(options);
-  }
-
-  detach() {
-    this.marker.setMap(null);
-    this.maps.event.clearInstanceListeners(this.marker);
-
-    this.marker = null;
-    this.context = null;
   }
 }

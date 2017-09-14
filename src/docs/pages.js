@@ -473,7 +473,7 @@ context
       [
         dynamicProps.lat,
         dynamicProps.lng,
-        number("maxWidth", "Max Width", 300),
+        number("maxWidth", "Max Width", 120),
         text("content", "Content", "Info Window Content"),
         dynamicProps.visible,
       ],

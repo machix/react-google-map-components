@@ -14,9 +14,38 @@ const pickProps = fpPick([
 ]);
 
 export class GoogleMapManager {
-  constructor(context: MapContext) {
-    this.context = context;
-    this.maps = context.maps;
+  constructor(maps) {
+    this.map = null;
+    this.maps = maps;
+    this.context = null;
+  }
+
+  attach(node, props, listeners) {
+    const { Map } = this.maps;
+    const options = this.getOptions(props);
+
+    options.disableDefaultUI = true;
+
+    const map = new Map(node, options);
+
+    this.map = map;
+    this.context = new MapContext(map, this.maps);
+
+    listeners.forEach(([event, listener]) => {
+      map.addListener(event, listener);
+    });
+  }
+
+  update(prev, next) {
+    const prevOptions = this.getOptions(prev);
+    const nextOptions = this.getOptions(next);
+    const options = getChangedProps(prevOptions, nextOptions);
+
+    this.map.setValues(options);
+  }
+
+  detach() {
+    this.maps.event.clearInstanceListeners(this.map);
   }
 
   getOptions(props) {
@@ -28,39 +57,5 @@ export class GoogleMapManager {
     }
 
     return options;
-  }
-
-  attach(node, props, listeners) {
-    const options = this.getOptions(props);
-    const { Map } = this.maps;
-
-    options.disableDefaultUI = true;
-
-    this.context.attach(new Map(node, options));
-    this.context.onAttach(map => {
-      listeners.forEach(([event, listener]) => {
-        map.addListener(event, listener);
-      });
-    });
-  }
-
-  detach() {
-    this.context.detach();
-  }
-
-  update(prev, next) {
-    const prevOptions = this.getOptions(prev);
-    const nextOptions = this.getOptions(next);
-    const options = getChangedProps(prevOptions, nextOptions);
-
-    this.context.onAttach(map => map.setValues(options));
-  }
-
-  addListener(event, fn) {
-    this.context.onAttach(map => {
-      map.addListener(event, fn);
-
-      this.context.onDetach(() => {});
-    });
   }
 }

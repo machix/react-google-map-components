@@ -4,18 +4,40 @@ import { isEqualProps } from "../internal/Utils";
 import DrawingControlEvents from "./DrawingControlEvents";
 
 export class DrawingControlManager {
-  constructor(props, context: MapContext) {
-    this.maps = context.maps;
+  constructor(context: MapContext) {
+    const { drawing: { DrawingManager } } = context.maps;
+
     this.context = context;
+    this.drawingManager = new DrawingManager();
+  }
 
-    const { drawing: { DrawingManager } } = this.maps;
+  attach(props, listeners) {
     const options = this.getOptions(props);
+    const drawingManager = this.drawingManager;
 
-    this.drawingManager = new DrawingManager(options);
-    this.drawingManager.addListener(
-      DrawingControlEvents.ON_OVERLAY_COMPLETE,
-      x => x.overlay.setMap(null),
+    drawingManager.setValues(options);
+    drawingManager.setMap(this.context.map);
+
+    drawingManager.addListener(DrawingControlEvents.ON_OVERLAY_COMPLETE, x =>
+      x.overlay.setMap(null),
     );
+
+    listeners.forEach(([event, listener]) => {
+      drawingManager.addListener(event, listener);
+    });
+  }
+
+  update(prev, next) {
+    const prevOptions = this.getOptions(prev);
+    const nextOptions = this.getOptions(next);
+
+    if (!isEqualProps(prevOptions, nextOptions)) {
+      this.drawingManager.setValues(nextOptions);
+    }
+  }
+
+  detach() {
+    this.drawingManager.setMap(null);
   }
 
   getOptions(props) {
@@ -34,30 +56,5 @@ export class DrawingControlManager {
       drawingControl: true,
       drawingControlOptions: options,
     };
-  }
-
-  attach(listeners) {
-    listeners.forEach(([event, listener]) => {
-      this.drawingManager.addListener(event, listener);
-    });
-
-    this.context.onAttach(x => this.drawingManager.setMap(x));
-  }
-
-  update(prev, next) {
-    const prevOptions = this.getOptions(prev);
-    const nextOptions = this.getOptions(next);
-
-    if (!isEqualProps(prevOptions, nextOptions)) {
-      this.drawingManager.setOptions(nextOptions);
-    }
-  }
-
-  detach() {
-    this.drawingManager.setMap(null);
-  }
-
-  addListener(event, fn) {
-    return this.drawingManager.addListener(event, fn);
   }
 }

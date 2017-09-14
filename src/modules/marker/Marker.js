@@ -16,13 +16,13 @@ export class Marker extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new MarkerManager(props, context.mapContext);
+    this.manager = new MarkerManager(context.mapContext);
   }
 
   componentDidMount() {
     const listeners = createListeners(MarkerEvents, x => this.props[x]);
 
-    this.manager.attach(listeners);
+    this.manager.attach(this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {

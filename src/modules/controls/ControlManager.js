@@ -8,7 +8,23 @@ export class ControlManager {
   constructor(name, context: MapContext) {
     this.name = name;
     this.context = context;
-    this.maps = context.maps;
+  }
+
+  attach(props) {
+    this.setOptions(true, this.getOptions(props));
+  }
+
+  update(prev, next) {
+    const prevOptions = this.getOptions(prev);
+    const nextOptions = this.getOptions(next);
+
+    if (!isEqual(prevOptions, nextOptions)) {
+      this.setOptions(true, nextOptions);
+    }
+  }
+
+  detach() {
+    this.setOptions(false, {});
   }
 
   getOptions(props) {
@@ -23,32 +39,9 @@ export class ControlManager {
   }
 
   setOptions(visible, options) {
-    this.context.onAttach(map => {
-      const values = {
-        [this.name]: visible,
-        [`${this.name}Options`]: options,
-      };
-
-      map.setValues(values);
+    this.context.map.setValues({
+      [this.name]: visible,
+      [`${this.name}Options`]: options,
     });
-  }
-
-  attach(props) {
-    const options = this.getOptions(props);
-
-    this.setOptions(true, options);
-  }
-
-  update(prev, next) {
-    const prevOptions = this.getOptions(prev);
-    const nextOptions = this.getOptions(next);
-
-    if (!isEqual(prevOptions, nextOptions)) {
-      this.setOptions(true, nextOptions);
-    }
-  }
-
-  detach() {
-    this.setOptions(false, {});
   }
 }

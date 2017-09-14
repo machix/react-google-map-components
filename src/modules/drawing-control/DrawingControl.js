@@ -11,13 +11,13 @@ export class DrawingControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new DrawingControlManager(props, context.mapContext);
+    this.manager = new DrawingControlManager(context.mapContext);
   }
 
   componentDidMount() {
     const listeners = createListeners(DrawingControlEvents, x => this.props[x]);
 
-    this.manager.attach(listeners);
+    this.manager.attach(this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {

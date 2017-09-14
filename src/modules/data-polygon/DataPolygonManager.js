@@ -17,41 +17,33 @@ export class DataPolygonManager {
   constructor(context: MapContext) {
     const { Data: { Feature } } = context.maps;
 
-    this.context = context;
-    this.maps = context.maps;
-
     this.listeners = [];
 
+    this.context = context;
     this.feature = new Feature();
   }
 
   updateStyles(style) {
-    this.context.onAttach(map => {
-      map.data.overrideStyle(this.feature, style);
-    });
+    this.context.map.data.overrideStyle(this.feature, style);
   }
 
   updateGeometry(props) {
-    const { Data: { Polygon } } = this.maps;
+    const { Data: { Polygon } } = this.context.maps;
     const geometry = new Polygon(props.geometry);
 
     this.feature.setGeometry(geometry);
   }
 
   attach(props, listeners) {
+    const styles = pickStyles(props);
+
+    this.updateStyles(styles);
     this.updateGeometry(props);
-    this.updateStyles(pickStyles(props));
 
-    this.context.onAttach(map => {
-      map.data.add(this.feature);
+    this.context.map.data.add(this.feature);
 
-      listeners.forEach(([event, listener]) => {
-        map.data.addListener(event, x => {
-          if (x.feature === this.feature) {
-            listener(x);
-          }
-        });
-      });
+    listeners.forEach(([event, listener]) => {
+      this.addListener(event, listener);
     });
   }
 
@@ -67,15 +59,21 @@ export class DataPolygonManager {
     }
   }
 
+  addListener(event, listener) {
+    this.listeners.push(
+      this.context.map.data.addListener(event, x => {
+        if (x.feature === this.feature) {
+          listener(x);
+        }
+      }),
+    );
+  }
+
   detach() {
+    this.context.map.data.remove(this.feature);
+
     while (this.listeners.length > 0) {
-      const listener = this.listeners.shift();
-
-      listener.remove();
+      this.listeners.shift().remove();
     }
-
-    this.context.onAttach(map => {
-      map.data.remove(this.feature);
-    });
   }
 }

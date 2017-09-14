@@ -18,19 +18,24 @@ const pickProps = fpPick([
 ]);
 
 export class PolylineManager {
-  constructor(props, context: MapContext) {
-    this.maps = context.maps;
+  constructor(context: MapContext) {
+    const { Polyline } = context.maps;
+
     this.context = context;
 
-    const { Polyline } = this.maps;
+    this.path = null;
+    this.polyline = new Polyline();
+  }
+
+  attach(props, listeners) {
+    const polyline = this.polyline;
     const options = pickProps(props);
 
-    const polyline = new Polyline(options);
-
-    let path;
+    this.polyline.setValues(options);
+    this.polyline.setMap(this.context.map);
 
     polyline.addListener(GenericEvents.ON_DRAG_START, () => {
-      path = polyline
+      this.path = polyline
         .getPath()
         .getArray()
         .map(x => ({ lat: x.lat(), lng: x.lng() }));
@@ -40,19 +45,11 @@ export class PolylineManager {
       // eslint-disable-next-line no-param-reassign
       event.path = polyline.getPath().getArray();
 
-      polyline.setPath(path);
+      polyline.setPath(this.path);
     });
 
-    this.polyline = polyline;
-  }
-
-  attach(listeners) {
     listeners.forEach(([event, listener]) => {
-      this.polyline.addListener(event, listener);
-    });
-
-    this.context.onAttach(map => {
-      this.polyline.setMap(map);
+      polyline.addListener(event, listener);
     });
   }
 
@@ -65,9 +62,6 @@ export class PolylineManager {
 
   detach() {
     this.polyline.setMap(null);
-    this.maps.event.clearInstanceListeners(this.polyline);
-
-    this.context = null;
-    this.polyline = null;
+    this.context.maps.event.clearInstanceListeners(this.polyline);
   }
 }

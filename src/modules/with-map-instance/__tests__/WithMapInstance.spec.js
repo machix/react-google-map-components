@@ -26,12 +26,12 @@ describe("withMapInstance", () => {
   it("should pass map instance to child", () => {
     const hoc = withMapInstance();
     const WrappedFoo = hoc(Foo);
-    const wrapper = shallow(<WrappedFoo />, { context: { mapContext } });
 
     const map = {};
+    const wrapper = shallow(<WrappedFoo />, {
+      context: { mapContext: new MapContext(map) },
+    });
 
-    expect(wrapper.find(Foo).prop("map")).toBeNull();
-    mapContext.attach(map);
     expect(wrapper.find(Foo).prop("map")).toBe(map);
   });
 
@@ -39,12 +39,13 @@ describe("withMapInstance", () => {
     const hoc = withMapInstance();
     const WrappedFoo = hoc(Foo);
 
+    const map = {};
     const props = { foo: 1, bar: "baz", quoz: () => {} };
     const wrapper = shallow(<WrappedFoo {...props} />, {
-      context: { mapContext },
+      context: { mapContext: new MapContext(map) },
     });
 
-    expect(wrapper.find(Foo).prop("map")).toBeNull();
+    expect(wrapper.find(Foo).prop("map")).toBe(map);
     expect(wrapper.find(Foo).prop("foo")).toBe(props.foo);
     expect(wrapper.find(Foo).prop("bar")).toBe(props.bar);
     expect(wrapper.find(Foo).prop("quoz")).toBe(props.quoz);
@@ -54,11 +55,12 @@ describe("withMapInstance", () => {
     const hoc = withMapInstance();
     const WrappedFoo = hoc(Foo);
 
+    const map = {};
     const wrapper = shallow(<WrappedFoo map="foo" bar="baz" />, {
-      context: { mapContext },
+      context: { mapContext: new MapContext(map) },
     });
 
-    expect(wrapper.find(Foo).prop("map")).toBeNull();
+    expect(wrapper.find(Foo).prop("map")).toBe(map);
     expect(wrapper.find(Foo).prop("bar")).toBe("baz");
   });
 

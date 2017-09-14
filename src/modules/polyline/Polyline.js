@@ -10,13 +10,13 @@ export class Polyline extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new PolylineManager(props, context.mapContext);
+    this.manager = new PolylineManager(context.mapContext);
   }
 
   componentDidMount() {
     const listeners = createListeners(GenericEvents, x => this.props[x]);
 
-    this.manager.attach(listeners);
+    this.manager.attach(this.props, listeners);
   }
 
   componentDidUpdate(prevProps) {

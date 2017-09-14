@@ -1,5 +1,4 @@
 import fpPick from "lodash/fp/pick";
-import isString from "lodash/isString";
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapContext } from "../internal/MapContext";
@@ -15,21 +14,53 @@ const pickProps = fpPick([
 
 export class InfoWindowManager {
   constructor(context: MapContext, render) {
-    this.context = context;
-    this.maps = context.maps;
+    const { InfoWindow } = context.maps;
 
     this.render = render;
+    this.context = context;
 
+    this.infoWindow = new InfoWindow();
     this.div = document.createElement("div");
-    this.infowindow = new this.maps.InfoWindow();
+  }
+
+  attach(props, listeners) {
+    const options = this.getOptions(props);
+    const infoWindow = this.infoWindow;
+
+    infoWindow.setValues(options);
+    infoWindow.open(this.context.map);
+
+    listeners.forEach(([event, listener]) => {
+      infoWindow.addListener(event, listener);
+    });
+  }
+
+  update(prev, next) {
+    const diff = getChangedProps(prev, next);
+    const options = this.getOptions(diff);
+
+    const infoWindow = this.infoWindow;
+
+    infoWindow.setValues(options);
+
+    if (options.maxWidth) {
+      // To change a max width we have to close info window first
+      infoWindow.close();
+      infoWindow.open(this.context.map);
+    }
+  }
+
+  detach() {
+    this.infoWindow.close();
+    this.context.maps.event.clearInstanceListeners(this.infoWindow);
+
+    ReactDOM.unmountComponentAtNode(this.div);
   }
 
   getContent(props) {
     const { children } = props;
 
-    if (isString(children)) {
-      return children;
-    } else if (React.isValidElement(children)) {
+    if (React.isValidElement(children)) {
       this.render(children, this.div);
 
       return this.div;
@@ -50,43 +81,5 @@ export class InfoWindowManager {
     }
 
     return options;
-  }
-
-  attach(props, listeners) {
-    const options = this.getOptions(props);
-
-    this.infowindow.setOptions(options);
-
-    listeners.forEach(([event, listener]) => {
-      this.infowindow.addListener(event, listener);
-    });
-
-    this.context.onAttach(map => {
-      this.infowindow.open(map);
-    });
-  }
-
-  update(prev, next) {
-    const diff = getChangedProps(prev, next);
-    const options = this.getOptions(diff);
-
-    if (options.maxWidth) {
-      this.context.onAttach(map => {
-        this.infowindow.close();
-        this.infowindow.setOptions(options);
-        this.infowindow.open(map);
-      });
-    } else {
-      this.infowindow.setOptions(options);
-    }
-  }
-
-  detach() {
-    this.infowindow.close();
-    ReactDOM.unmountComponentAtNode(this.div);
-    this.maps.event.clearInstanceListeners(this.infowindow);
-
-    this.div = null;
-    this.infowindow = null;
   }
 }
