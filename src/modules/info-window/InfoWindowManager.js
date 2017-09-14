@@ -2,7 +2,7 @@ import fpPick from "lodash/fp/pick";
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapContext } from "../internal/MapContext";
-import { getChangedProps } from "../internal/Utils";
+import InfoWindowEvents from "./InfoWindowEvents";
 
 const pickProps = fpPick([
   "position",
@@ -19,6 +19,8 @@ export class InfoWindowManager {
     this.render = render;
     this.context = context;
 
+    this.open = false;
+
     this.infoWindow = new InfoWindow();
     this.div = document.createElement("div");
   }
@@ -28,7 +30,13 @@ export class InfoWindowManager {
     const infoWindow = this.infoWindow;
 
     infoWindow.setValues(options);
-    infoWindow.open(this.context.map);
+
+    this.updateContent(props);
+    this.updateVisibility(props);
+
+    infoWindow.addListener(InfoWindowEvents.ON_CLOSE_CLICK, () => {
+      infoWindow.open(this.context.map);
+    });
 
     listeners.forEach(([event, listener]) => {
       infoWindow.addListener(event, listener);
@@ -36,17 +44,19 @@ export class InfoWindowManager {
   }
 
   update(prev, next) {
-    const diff = getChangedProps(prev, next);
-    const options = this.getOptions(diff);
+    const options = this.getOptions(next);
 
-    const infoWindow = this.infoWindow;
+    this.infoWindow.setValues(options);
 
-    infoWindow.setValues(options);
+    if (prev.children !== next.children) {
+      this.updateContent(next);
+    }
 
-    if (options.maxWidth) {
-      // To change a max width we have to close info window first
-      infoWindow.close();
-      infoWindow.open(this.context.map);
+    if (
+      Boolean(prev.open) !== Boolean(next.open) ||
+      Boolean(prev.maxWidth !== next.maxWidth && next.open)
+    ) {
+      this.updateVisibility(next);
     }
   }
 
@@ -57,24 +67,32 @@ export class InfoWindowManager {
     ReactDOM.unmountComponentAtNode(this.div);
   }
 
-  getContent(props) {
-    const { children } = props;
+  updateContent(props) {
+    let content = "";
 
-    if (React.isValidElement(children)) {
-      this.render(children, this.div);
+    if (props.open) {
+      if (React.isValidElement(props.children)) {
+        this.render(props.children, this.div);
 
-      return this.div;
+        content = this.div;
+      } else {
+        content = props.children;
+      }
     }
 
-    return children;
+    this.infoWindow.setContent(content);
+  }
+
+  updateVisibility(props) {
+    if (props.open) {
+      this.infoWindow.open(this.context.map);
+    } else {
+      this.infoWindow.close();
+    }
   }
 
   getOptions(props) {
     const options = pickProps(props);
-
-    if (props.children) {
-      options.content = this.getContent(props);
-    }
 
     if (options.pixelOffset) {
       options.pixelOffset = this.context.createSize(options.pixelOffset);

@@ -50,6 +50,16 @@ InfoWindow.contextTypes = {
 if (process.env.NODE_ENV !== "production") {
   InfoWindow.propTypes = {
     /**
+     * 	Controls whether the InfoWindow is opened or not.
+     */
+    open: PropTypes.bool,
+
+    /**
+     * This handler is called when the close button was clicked.
+     */
+    onCloseClick: PropTypes.func,
+
+    /**
      * The LatLng at which to display this InfoWindow.
      * If the InfoWindow is opened with an anchor, the anchor's position will be used instead.
      */
@@ -88,10 +98,5 @@ if (process.env.NODE_ENV !== "production") {
      * InfoWindows are always displayed in front of markers.
      */
     zIndex: PropTypes.number,
-
-    /**
-     * This handler is called when the close button was clicked.
-     */
-    onCloseClick: PropTypes.func,
   };
 }

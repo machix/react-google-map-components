@@ -471,11 +471,11 @@ context
     "Basics",
     withDynamicProps(
       [
+        boolean("open", "Open", true),
         dynamicProps.lat,
         dynamicProps.lng,
         number("maxWidth", "Max Width", 120),
         text("content", "Content", "Info Window Content"),
-        dynamicProps.visible,
       ],
       props => (
         <GoogleMap
@@ -484,14 +484,14 @@ context
           style={styles.map}
           center={{ lat: props.lat, lng: props.lng }}
         >
-          {props.visible && (
-            <InfoWindow
-              maxWidth={props.maxWidth}
-              position={{ lat: props.lat, lng: props.lng }}
-            >
-              {props.content}
-            </InfoWindow>
-          )}
+          <InfoWindow
+            open={props.open}
+            maxWidth={props.maxWidth}
+            position={{ lat: props.lat, lng: props.lng }}
+            onCloseClick={() => props.change("open", false)}
+          >
+            {props.content}
+          </InfoWindow>
         </GoogleMap>
       ),
     ),
@@ -502,8 +502,9 @@ context
       <GoogleMap maps={maps} zoom={8} center={defaultCenter} style={styles.map}>
         <InfoWindow
           {...props}
-          maxWidth={props.maxWidth}
+          open
           position={defaultCenter}
+          maxWidth={props.maxWidth}
         >
           Info Window Content
         </InfoWindow>
@@ -514,7 +515,7 @@ context
     "JSX Content",
     withDynamicProps(
       [
-        boolean("visible", "Visible", true),
+        boolean("open", "Open", true),
         number("maxWidth", "Max Width", 300),
         text("heading", "Heading", "Uluru"),
         textArea(
@@ -542,21 +543,21 @@ context
           style={styles.map}
           center={{ lat: -25.363, lng: 131.044 }}
         >
-          {props.visible && (
-            <InfoWindow
-              maxWidth={props.maxWidth}
-              position={{ lat: -25.363, lng: 131.044 }}
-            >
-              <div>
-                <h1>{props.heading}</h1>
+          <InfoWindow
+            open={props.open}
+            maxWidth={props.maxWidth}
+            position={{ lat: -25.363, lng: 131.044 }}
+            onCloseClick={() => props.change("open", false)}
+          >
+            <div>
+              <h1>{props.heading}</h1>
 
-                <p
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: props.content }}
-                />
-              </div>
-            </InfoWindow>
-          )}
+              <p
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: props.content }}
+              />
+            </div>
+          </InfoWindow>
         </GoogleMap>
       ),
     ),
