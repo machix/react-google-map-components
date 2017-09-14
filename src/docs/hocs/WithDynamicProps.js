@@ -214,17 +214,31 @@ export function withDynamicProps(fields, render) {
       super(props, context);
 
       this.state = getInitialState();
+      this.childProps = this.createChildProps();
     }
 
-    handleChange = (key, value) => this.setState({ [key]: value });
+    createChildProps() {
+      return {
+        ...this.state,
+        change: this.handleChange,
+      };
+    }
+
+    handleChange = (key, value) => {
+      this.setState({ [key]: value });
+      this.handleSubmit();
+    };
+
+    handleSubmit = () => {
+      this.childProps = this.createChildProps();
+      this.forceUpdate();
+    };
 
     render() {
       return (
         <Page>
           <div className="row">
-            <div className="col-sm-6">
-              {render({ ...this.state, change: this.handleChange })}
-            </div>
+            <div className="col-sm-6">{render(this.childProps)}</div>
 
             <div className="col-sm-6">
               {fields.map(field => (
@@ -233,10 +247,16 @@ export function withDynamicProps(fields, render) {
                   key={field.key}
                   {...field}
                   value={this.state[field.key]}
-                  onChange={x => this.handleChange(field.key, x)}
+                  onChange={x => this.setState({ [field.key]: x })}
                 />
               ))}
-
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={this.handleSubmit}
+              >
+                Submit
+              </button>{" "}
               <button
                 type="button"
                 className="btn btn-secondary"
