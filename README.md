@@ -13,7 +13,7 @@ With yarn:
 
 
 ```bash
-yarn add --save react-google-map-components
+yarn add react-google-map-components
 ```
 
 With npm:
