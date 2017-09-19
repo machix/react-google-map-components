@@ -14,7 +14,7 @@
     "build": "run-s build:*",
     "all": "run-s format lint cover build",
     "test": "react-scripts test",
-    "cover": "yarn test --coverage",
+    "cover": "yarn test -- --coverage",
     "codecov": "codecov -f coverage/lcov.info",
     "report": "yarn cover && opener coverage/lcov-report/index.html",
     "lint": "eslint \"src/**/*.js\"",
