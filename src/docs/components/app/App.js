@@ -24,7 +24,6 @@ import DrawingControlSection from "../pages/drawing-control/DrawingControlSectio
 export default class App extends React.Component {
   static childContextTypes = {
     maps: PropTypes.object.isRequired,
-    cities: PropTypes.array.isRequired,
     center: PropTypes.object.isRequired,
     styles: PropTypes.object.isRequired,
   };
