@@ -2,11 +2,34 @@ import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapContext } from "../internal/MapContext";
-import { LatLngType, SizeType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import InfoWindowEvents from "./InfoWindowEvents";
 import { InfoWindowManager } from "./InfoWindowManager";
 
+/**
+ * Draws `google.maps.InfoWindow`.
+ *
+ * **Usage:**
+ *
+ * ```javascript
+ * import React from "react";
+ * import { GoogleMap, InfoWindow } from "react-google-map-components"
+ *
+ * export default function GoogleMapWrapper(props) {
+ *   return (
+ *     <GoogleMap {...props} maps={google.maps}>
+ *       <InfoWindow position={props.center}>
+ *         <div>Hello World!</div>
+ *       </InfoWindow>
+ *     </GoogleMap>
+ *   );
+ * }
+ * ```
+ *
+ * **Google Maps Docs:**
+ * * [google.maps.InfoWindow](https://developers.google.com/maps/documentation/javascript/reference#InfoWindow)
+ * * [google.maps.InfoWindowOptions](https://developers.google.com/maps/documentation/javascript/reference#InfoWindowOptions)
+ */
 export class InfoWindow extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -42,6 +65,11 @@ export class InfoWindow extends React.Component {
   }
 }
 
+InfoWindow.defaultProps = {
+  open: true,
+  disableAutoPan: false,
+};
+
 InfoWindow.contextTypes = {
   mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
@@ -50,7 +78,7 @@ InfoWindow.contextTypes = {
 if (process.env.NODE_ENV !== "production") {
   InfoWindow.propTypes = {
     /**
-     * 	Controls whether the InfoWindow is opened or not.
+     * 	Controls whether the `InfoWindow` is opened or not.
      */
     open: PropTypes.bool,
 
@@ -60,41 +88,57 @@ if (process.env.NODE_ENV !== "production") {
     onCloseClick: PropTypes.func,
 
     /**
-     * The LatLng at which to display this InfoWindow.
-     * If the InfoWindow is opened with an anchor, the anchor's position will be used instead.
+     * The LatLng at which to display this `InfoWindow`.
      */
-    position: LatLngType.isRequired,
+    position: PropTypes.shape({
+      /**
+       * The latitude in degrees.
+       */
+      lat: PropTypes.number.isRequired,
+      /**
+       * The longitude in degrees.
+       */
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
 
     /**
-     * Content to display in the InfoWindow.
+     * Content to display in the `InfoWindow`.
      */
     children: PropTypes.node.isRequired,
 
     /**
      * Disable auto-pan on open.
-     * By default, the info window will pan the map so that it is fully visible when it opens.
      */
     disableAutoPan: PropTypes.bool,
 
     /**
-     * Maximum width of the InfoWindow, regardless of content's width.
-     * This value is only considered if it is set before a call to open.
+     * Maximum width of the `InfoWindow`, regardless of content's width.
      */
     maxWidth: PropTypes.number,
 
     /**
-     * The offset, in pixels, of the tip of the info window from the point on the map at whose geographical
-     * coordinates the info window is anchored.
-     * If an InfoWindow is opened with an anchor, the pixelOffset will be calculated
-     * from the anchor's anchorPoint property.
+     * The offset, in pixels, of the tip of the info window from the point
+     * on the map at whose geographical coordinates the info window is anchored.
      */
-    pixelOffset: SizeType,
+    pixelOffset: PropTypes.shape({
+      /**
+       * The height along the y-axis, in pixels.
+       */
+      width: PropTypes.number.isRequired,
+      /**
+       * The width along the x-axis, in pixels.
+       */
+      height: PropTypes.number.isRequired,
+    }),
 
     /**
      * All InfoWindows are displayed on the map in order of their zIndex,
      * with higher values displaying in front of InfoWindows with lower values.
+     *
      * By default, InfoWindows are displayed according to their latitude,
-     * with InfoWindows of lower latitudes appearing in front of InfoWindows at higher latitudes.
+     * with InfoWindows of lower latitudes appearing in front of InfoWindows
+     * at higher latitudes.
+     *
      * InfoWindows are always displayed in front of markers.
      */
     zIndex: PropTypes.number,

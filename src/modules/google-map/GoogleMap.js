@@ -1,13 +1,30 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { MapContext } from "../internal/MapContext";
-import { LatLngType, MapTypeIdType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import GoogleMapEvents from "./GoogleMapEvents";
 import { GoogleMapManager } from "./GoogleMapManager";
 
 const styles = { map: { height: "100%" } };
 
+/**
+ * Draws `google.maps.Map`.
+ *
+ * **Usage:**
+ *
+ * ```javascript
+ * import React from "react";
+ * import { GoogleMap } from "react-google-map-components"
+ *
+ * export default function GoogleMapWrapper(props) {
+ *   return <GoogleMap {...props} maps={google.maps} />
+ * }
+ * ```
+ *
+ * **Google Maps Docs:**
+ * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
+ * * [google.maps.MapOptions](https://developers.google.com/maps/documentation/javascript/reference#MapOptions)
+ */
 export class GoogleMap extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -51,29 +68,44 @@ GoogleMap.childContextTypes = {
   mapContext: PropTypes.instanceOf(MapContext),
 };
 
+GoogleMap.defaultProps = {
+  mapTypeId: "ROADMAP",
+
+  clickableIcons: true,
+  disableDoubleClickZoom: true,
+};
+
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   GoogleMap.propTypes = {
     /**
-     * Google Maps instance.
+     * Loaded `google.Maps` instance.
      */
     maps: PropTypes.object.isRequired,
 
     /**
-     * The initial Map center.
+     * The initial Map `center`.
      */
-    center: LatLngType.isRequired,
+    center: PropTypes.shape({
+      /**
+       * The latitude in degrees.
+       */
+      lat: PropTypes.number.isRequired,
+      /**
+       * The longitude in degrees.
+       */
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
 
     /**
-     * The initial Map zoom level.
-     * Valid values: Integers between zero, and up to the supported maximum zoom level.
+     * The initial Map `zoom` level.
      */
     zoom: PropTypes.number.isRequired,
 
     /**
-     * The initial Map mapTypeId. Defaults to ROADMAP.
+     * The initial Map `mapTypeId`.
      */
-    mapTypeId: MapTypeIdType,
+    mapTypeId: PropTypes.oneOf(["HYBRID", "ROADMAP", "SATELLITE", "TERRAIN"]),
 
     /**
      * Google Maps child components.
@@ -83,13 +115,11 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * When false, map icons are not clickable.
      * A map icon represents a point of interest, also known as a POI.
-     * By default map icons are clickable.
      */
     clickableIcons: PropTypes.bool,
 
     /**
      * Enables/disables zoom and center on double click.
-     * Enabled by default.
      */
     disableDoubleClickZoom: PropTypes.bool,
 
@@ -108,9 +138,9 @@ if (process.env.NODE_ENV !== "production") {
     className: PropTypes.string,
 
     /**
-     * Color used for the background of the Map div.
+     * Color used for the background of the Map.
+     *
      * This color will be visible when tiles have not yet loaded as the user pans.
-     * This option can only be set when the map is initialized.
      */
     backgroundColor: PropTypes.string,
 
@@ -120,18 +150,22 @@ if (process.env.NODE_ENV !== "production") {
 
     /**
      * This handler is called when the user clicks on the map.
-     * An ApiMouseEvent with properties for the clicked location is returned unless a place icon was clicked,
-     * in which case an IconMouseEvent with a placeid is returned.
-     * IconMouseEvent and ApiMouseEvent are identical, except that IconMouseEvent has the placeid field.
-     * The event can always be treated as an ApiMouseEvent when the placeid is not important.
-     * The click event is not fired if a marker or infowindow was clicked.
+     *
+     * An `ApiMouseEvent` with properties for the clicked location is returned unless a place icon was clicked,
+     * in which case an `IconMouseEvent` with a `placeid` is returned.
+     *
+     * `IconMouseEvent` and `ApiMouseEvent` are identical, except that `IconMouseEvent` has the `placeid` field.
+     *
+     * The event can always be treated as an `ApiMouseEvent` when the `placeid` is not important.
+     *
+     * The click event is not fired if a `Marker` or `InfoWindow` was clicked.
      */
     onClick: PropTypes.func,
 
     /**
      * This handler is called when the user double-clicks on the map.
      *
-     * Note that the click event will also fire, right before this one.
+     * Note that the `onClick` handler will be also called, right before this one.
      */
     onDoubleClick: PropTypes.func,
 
@@ -181,12 +215,12 @@ if (process.env.NODE_ENV !== "production") {
     onTilesLoaded: PropTypes.func,
 
     /**
-     * This handler is called when the map tilt property changes.
+     * This handler is called when the map `tilt` property changes.
      */
     onTiltChanged: PropTypes.func,
 
     /**
-     * This event is fired when the map zoom property changes.
+     * This event is fired when the map `zoom` property changes.
      */
     onZoomChanged: PropTypes.func,
 
@@ -196,12 +230,12 @@ if (process.env.NODE_ENV !== "production") {
     onBoundsChanged: PropTypes.func,
 
     /**
-     * This handler is called when the map center property changes.
+     * This handler is called when the map `center` property changes.
      */
     onCenterChanged: PropTypes.func,
 
     /**
-     * This handler is called when the map heading property changes.
+     * This handler is called when the map `heading` property changes.
      */
     onHeadingChanged: PropTypes.func,
 
@@ -211,7 +245,7 @@ if (process.env.NODE_ENV !== "production") {
     onMapTypeIdChanged: PropTypes.func,
 
     /**
-     * This handler is called when the projection has changed.
+     * This handler is called when the `projection` has changed.
      */
     onProjectionChanged: PropTypes.func,
   };

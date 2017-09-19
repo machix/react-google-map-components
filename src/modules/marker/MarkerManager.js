@@ -1,8 +1,9 @@
-import fpPick from "lodash/fp/pick";
 import React from "react";
+import fpPick from "lodash/fp/pick";
+import isEqual from "lodash/isEqual";
+import MarkerEvents from "./MarkerEvents";
 import { MapContext } from "../internal/MapContext";
 import { getChangedProps } from "../internal/Utils";
-import MarkerEvents from "./MarkerEvents";
 
 const pickProps = fpPick([
   "position",
@@ -20,6 +21,15 @@ const pickProps = fpPick([
   "optimized",
   "shape",
   "zIndex",
+]);
+
+const pickIconProps = fpPick([
+  "url",
+  "anchor",
+  "labelOrigin",
+  "origin",
+  "size",
+  "scaledSize",
 ]);
 
 export class MarkerManager {
@@ -64,6 +74,19 @@ export class MarkerManager {
     this.context.maps.event.clearInstanceListeners(this.marker);
   }
 
+  attachIcon(props) {
+    this.marker.setIcon(this.context.createIcon(props));
+  }
+
+  updateIcon(prev, next) {
+    const prevIcon = pickIconProps(prev);
+    const nextIcon = pickIconProps(next);
+
+    if (!isEqual(prevIcon, nextIcon)) {
+      this.marker.setIcon(this.context.createIcon(nextIcon));
+    }
+  }
+
   getOptions(props) {
     const options = pickProps(props);
     const ctx = this.context;
@@ -71,7 +94,7 @@ export class MarkerManager {
     options.animation = ctx.getEnum("Animation", options.animation);
 
     if (React.isValidElement(options.icon)) {
-      options.icon = ctx.createIcon(options.icon.props);
+      delete options.icon;
     }
 
     if (options.position) {

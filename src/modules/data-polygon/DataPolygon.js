@@ -2,10 +2,30 @@ import PropTypes from "prop-types";
 import React from "react";
 import DataLayerEvents from "../data-layer/DataLayerEvents";
 import { MapContext } from "../internal/MapContext";
-import { DataLinearRingType, LatLngType } from "../internal/Props";
 import { createListeners } from "../internal/Utils";
 import { DataPolygonManager } from "./DataPolygonManager";
 
+/**
+ * Draws `google.maps.Data.Polygon`.
+ *
+ * **Usage:**
+ *
+ * ```javascript
+ * import React from "react";
+ * import { GoogleMap, DataPolygon } from "react-google-map-components"
+ *
+ * export default function GoogleMapWrapper(props) {
+ *   return (
+ *     <GoogleMap {...props} maps={google.maps}>
+ *       <DataPolygon geometry={props.polygon} />
+ *     </GoogleMap>
+ *   );
+ * }
+ * ```
+ *
+ * **Google Maps Docs:**
+ * * [google.maps.Data.Polygon](https://developers.google.com/maps/documentation/javascript/reference#Data.Polygon)
+ */
 export class DataPolygon extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -36,16 +56,74 @@ DataPolygon.contextTypes = {
   mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
+DataPolygon.defaultProps = {
+  clickable: true,
+};
+
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   DataPolygon.propTypes = {
     /**
-     * LinearRings or arrays of positions.
+     * Array of array of positions.
      */
-    geometry: PropTypes.oneOfType([
-      PropTypes.arrayOf(LatLngType),
-      PropTypes.arrayOf(DataLinearRingType),
-    ]).isRequired,
+    geometry: PropTypes.arrayOf(
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          /**
+           * The latitude in degrees.
+           */
+          lat: PropTypes.number.isRequired,
+          /**
+           * The longitude in degrees.
+           */
+          lng: PropTypes.number.isRequired,
+        }),
+      ),
+    ).isRequired,
+
+    //
+    // Style
+    //
+
+    /**
+     * If true, the marker receives mouse and touch events.
+     */
+    clickable: PropTypes.bool,
+
+    /**
+     * The fill color.
+     *
+     * All CSS3 colors are supported except for extended named colors.
+     */
+    fillColor: PropTypes.string,
+
+    /**
+     * he fill opacity between 0.0 and 1.0.
+     */
+    fillOpacity: PropTypes.number,
+
+    /**
+     * The stroke color.
+     *
+     * All CSS3 colors are supported except for extended named colors.
+     */
+    strokeColor: PropTypes.string,
+
+    /**
+     * The stroke opacity between 0.0 and 1.0.
+     */
+    strokeOpacity: PropTypes.number,
+
+    /**
+     * The stroke width in pixels.
+     */
+    strokeWeight: PropTypes.number,
+
+    /**
+     * All features are displayed on the map in order of their zIndex,
+     * with higher values displaying in front of features with lower values.
+     */
+    zIndex: PropTypes.number,
 
     //
     // Events
@@ -85,45 +163,5 @@ if (process.env.NODE_ENV !== "production") {
      * This handler is called for a mouse up on the geometry.
      */
     onMouseUp: PropTypes.func,
-
-    //
-    // Style
-    //
-
-    /**
-     * If true, the marker receives mouse and touch events.
-     * Default value is true.
-     */
-    clickable: PropTypes.bool,
-
-    /**
-     * The fill color. All CSS3 colors are supported except for extended named colors.
-     */
-    fillColor: PropTypes.string,
-
-    /**
-     * he fill opacity between 0.0 and 1.0.
-     */
-    fillOpacity: PropTypes.number,
-
-    /**
-     * The stroke color. All CSS3 colors are supported except for extended named colors.
-     */
-    strokeColor: PropTypes.string,
-
-    /**
-     * The stroke opacity between 0.0 and 1.0.
-     */
-    strokeOpacity: PropTypes.number,
-
-    /**
-     * The stroke width in pixels.
-     */
-    strokeWeight: PropTypes.number,
-
-    /**
-     * All features are displayed on the map in order of their zIndex, with higher values displaying in front of features with lower values.
-     */
-    zIndex: PropTypes.number,
   };
 }

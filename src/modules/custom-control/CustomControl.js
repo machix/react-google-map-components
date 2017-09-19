@@ -2,9 +2,33 @@ import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapContext } from "../internal/MapContext";
-import { ControlPositionType } from "../internal/Props";
 import { CustomControlManager } from "./CustomControlManager";
 
+/**
+ * Controls display options of custom control.
+ *
+ * **Usage:**
+ *
+ * ```javascript
+ * import React from "react";
+ * import { GoogleMap, CustomControl } from "react-google-map-components"
+ *
+ * export default function GoogleMapWrapper(props) {
+ *   return (
+ *     <GoogleMap {...props} maps={google.maps}>
+ *       <CustomControl>
+ *         <button onClick={props.onControlClick}>
+ *           Click Me
+ *         </button>
+ *       </CustomControl>
+ *     </GoogleMap>
+ *   );
+ * }
+ * ```
+ *
+ * **Google Maps Docs:**
+ * * [Custom Controls](https://developers.google.com/maps/documentation/javascript/examples/control-custom)
+ */
 export class CustomControl extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -51,8 +75,25 @@ if (process.env.NODE_ENV !== "production") {
     children: PropTypes.node.isRequired,
 
     /**
-     * Position id. Used to specify the position of the control on the map.
+     * Position id.
+     *
+     * Used to specify the position of the control on the map.
+     *
+     * See also: [google.maps.ControlPosition](https://developers.google.com/maps/documentation/javascript/reference#ControlPosition)
      */
-    position: ControlPositionType.isRequired,
+    position: PropTypes.oneOf([
+      "BOTTOM_CENTER",
+      "BOTTOM_LEFT",
+      "BOTTOM_RIGHT",
+      "LEFT_BOTTOM",
+      "LEFT_CENTER",
+      "LEFT_TOP",
+      "RIGHT_BOTTOM",
+      "RIGHT_CENTER",
+      "RIGHT_TOP",
+      "TOP_CENTER",
+      "TOP_LEFT",
+      "TOP_RIGHT",
+    ]).isRequired,
   };
 }
