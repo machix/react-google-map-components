@@ -9,6 +9,7 @@ import {
   MapTypeControl,
   Marker,
   MarkerIcon,
+  MarkerSymbol,
   PanBy,
   PanTo,
   PanToBounds,
@@ -37,6 +38,7 @@ test("Public Api", () => {
   expect(Marker).toBeInstanceOf(Function);
   expect(Polyline).toBeInstanceOf(Function);
   expect(MarkerIcon).toBeInstanceOf(Function);
+  expect(MarkerSymbol).toBeInstanceOf(Function);
   expect(InfoWindow).toBeInstanceOf(Function);
   expect(DataPolygon).toBeInstanceOf(Function);
   expect(withMapInstance).toBeInstanceOf(Function);

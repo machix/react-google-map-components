@@ -52,6 +52,29 @@ export class MapContext {
     return icon;
   }
 
+  createSymbol(options) {
+    const icon = {
+      path: options.path,
+      rotation: options.rotation,
+      scale: options.scale,
+      fillColor: options.fillColor,
+      fillOpacity: options.fillOpacity,
+      strokeColor: options.strokeColor,
+      strokeOpacity: options.strokeOpacity,
+      strokeWeight: options.strokeWeight,
+    };
+
+    if (options.anchor) {
+      icon.anchor = this.createPoint(options.anchor);
+    }
+
+    if (options.labelOrigin) {
+      icon.labelOrigin = this.createPoint(options.labelOrigin);
+    }
+
+    return icon;
+  }
+
   getEnum(name, value) {
     return has(this.maps[name], value) ? get(this.maps[name], value) : value;
   }

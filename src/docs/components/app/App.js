@@ -20,6 +20,7 @@ import InfoWindowSection from "../pages/info-window/InfoWindowSection";
 import PolylineSection from "../pages/polyline/PolylineSection";
 import DataPolygonSection from "../pages/data-polygon/DataPolygonSection";
 import DrawingControlSection from "../pages/drawing-control/DrawingControlSection";
+import MarkerSymbolSection from "../pages/marker-symbol/MarkerSymbolSection";
 
 export default class App extends React.Component {
   static childContextTypes = {
@@ -46,6 +47,7 @@ export default class App extends React.Component {
         <GoogleMapSection />
         <MarkerSection />
         <MarkerIconSection />
+        <MarkerSymbolSection />
         <InfoWindowSection />
         <PolylineSection />
 

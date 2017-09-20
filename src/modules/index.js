@@ -17,6 +17,7 @@ export { PanToBounds } from "./animations/PanToBounds";
 
 export { Marker } from "./marker/Marker";
 export { MarkerIcon } from "./marker/MarkerIcon";
+export { MarkerSymbol } from "./marker/MarkerSymbol";
 
 export { InfoWindow } from "./info-window/InfoWindow";
 

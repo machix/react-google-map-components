@@ -32,6 +32,19 @@ const pickIconProps = fpPick([
   "scaledSize",
 ]);
 
+const pickSymbolProps = fpPick([
+  "path",
+  "rotation",
+  "scale",
+  "anchor",
+  "labelOrigin",
+  "fillColor",
+  "fillOpacity",
+  "strokeColor",
+  "strokeOpacity",
+  "strokeWeight",
+]);
+
 export class MarkerManager {
   constructor(context: MapContext) {
     this.context = context;
@@ -84,6 +97,19 @@ export class MarkerManager {
 
     if (!isEqual(prevIcon, nextIcon)) {
       this.marker.setIcon(this.context.createIcon(nextIcon));
+    }
+  }
+
+  attachSymbol(props) {
+    this.marker.setIcon(this.context.createSymbol(props));
+  }
+
+  updateSymbol(prev, next) {
+    const prevIcon = pickSymbolProps(prev);
+    const nextIcon = pickSymbolProps(next);
+
+    if (!isEqual(prevIcon, nextIcon)) {
+      this.marker.setIcon(this.context.createSymbol(nextIcon));
     }
   }
 
