@@ -34,7 +34,7 @@ export class InfoWindowManager {
     this.updateContent(props);
     this.updateVisibility(props);
 
-    infoWindow.addListener(InfoWindowEvents.ON_CLOSE_CLICK, () => {
+    infoWindow.addListener(InfoWindowEvents.onCloseClick, () => {
       infoWindow.open(this.context.map);
     });
 

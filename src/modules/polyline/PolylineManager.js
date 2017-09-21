@@ -34,14 +34,14 @@ export class PolylineManager {
     this.polyline.setValues(options);
     this.polyline.setMap(this.context.map);
 
-    polyline.addListener(GenericEvents.ON_DRAG_START, () => {
+    polyline.addListener(GenericEvents.onDragStart, () => {
       this.path = polyline
         .getPath()
         .getArray()
         .map(x => ({ lat: x.lat(), lng: x.lng() }));
     });
 
-    polyline.addListener(GenericEvents.ON_DRAG_END, event => {
+    polyline.addListener(GenericEvents.onDragEnd, event => {
       // eslint-disable-next-line no-param-reassign
       event.path = polyline.getPath().getArray();
 

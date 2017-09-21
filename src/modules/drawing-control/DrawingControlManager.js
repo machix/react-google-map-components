@@ -18,7 +18,7 @@ export class DrawingControlManager {
     drawingManager.setValues(options);
     drawingManager.setMap(this.context.map);
 
-    drawingManager.addListener(DrawingControlEvents.ON_OVERLAY_COMPLETE, x =>
+    drawingManager.addListener(DrawingControlEvents.onOverlayComplete, x =>
       x.overlay.setMap(null),
     );
 

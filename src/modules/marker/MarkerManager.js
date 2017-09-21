@@ -62,11 +62,11 @@ export class MarkerManager {
     marker.setValues(options);
     marker.setMap(this.context.map);
 
-    marker.addListener(MarkerEvents.ON_DRAG_START, () => {
+    marker.addListener(MarkerEvents.onDragStart, () => {
       this.position = marker.getPosition();
     });
 
-    marker.addListener(MarkerEvents.ON_DRAG_END, () => {
+    marker.addListener(MarkerEvents.onDragEnd, () => {
       marker.setPosition(this.position);
     });
 
