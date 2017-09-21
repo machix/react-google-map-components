@@ -41,38 +41,60 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        <h1 className="mt-3">Basic Components</h1>
+      <div>
+        <div className="container-fluid">
+          <h1 className="mt-3">Basic Components</h1>
 
-        <GoogleMapSection />
-        <MarkerSection />
-        <MarkerIconSection />
-        <MarkerSymbolSection />
-        <InfoWindowSection />
-        <PolylineSection />
+          <GoogleMapSection />
+          <MarkerSection />
+          <MarkerIconSection />
+          <MarkerSymbolSection />
+          <InfoWindowSection />
+          <PolylineSection />
 
-        <h1 className="mt-3">Map Controls</h1>
+          <h1 className="mt-3">Map Controls</h1>
 
-        <FullscreenControlSection />
-        <MapTypeControlSection />
-        <RotateControlSection />
-        <ScaleControlSection />
-        <StreetViewControlSection />
-        <ZoomControlSection />
+          <FullscreenControlSection />
+          <MapTypeControlSection />
+          <RotateControlSection />
+          <ScaleControlSection />
+          <StreetViewControlSection />
+          <ZoomControlSection />
 
-        <CustomControlSection />
-        <DrawingControlSection />
+          <CustomControlSection />
+          <DrawingControlSection />
 
-        <h1 className="mt-3">Map Transitions</h1>
+          <h1 className="mt-3">Map Transitions</h1>
 
-        <FitBoundsSection />
-        <PanBySection />
-        <PanToSection />
-        <PanToBoundsSection />
+          <FitBoundsSection />
+          <PanBySection />
+          <PanToSection />
+          <PanToBoundsSection />
 
-        <h1 className="mt-3">Data Layer</h1>
+          <h1 className="mt-3">Data Layer</h1>
 
-        <DataPolygonSection />
+          <DataPolygonSection />
+        </div>
+
+        <footer className="footer">
+          <nav className="navbar navbar-light bg-light navbar-expand-sm">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href="https://github.com/umidbekkarimov/react-google-map-components"
+                >
+                  Github
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="https://twitter.com/umidbek_k">
+                  Twitter
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </footer>
       </div>
     );
   }
