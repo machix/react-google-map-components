@@ -113,13 +113,14 @@ if (process.env.NODE_ENV !== "production") {
     children: PropTypes.node,
 
     /**
-     * When false, map icons are not clickable.
+     * When `false`, map icons are not clickable.
+     *
      * A map icon represents a point of interest, also known as a POI.
      */
     clickableIcons: PropTypes.bool,
 
     /**
-     * Enables/disables zoom and center on double click.
+     * Enables/disables `zoom` and `center` on double click.
      */
     disableDoubleClickZoom: PropTypes.bool,
 
@@ -140,7 +141,8 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * Color used for the background of the Map.
      *
-     * This color will be visible when tiles have not yet loaded as the user pans.
+     * This color will be visible when tiles have not yet
+     * loaded as the user pans.
      */
     backgroundColor: PropTypes.string,
 
@@ -151,12 +153,15 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * This handler is called when the user clicks on the map.
      *
-     * An `ApiMouseEvent` with properties for the clicked location is returned unless a place icon was clicked,
-     * in which case an `IconMouseEvent` with a `placeid` is returned.
+     * An `ApiMouseEvent` with properties for the clicked location is returned
+     * unless a place icon was clicked, in which case an `IconMouseEvent`
+     * with a `placeid` is returned.
      *
-     * `IconMouseEvent` and `ApiMouseEvent` are identical, except that `IconMouseEvent` has the `placeid` field.
+     * `IconMouseEvent` and `ApiMouseEvent` are identical, except that
+     * `IconMouseEvent` has the `placeid` field.
      *
-     * The event can always be treated as an `ApiMouseEvent` when the `placeid` is not important.
+     * The event can always be treated as an `ApiMouseEvent` when the
+     * `placeid` is not important.
      *
      * The click event is not fired if a `Marker` or `InfoWindow` was clicked.
      */
@@ -165,17 +170,20 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * This handler is called when the user double-clicks on the map.
      *
-     * Note that the `onClick` handler will be also called, right before this one.
+     * Note that the `onClick` handler will be also called,
+     * right before this one.
      */
     onDoubleClick: PropTypes.func,
 
     /**
-     * This handler is called when the DOM context menu event is fired on the map container.
+     * This handler is called when the DOM context menu event is
+     * fired on the map container.
      */
     onRightClick: PropTypes.func,
 
     /**
-     * This handler is called whenever the user's mouse moves over the map container.
+     * This handler is called whenever the user's mouse moves over
+     * the map container.
      */
     onMouseMove: PropTypes.func,
 
