@@ -42,8 +42,6 @@ class PolylineComplex extends React.Component {
     ]),
   };
 
-  // DRIVING
-
   static defaultProps = {
     origin: "san jose, ca",
     destination: "gilroy, ca",
@@ -56,6 +54,20 @@ class PolylineComplex extends React.Component {
 
     this.state = { path: null };
     this.service = new DirectionsService();
+  }
+
+  componentDidMount() {
+    const { origin, destination } = this.props;
+
+    this.fetchDirections(origin, destination);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { origin, destination } = this.props;
+
+    if (origin !== prevProps.origin || destination !== prevProps.destination) {
+      this.fetchDirections(origin, destination);
+    }
   }
 
   fetchDirections(origin, destination) {
@@ -72,20 +84,6 @@ class PolylineComplex extends React.Component {
           }
         },
       );
-    }
-  }
-
-  componentDidMount() {
-    const { origin, destination } = this.props;
-
-    this.fetchDirections(origin, destination);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { origin, destination } = this.props;
-
-    if (origin !== prevProps.origin || destination !== prevProps.destination) {
-      this.fetchDirections(origin, destination);
     }
   }
 

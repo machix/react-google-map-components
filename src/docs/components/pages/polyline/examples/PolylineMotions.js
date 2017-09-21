@@ -31,6 +31,10 @@ class PolylineMotions extends React.Component {
     this.service = new DirectionsService();
   }
 
+  componentDidMount() {
+    this.fetchDirections();
+  }
+
   fetchDirections() {
     this.service.route(
       {
@@ -51,10 +55,6 @@ class PolylineMotions extends React.Component {
         }
       },
     );
-  }
-
-  componentDidMount() {
-    this.fetchDirections();
   }
 
   render() {

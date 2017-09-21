@@ -36,6 +36,10 @@ class MarkerSymbolMotions extends React.Component {
     this.service = new DirectionsService();
   }
 
+  componentDidMount() {
+    this.fetchDirections();
+  }
+
   computeHeading = (a, b) => {
     const { LatLng, geometry } = this.context.maps;
 
@@ -57,10 +61,6 @@ class MarkerSymbolMotions extends React.Component {
         }
       },
     );
-  }
-
-  componentDidMount() {
-    this.fetchDirections();
   }
 
   render() {
