@@ -32,34 +32,43 @@ npm install --save react-google-map-components
 
 ```javascript
 import React from "react";
-import PropTypes from "prop-types";
+import { Motion, spring } from "react-motion";
 import {
-  Marker,
-  GoogleMap, 
-  ZoomControl, 
-  DrawingControl
-} from "react-google-map-components"
+  GoogleMap,
+  Polyline,
+  CustomControl,
+} from "react-google-map-components";
 
-GoogleMapWrapper.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  position: PropTypes.object.isRequired,
-}
+export default class DirectionMap extends React.Component {
+  state = { step: 0 };
 
-export default function PinMap(props) {
-  return (
-    <GoogleMap maps={google.maps}>
-      <ZoomControl />
-    
-      <Marker position={props.center} />  
-    
-      <DrawingControl 
-        drawingModes={[ 'marker' ]}
-        onMarkerComplete={x => {
-          props.onChange({ lat: x.position.lat(), lng: x.position.lng() })
-        }}
-      />
-    </GoogleMap>
-  );
+  render() {
+    const { step } = this.state;
+    const { maps, path, style, center } = this.props;
+
+    return (
+      <GoogleMap zoom={9} maps={maps} style={style} center={center}>
+        <Polyline path={path} strokeOpacity={0.3} />
+
+        <CustomControl position="BOTTOM_CENTER">
+          {step === 0 ? (
+            <button onClick={() => this.setState({ step: path.length - 1 })}>
+              Start
+            </button>
+          ) : (
+            <button onClick={() => this.setState({ step: 0 })}>Revert</button>
+          )}
+        </CustomControl>
+
+        <Motion
+          defaultStyle={{ position: 0 }}
+          style={{ position: spring(step, { stiffness: 10, damping: 26 }) }}
+        >
+          {x => <Polyline path={path.slice(0, x.position)} />}
+        </Motion>
+      </GoogleMap>
+    );
+  }
 }
 ```
 
