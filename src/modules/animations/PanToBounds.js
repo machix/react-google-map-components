@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { MapContext } from "../internal/MapContext";
-import { AnimationManager } from "./AnimationManager";
+import PropTypes from "prop-types";
+
 import { isEqualProps } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
 
 /**
  * Pans the map by the minimum amount necessary to contain the given `LatLngBounds`.
@@ -37,14 +37,8 @@ import { isEqualProps } from "../internal/Utils";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class PanToBounds extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new AnimationManager(context.mapContext);
-  }
-
   componentDidMount() {
-    this.manager.panToBounds(this.props.latLngBounds);
+    this.animate();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -52,7 +46,15 @@ export class PanToBounds extends React.Component {
   }
 
   componentDidUpdate() {
-    this.manager.panToBounds(this.props.latLngBounds);
+    this.animate();
+  }
+
+  animate() {
+    const { mapContext } = this.context;
+
+    mapContext.map.panToBounds(
+      mapContext.createLatLngBounds(this.props.latLngBounds),
+    );
   }
 
   render() {

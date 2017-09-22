@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+
 import { MapContext } from "../internal/MapContext";
-import { AnimationManager } from "./AnimationManager";
 import { isEqualProps } from "../internal/Utils";
 
 /**
@@ -29,14 +29,8 @@ import { isEqualProps } from "../internal/Utils";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class PanTo extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new AnimationManager(context.mapContext);
-  }
-
   componentDidMount() {
-    this.manager.panTo(this.props.latLng);
+    this.animate();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -44,7 +38,11 @@ export class PanTo extends React.Component {
   }
 
   componentDidUpdate() {
-    this.manager.panTo(this.props.latLng);
+    this.animate();
+  }
+
+  animate() {
+    this.context.mapContext.map.panTo(this.props.latLng);
   }
 
   render() {

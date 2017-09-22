@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { MapContext } from "../internal/MapContext";
-import { AnimationManager } from "./AnimationManager";
+import PropTypes from "prop-types";
+
 import { isEqualProps } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
 
 /**
  * Sets the `viewport` to contain the given `bounds`.
@@ -26,14 +26,8 @@ import { isEqualProps } from "../internal/Utils";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class FitBounds extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new AnimationManager(context.mapContext);
-  }
-
   componentDidMount() {
-    this.manager.fitBounds(this.props.latLngBounds);
+    this.animate();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -41,7 +35,15 @@ export class FitBounds extends React.Component {
   }
 
   componentDidUpdate() {
-    this.manager.fitBounds(this.props.latLngBounds);
+    this.animate();
+  }
+
+  animate() {
+    const { mapContext } = this.context;
+
+    mapContext.map.fitBounds(
+      mapContext.createLatLngBounds(this.props.latLngBounds),
+    );
   }
 
   render() {

@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+
 import { MapContext } from "../internal/MapContext";
-import { AnimationManager } from "./AnimationManager";
 
 /**
  * Changes the center of the map by the given distance in pixels.
@@ -27,16 +27,8 @@ import { AnimationManager } from "./AnimationManager";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class PanBy extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new AnimationManager(context.mapContext);
-  }
-
   componentDidMount() {
-    const { x, y } = this.props;
-
-    this.manager.panBy(x, y);
+    this.animate();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -46,9 +38,13 @@ export class PanBy extends React.Component {
   }
 
   componentDidUpdate() {
+    this.animate();
+  }
+
+  animate() {
     const { x, y } = this.props;
 
-    this.manager.panBy(x, y);
+    this.context.mapContext.map.panBy(x, y);
   }
 
   render() {
