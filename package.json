@@ -13,7 +13,7 @@
     "start": "react-scripts start",
     "build": "run-s build:*",
     "all": "run-s format lint cover build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "cover": "yarn test -- --coverage",
     "codecov": "codecov -f coverage/lcov.info",
     "report": "yarn cover && opener coverage/lcov-report/index.html",
