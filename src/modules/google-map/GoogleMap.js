@@ -1,11 +1,21 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { MapContext } from "../internal/MapContext";
-import { createListeners } from "../internal/Utils";
+import PropTypes from "prop-types";
+import size from "lodash/size";
+import fpPick from "lodash/fp/pick";
 import GoogleMapEvents from "./GoogleMapEvents";
-import { GoogleMapManager } from "./GoogleMapManager";
+import { MapContext } from "../internal/MapContext";
+import { createListeners, getChangedProps } from "../internal/Utils";
 
 const styles = { map: { height: "100%" } };
+
+const pickProps = fpPick([
+  "zoom",
+  "center",
+  "mapTypeId",
+  "clickableIcons",
+  "backgroundColor",
+  "disableDoubleClickZoom",
+]);
 
 /**
  * Draws `google.maps.Map`.
@@ -29,26 +39,56 @@ export class GoogleMap extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new GoogleMapManager(props.maps);
+    this.map = null;
+    this.node = null;
+    this.maps = props.maps;
+    this.mapContext = null;
   }
 
   getChildContext() {
-    return { mapContext: this.manager.context };
+    return { mapContext: this.mapContext };
   }
 
   componentDidMount() {
-    const listeners = createListeners(GoogleMapEvents, x => this.props[x]);
+    this.map = new this.maps.Map(this.node);
+    this.mapContext = new MapContext(this.map, this.maps);
 
-    this.manager.attach(this.node, this.props, listeners);
+    const options = this.getOptions(this.props);
+
+    options.disableDefaultUI = true;
+
+    this.map.setValues(options);
+
+    createListeners(
+      GoogleMapEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      this.map.addListener(event, listener);
+    });
+
     this.forceUpdate();
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const prevOptions = this.getOptions(prevProps);
+    const nextOptions = this.getOptions(this.props);
+    const options = getChangedProps(prevOptions, nextOptions);
+
+    if (size(options) > 0) {
+      this.map.setValues(options);
+    }
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.maps.event.clearInstanceListeners(this.map);
+  }
+
+  getOptions(props) {
+    const options = pickProps(props);
+
+    options.mapTypeId = this.mapContext.getEnum("MapTypeId", options.mapTypeId);
+
+    return options;
   }
 
   render() {
@@ -58,7 +98,7 @@ export class GoogleMap extends React.Component {
       <div style={style} className={className}>
         <div style={styles.map} ref={x => (this.node = x)} />
 
-        {Boolean(this.manager.map) && this.props.children}
+        {Boolean(this.mapContext) && this.props.children}
       </div>
     );
   }
@@ -72,7 +112,7 @@ GoogleMap.defaultProps = {
   mapTypeId: "ROADMAP",
 
   clickableIcons: true,
-  disableDoubleClickZoom: true,
+  disableDoubleClickZoom: false,
 };
 
 /* istanbul ignore else */
