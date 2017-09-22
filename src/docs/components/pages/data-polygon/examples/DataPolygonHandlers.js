@@ -8,13 +8,13 @@ export const pageName = "Events Example";
 
 const enhancer = wrapWithHandlers();
 
-DataPolygonEvents.contextTypes = {
+DataPolygonHandlers.contextTypes = {
   maps: PropTypes.object.isRequired,
   center: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
 };
 
-DataPolygonEvents.propTypes = {
+DataPolygonHandlers.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onRightClick: PropTypes.func,
@@ -24,7 +24,7 @@ DataPolygonEvents.propTypes = {
   onMouseUp: PropTypes.func,
 };
 
-function DataPolygonEvents(props, context) {
+function DataPolygonHandlers(props, context) {
   return (
     <GoogleMap
       zoom={5}
@@ -60,4 +60,4 @@ function DataPolygonEvents(props, context) {
   );
 }
 
-export default enhancer(DataPolygonEvents);
+export default enhancer(DataPolygonHandlers);

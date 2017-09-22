@@ -2,23 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { wrapWithHandlers } from "../../../../hocs/WrapWithHandlers";
-import { InfoWindow } from "../../../../../modules/info-window/InfoWindow";
+import { DrawingControl } from "../../../../../modules/drawing-control/DrawingControl";
 
 export const pageName = "Events Example";
 
 const enhancer = wrapWithHandlers();
 
-InfoWindowEvents.contextTypes = {
+DrawingControlHandlers.contextTypes = {
   maps: PropTypes.object.isRequired,
   center: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
 };
 
-InfoWindowEvents.propTypes = {
-  onCloseClick: PropTypes.func,
+DrawingControlHandlers.propTypes = {
+  onCircleComplete: PropTypes.func,
+  onMarkerComplete: PropTypes.func,
+  onOverlayComplete: PropTypes.func,
+  onPolygonComplete: PropTypes.func,
+  onPolylineComplete: PropTypes.func,
+  onRectangleComplete: PropTypes.func,
 };
 
-function InfoWindowEvents(props, context) {
+function DrawingControlHandlers(props, context) {
   return (
     <GoogleMap
       zoom={8}
@@ -26,11 +31,9 @@ function InfoWindowEvents(props, context) {
       center={context.center}
       style={context.styles.map}
     >
-      <InfoWindow {...props} position={context.center}>
-        Info Window Content
-      </InfoWindow>
+      <DrawingControl {...props} />
     </GoogleMap>
   );
 }
 
-export default enhancer(InfoWindowEvents);
+export default enhancer(DrawingControlHandlers);

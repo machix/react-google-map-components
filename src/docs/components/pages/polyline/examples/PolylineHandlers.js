@@ -8,13 +8,13 @@ export const pageName = "Events Example";
 
 const enhancer = wrapWithHandlers();
 
-PolylineEvents.contextTypes = {
+PolylineHandlers.contextTypes = {
   maps: PropTypes.object.isRequired,
   center: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
 };
 
-PolylineEvents.propTypes = {
+PolylineHandlers.propTypes = {
   onDrag: PropTypes.func,
   onClick: PropTypes.func,
   onMouseUp: PropTypes.func,
@@ -28,7 +28,7 @@ PolylineEvents.propTypes = {
   onDoubleClick: PropTypes.func,
 };
 
-function PolylineEvents(props, context) {
+function PolylineHandlers(props, context) {
   return (
     <GoogleMap
       zoom={8}
@@ -49,4 +49,4 @@ function PolylineEvents(props, context) {
   );
 }
 
-export default enhancer(PolylineEvents);
+export default enhancer(PolylineHandlers);

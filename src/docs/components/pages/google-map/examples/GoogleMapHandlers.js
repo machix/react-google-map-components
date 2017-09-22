@@ -7,13 +7,13 @@ export const pageName = "Events Example";
 
 const enhancer = wrapWithHandlers();
 
-GoogleMapEvents.contextTypes = {
+GoogleMapHandlers.contextTypes = {
   maps: PropTypes.object.isRequired,
   center: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
 };
 
-GoogleMapEvents.propTypes = {
+GoogleMapHandlers.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onRightClick: PropTypes.func,
@@ -34,7 +34,7 @@ GoogleMapEvents.propTypes = {
   onProjectionChanged: PropTypes.func,
 };
 
-function GoogleMapEvents(props, context) {
+function GoogleMapHandlers(props, context) {
   return (
     <GoogleMap
       {...props}
@@ -46,4 +46,4 @@ function GoogleMapEvents(props, context) {
   );
 }
 
-export default enhancer(GoogleMapEvents);
+export default enhancer(GoogleMapHandlers);

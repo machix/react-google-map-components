@@ -8,13 +8,13 @@ export const pageName = "Events Example";
 
 const enhancer = wrapWithHandlers();
 
-MarkerEvents.contextTypes = {
+MarkerHandlers.contextTypes = {
   maps: PropTypes.object.isRequired,
   center: PropTypes.object.isRequired,
   styles: PropTypes.object.isRequired,
 };
 
-MarkerEvents.propTypes = {
+MarkerHandlers.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onRightClick: PropTypes.func,
@@ -28,7 +28,7 @@ MarkerEvents.propTypes = {
   onPositionChanged: PropTypes.func,
 };
 
-function MarkerEvents(props, context) {
+function MarkerHandlers(props, context) {
   return (
     <GoogleMap
       zoom={8}
@@ -41,4 +41,4 @@ function MarkerEvents(props, context) {
   );
 }
 
-export default enhancer(MarkerEvents);
+export default enhancer(MarkerHandlers);
