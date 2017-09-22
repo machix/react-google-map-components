@@ -1,6 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MarkerManager } from "./MarkerManager";
+
+import fpPick from "lodash/fp/pick";
+import isEqual from "lodash/isEqual";
+
+import { MarkerContext } from "./MarkerContext";
+import { MapContext } from "../internal/MapContext";
+
+const pickProps = fpPick([
+  "url",
+  "anchor",
+  "labelOrigin",
+  "origin",
+  "size",
+  "scaledSize",
+]);
 
 /**
  * Defines icon options of `Marker` component.
@@ -27,18 +41,21 @@ import { MarkerManager } from "./MarkerManager";
  * * [google.maps.Icon](https://developers.google.com/maps/documentation/javascript/reference#Icon)
  */
 export class MarkerIcon extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = context.markerManager;
-  }
-
   componentDidMount() {
-    this.manager.attachIcon(this.props);
+    const { mapContext, markerContext: { marker } } = this.context;
+
+    marker.setIcon(mapContext.createIcon(this.props));
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.updateIcon(prevProps, this.props);
+    const { mapContext, markerContext: { marker } } = this.context;
+
+    const prevIcon = pickProps(prevProps);
+    const nextIcon = pickProps(this.props);
+
+    if (!isEqual(prevIcon, nextIcon)) {
+      marker.setIcon(mapContext.createIcon(nextIcon));
+    }
   }
 
   render() {
@@ -47,7 +64,8 @@ export class MarkerIcon extends React.Component {
 }
 
 MarkerIcon.contextTypes = {
-  markerManager: PropTypes.instanceOf(MarkerManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
+  markerContext: PropTypes.instanceOf(MarkerContext).isRequired,
 };
 
 MarkerIcon.defaultProps = {

@@ -1,6 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MarkerManager } from "./MarkerManager";
+
+import fpPick from "lodash/fp/pick";
+import isEqual from "lodash/isEqual";
+
+import { MarkerContext } from "./MarkerContext";
+import { MapContext } from "../internal/MapContext";
+
+const pickProps = fpPick([
+  "path",
+  "rotation",
+  "scale",
+  "anchor",
+  "labelOrigin",
+  "fillColor",
+  "fillOpacity",
+  "strokeColor",
+  "strokeOpacity",
+  "strokeWeight",
+]);
 
 /**
  * Defines icon options of `Marker` component.
@@ -27,18 +45,21 @@ import { MarkerManager } from "./MarkerManager";
  * * [google.maps.Symbol](https://developers.google.com/maps/documentation/javascript/reference#Symbol)
  */
 export class MarkerSymbol extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = context.markerManager;
-  }
-
   componentDidMount() {
-    this.manager.attachSymbol(this.props);
+    const { mapContext, markerContext: { marker } } = this.context;
+
+    marker.setIcon(mapContext.createSymbol(this.props));
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.updateSymbol(prevProps, this.props);
+    const { mapContext, markerContext: { marker } } = this.context;
+
+    const prevIcon = pickProps(prevProps);
+    const nextIcon = pickProps(this.props);
+
+    if (!isEqual(prevIcon, nextIcon)) {
+      marker.setIcon(mapContext.createSymbol(nextIcon));
+    }
   }
 
   render() {
@@ -47,7 +68,8 @@ export class MarkerSymbol extends React.Component {
 }
 
 MarkerSymbol.contextTypes = {
-  markerManager: PropTypes.instanceOf(MarkerManager).isRequired,
+  mapContext: PropTypes.instanceOf(MapContext).isRequired,
+  markerContext: PropTypes.instanceOf(MarkerContext).isRequired,
 };
 
 MarkerSymbol.defaultProps = {

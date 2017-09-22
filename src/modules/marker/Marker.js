@@ -1,9 +1,31 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { MapContext } from "../internal/MapContext";
-import { createListeners } from "../internal/Utils";
+import PropTypes from "prop-types";
+
+import fpPick from "lodash/fp/pick";
+
 import MarkerEvents from "./MarkerEvents";
-import { MarkerManager } from "./MarkerManager";
+import { MarkerContext } from "./MarkerContext";
+
+import { MapContext } from "../internal/MapContext";
+import { createListeners, getChangedProps } from "../internal/Utils";
+
+const pickProps = fpPick([
+  "position",
+  "title",
+  "visible",
+  "clickable",
+  "draggable",
+  "crossOnDrag",
+  "anchorPoint",
+  "animation",
+  "cursor",
+  "icon",
+  "label",
+  "opacity",
+  "optimized",
+  "shape",
+  "zIndex",
+]);
 
 /**
  * Draws `google.maps.Marker`.
@@ -31,25 +53,70 @@ export class Marker extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new MarkerManager(context.mapContext);
+    this.position = null;
+
+    this.marker = new context.mapContext.maps.Marker();
+    this.markerContext = new MarkerContext(this.marker);
   }
 
   getChildContext() {
-    return { markerManager: this.manager };
+    return { markerContext: this.markerContext };
   }
 
   componentDidMount() {
-    const listeners = createListeners(MarkerEvents, x => this.props[x]);
+    const marker = this.marker;
+    const options = this.getOptions(this.props);
 
-    this.manager.attach(this.props, listeners);
+    marker.setValues(options);
+    marker.setMap(this.context.map);
+
+    marker.addListener(MarkerEvents.onDragStart, () => {
+      this.position = marker.getPosition();
+    });
+
+    marker.addListener(MarkerEvents.onDragEnd, () => {
+      marker.setPosition(this.position);
+    });
+
+    createListeners(
+      MarkerEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      marker.addListener(event, listener);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const diff = getChangedProps(prevProps, this.props);
+    const options = this.getOptions(diff);
+
+    this.marker.setValues(options);
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.marker.setMap(null);
+    this.context.mapContext.maps.event.clearInstanceListeners(this.marker);
+  }
+
+  getOptions(props) {
+    const options = pickProps(props);
+    const ctx = this.context.mapContext;
+
+    options.animation = ctx.getEnum("Animation", options.animation);
+
+    if (React.isValidElement(options.icon)) {
+      delete options.icon;
+    }
+
+    if (options.position) {
+      options.position = ctx.createLatLng(options.position);
+    }
+
+    if (options.anchorPoint) {
+      options.anchorPoint = ctx.createPoint(options.anchorPoint);
+    }
+
+    return options;
   }
 
   render() {
@@ -58,7 +125,7 @@ export class Marker extends React.Component {
 }
 
 Marker.childContextTypes = {
-  markerManager: PropTypes.instanceOf(MarkerManager).isRequired,
+  markerContext: PropTypes.instanceOf(MarkerContext).isRequired,
 };
 
 Marker.contextTypes = {
