@@ -96,7 +96,14 @@ describe("GoogleMap", () => {
       });
     });
 
-    it("should attach handlers", () => {
+    it("should add listeners even if there are no handlers", () => {
+      mount(<GoogleMap zoom={0} maps={maps} center={{ lat: 0, lng: 1 }} />);
+
+      expect(maps.Map).toHaveBeenCalledTimes(1);
+      expect(maps.Map.mock.instances[0].listeners).toMatchSnapshot();
+    });
+
+    it("should pass handlers", () => {
       const handlers = Object.keys(GoogleMapEvents).reduce((acc, x) => {
         acc[x] = jest.fn();
 
@@ -119,9 +126,10 @@ describe("GoogleMap", () => {
       expect(listeners).toMatchSnapshot();
 
       Object.keys(listeners).forEach(x => {
-        const listener = listeners[x][0];
+        expect(listeners[x]).toBeTruthy();
+        expect(listeners[x].length).toBe(1);
 
-        listener(x);
+        listeners[x][0](x);
       });
 
       Object.keys(GoogleMapEvents).forEach(handler => {
