@@ -11,7 +11,7 @@ export class Control extends React.Component {
     this.name = props.name;
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.setOptions(true, this.props.options);
   }
 
@@ -21,8 +21,8 @@ export class Control extends React.Component {
     return !isEqualProps(options, nextProps.options);
   }
 
-  componentDidUpdate() {
-    this.setOptions(true, this.props.options);
+  componentWillUpdate(nextProps) {
+    this.setOptions(true, nextProps.options);
   }
 
   componentWillUnmount() {
