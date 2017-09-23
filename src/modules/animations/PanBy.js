@@ -27,7 +27,7 @@ import { MapContext } from "../internal/MapContext";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class PanBy extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     this.animate();
   }
 
@@ -37,13 +37,11 @@ export class PanBy extends React.Component {
     return nextProps.x !== x || nextProps.y !== y;
   }
 
-  componentDidUpdate() {
-    this.animate();
+  componentWillUpdate(nextProps) {
+    this.animate(nextProps);
   }
 
-  animate() {
-    const { x, y } = this.props;
-
+  animate({ x, y } = this.props) {
     this.context.mapContext.map.panBy(x, y);
   }
 
