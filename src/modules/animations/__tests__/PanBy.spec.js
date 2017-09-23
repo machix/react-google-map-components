@@ -29,9 +29,14 @@ describe("PanBy", () => {
     expect(mapContext.map.panBy).toHaveBeenCalledTimes(1);
     expect(mapContext.map.panBy).toHaveBeenLastCalledWith(10, 15);
 
-    wrapper.setProps({ x: 0, y: 0 });
+    wrapper.setProps({ x: 0 });
 
     expect(mapContext.map.panBy).toHaveBeenCalledTimes(2);
+    expect(mapContext.map.panBy).toHaveBeenLastCalledWith(0, 15);
+
+    wrapper.setProps({ y: 0 });
+
+    expect(mapContext.map.panBy).toHaveBeenCalledTimes(3);
     expect(mapContext.map.panBy).toHaveBeenLastCalledWith(0, 0);
   });
 });
