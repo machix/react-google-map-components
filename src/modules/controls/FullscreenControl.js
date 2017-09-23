@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+
+import { Control } from "./Control";
 import { MapContext } from "../internal/MapContext";
-import { ControlManager } from "./ControlManager";
 
 /**
  * Controls display options of fullscreen control.
@@ -24,28 +25,15 @@ import { ControlManager } from "./ControlManager";
  * **Google Maps Docs:**
  * * [google.maps.FullscreenControlOptions](https://developers.google.com/maps/documentation/javascript/reference#FullscreenControlOptions)
  */
-export class FullscreenControl extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new ControlManager("fullscreenControl", context.mapContext);
-  }
-
-  componentDidMount() {
-    this.manager.attach(this.props);
-  }
-
-  componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
-  }
-
-  componentWillUnmount() {
-    this.manager.detach();
-  }
-
-  render() {
-    return null;
-  }
+export function FullscreenControl(props, context) {
+  return (
+    <Control
+      name="fullscreenControl"
+      options={{
+        position: context.mapContext.getEnum("ControlPosition", props.position),
+      }}
+    />
+  );
 }
 
 FullscreenControl.contextTypes = {

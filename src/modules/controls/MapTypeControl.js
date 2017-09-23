@@ -1,30 +1,10 @@
-import map from "lodash/map";
+import React from "react";
 import PropTypes from "prop-types";
 
-import React from "react";
+import map from "lodash/map";
+
+import { Control } from "./Control";
 import { MapContext } from "../internal/MapContext";
-import { ControlManager } from "./ControlManager";
-
-export class MapTypeControlManager extends ControlManager {
-  constructor(context: MapContext) {
-    super("mapTypeControl", context);
-  }
-
-  getOptions(props) {
-    const ctx = this.context;
-    const options = super.getOptions(props);
-
-    options.style = ctx.getEnum("MapTypeControlStyle", props.style);
-
-    if (props.mapTypeIds) {
-      options.mapTypeIds = map(props.mapTypeIds, x =>
-        ctx.getEnum("MapTypeId", x),
-      );
-    }
-
-    return options;
-  }
-}
 
 /**
  * Controls display options Map type control.
@@ -47,28 +27,21 @@ export class MapTypeControlManager extends ControlManager {
  * **Google Maps Docs:**
  * * [google.maps.MapTypeControlOptions](https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlOptions)
  */
-export class MapTypeControl extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+export function MapTypeControl(props, context) {
+  const { mapContext } = context;
 
-    this.manager = new MapTypeControlManager(context.mapContext);
-  }
-
-  componentDidMount() {
-    this.manager.attach(this.props);
-  }
-
-  componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
-  }
-
-  componentWillUnmount() {
-    this.manager.detach();
-  }
-
-  render() {
-    return null;
-  }
+  return (
+    <Control
+      name="mapTypeControl"
+      options={{
+        style: mapContext.getEnum("MapTypeControlStyle", props.style),
+        position: mapContext.getEnum("ControlPosition", props.position),
+        mapTypeIds: map(props.mapTypeIds, x =>
+          mapContext.getEnum("MapTypeId", x),
+        ),
+      }}
+    />
+  );
 }
 
 MapTypeControl.contextTypes = {
@@ -76,8 +49,9 @@ MapTypeControl.contextTypes = {
 };
 
 MapTypeControl.defaultProps = {
-  position: "TOP_RIGHT",
   style: "DEFAULT",
+  position: "TOP_RIGHT",
+  mapTypeIds: ["HYBRID", "ROADMAP", "SATELLITE", "TERRAIN"],
 };
 
 /* istanbul ignore else */

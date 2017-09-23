@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+
+import { Control } from "./Control";
 import { MapContext } from "../internal/MapContext";
-import { ControlManager } from "./ControlManager";
 
 /**
  * Controls display options of Rotate control.
@@ -24,28 +25,15 @@ import { ControlManager } from "./ControlManager";
  * **Google Maps Docs:**
  * * [google.maps.RotateControlOptions](https://developers.google.com/maps/documentation/javascript/reference#RotateControlOptions)
  */
-export class RotateControl extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.manager = new ControlManager("rotateControl", context.mapContext);
-  }
-
-  componentDidMount() {
-    this.manager.attach(this.props);
-  }
-
-  componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
-  }
-
-  componentWillUnmount() {
-    this.manager.detach();
-  }
-
-  render() {
-    return null;
-  }
+export function RotateControl(props, context) {
+  return (
+    <Control
+      name="rotateControl"
+      options={{
+        position: context.mapContext.getEnum("ControlPosition", props.position),
+      }}
+    />
+  );
 }
 
 RotateControl.contextTypes = {
