@@ -53,7 +53,7 @@ function CustomControlBasics(props, context) {
         <CustomControl position={props.position}>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary m-1"
             // eslint-disable-next-line no-alert
             onClick={() => alert(props.message)}
           >
