@@ -41,10 +41,14 @@ export class CustomControl extends React.Component {
     this.renderContent();
   }
 
-  componentWillUpdate(nextProps) {
+  shouldComponentUpdate(nextProps) {
     const { position, children } = this.props;
 
-    if (nextProps.position !== position) {
+    return position !== nextProps.position || children !== nextProps.children;
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.position !== nextProps.position) {
       // We need to remove control from old position first.
       this.unmountControl();
 
@@ -52,9 +56,7 @@ export class CustomControl extends React.Component {
       this.mountControl(nextProps);
     }
 
-    if (nextProps.children !== children) {
-      this.renderContent(nextProps);
-    }
+    this.renderContent(nextProps);
   }
 
   componentWillUnmount() {
@@ -94,8 +96,11 @@ export class CustomControl extends React.Component {
     }
   }
 
-  renderContent({ children } = this.props) {
-    if (React.isValidElement(children)) {
+  renderContent(props = this.props) {
+    const { children } = props;
+    const controls = this.getControls(props);
+
+    if (controls && React.isValidElement(children)) {
       ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
     } else {
       ReactDOM.unmountComponentAtNode(this.div);
