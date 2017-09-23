@@ -137,6 +137,7 @@ Marker.defaultProps = {
   clickable: true,
   draggable: false,
   crossOnDrag: true,
+  animation: "NONE",
 };
 
 /* istanbul ignore else */
@@ -202,7 +203,7 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * Which animation to play when marker is added to a map.
      */
-    animation: PropTypes.oneOf(["BOUNCE", "DROP"]),
+    animation: PropTypes.oneOf(["NONE", "BOUNCE", "DROP"]),
 
     /**
      * Mouse cursor to show on hover.

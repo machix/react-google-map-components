@@ -19,9 +19,9 @@ MarkerBasics.propTypes = {
 
   lat: FormProps.number("Latitude"),
   lng: FormProps.number("Longitude"),
-  animation: FormProps.oneOf("Animation", ["BOUNCE", "DROP"]),
   label: FormProps.string("Label"),
   title: FormProps.string("Title"),
+  animation: FormProps.oneOf("Animation", ["NONE", "BOUNCE", "DROP"]),
 
   visible: FormProps.bool("Visible"),
   draggable: FormProps.bool("Draggable"),
@@ -31,7 +31,7 @@ MarkerBasics.propTypes = {
 MarkerBasics.defaultProps = {
   lat: 36.964,
   lng: -122.015,
-  animation: "",
+  animation: "NONE",
   label: "",
   title: "Marker Title",
   visible: true,
