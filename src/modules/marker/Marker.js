@@ -53,8 +53,6 @@ export class Marker extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.position = null;
-
     this.marker = new context.mapContext.maps.Marker();
     this.markerContext = new MarkerContext(this.marker);
   }
@@ -70,12 +68,8 @@ export class Marker extends React.Component {
     marker.setValues(options);
     marker.setMap(this.context.mapContext.map);
 
-    marker.addListener(MarkerEvents.onDragStart, () => {
-      this.position = marker.getPosition();
-    });
-
     marker.addListener(MarkerEvents.onDragEnd, () => {
-      marker.setPosition(this.position);
+      marker.setPosition(this.props.position);
     });
 
     createListeners(
