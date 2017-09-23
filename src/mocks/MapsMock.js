@@ -44,7 +44,7 @@ export function createMapsMock() {
             items.splice(index, 1);
           }),
         };
-        
+
         return acc;
       }, {});
     }),
