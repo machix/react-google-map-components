@@ -1,10 +1,20 @@
-import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+
+import fpPick from "lodash/fp/pick";
+
+import InfoWindowEvents from "./InfoWindowEvents";
 import { MapContext } from "../internal/MapContext";
 import { createListeners } from "../internal/Utils";
-import InfoWindowEvents from "./InfoWindowEvents";
-import { InfoWindowManager } from "./InfoWindowManager";
+
+const pickProps = fpPick([
+  "position",
+  "maxWidth",
+  "zIndex",
+  "pixelOffset",
+  "disableAutoPan",
+]);
 
 /**
  * Draws `google.maps.InfoWindow`.
@@ -34,30 +44,97 @@ export class InfoWindow extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new InfoWindowManager(
-      context.mapContext,
-      (element, container) => {
-        ReactDOM.unstable_renderSubtreeIntoContainer(
-          this,
-          React.Children.only(element),
-          container,
-        );
-      },
-    );
+    this.div = document.createElement("div");
+    this.infoWindow = new context.mapContext.maps.InfoWindow();
   }
 
   componentDidMount() {
-    const listeners = createListeners(InfoWindowEvents, x => this.props[x]);
+    const options = this.getOptions();
+    const infoWindow = this.infoWindow;
 
-    this.manager.attach(this.props, listeners);
+    infoWindow.setValues(options);
+
+    this.updateContent();
+    this.updateVisibility();
+
+    infoWindow.addListener(InfoWindowEvents.onCloseClick, () => {
+      infoWindow.open(this.context.mapContext.map);
+    });
+
+    createListeners(
+      InfoWindowEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      infoWindow.addListener(event, listener);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const options = this.getOptions();
+    const { open, children, maxWidth } = this.props;
+
+    this.infoWindow.setValues(options);
+
+    if (prevProps.children !== children) {
+      this.updateContent();
+    }
+
+    if (
+      Boolean(prevProps.open) !== Boolean(open) ||
+      Boolean(prevProps.maxWidth !== maxWidth && open)
+    ) {
+      this.updateVisibility();
+    }
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.infoWindow.close();
+    this.context.mapContext.maps.event.clearInstanceListeners(this.infoWindow);
+
+    ReactDOM.unmountComponentAtNode(this.div);
+  }
+
+  getOptions(props = this.props) {
+    const options = pickProps(props);
+
+    if (options.pixelOffset) {
+      options.pixelOffset = this.context.mapContext.createSize(
+        options.pixelOffset,
+      );
+    }
+
+    return options;
+  }
+
+  updateContent() {
+    const { open, children } = this.props;
+
+    if (open) {
+      if (React.isValidElement(children)) {
+        // First need to render content in to the div.
+        ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
+
+        // And only after this set div as new content.
+        this.infoWindow.setContent(this.div);
+      } else {
+        // First need to update content.
+        this.infoWindow.setContent(children);
+
+        // And only after this cleanup div.
+        ReactDOM.unmountComponentAtNode(this.div);
+      }
+    } else {
+      this.infoWindow.setContent("");
+      ReactDOM.unmountComponentAtNode(this.div);
+    }
+  }
+
+  updateVisibility() {
+    if (this.props.open) {
+      this.infoWindow.open(this.context.mapContext.map);
+    } else {
+      this.infoWindow.close();
+    }
   }
 
   render() {
