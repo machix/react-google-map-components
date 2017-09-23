@@ -12,21 +12,20 @@ export function createMapsMock() {
       });
 
       this.fitBounds = jest.fn();
-      this.PanBy = jest.fn();
-      this.PanTo = jest.fn();
-      this.PanToBounds = jest.fn();
+      this.panBy = jest.fn();
+      this.panTo = jest.fn();
+      this.panToBounds = jest.fn();
     }),
 
-    Size: jest.fn(function GoogleMapsSize(...args) {
-      this.args = args;
+    Size: jest.fn(function GoogleMapsSize(width, height) {
+      this.toJS = () => ({ width, height });
     }),
 
-    Point: jest.fn(function GoogleMapsPoint(...args) {
-      this.args = args;
+    Point: jest.fn(function GoogleMapsPoint(x, y) {
+      this.toJS = () => ({ x, y });
     }),
 
     LatLng: jest.fn(function GoogleMapsLatLng(latLng) {
-      this.latLng = latLng;
       this.toJS = () => latLng;
     }),
 
