@@ -48,7 +48,7 @@ export class DataPolygon extends React.Component {
     this.feature = new context.mapContext.maps.Data.Feature();
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.updateStyles();
     this.updateGeometry();
 
@@ -62,11 +62,11 @@ export class DataPolygon extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    this.updateStyles();
+  componentWillUpdate(nextProps) {
+    this.updateStyles(nextProps);
 
-    if (!isEqual(prevProps.geometry, this.props.geometry)) {
-      this.updateGeometry();
+    if (!isEqual(nextProps.geometry, this.props.geometry)) {
+      this.updateGeometry(nextProps);
     }
   }
 
@@ -88,15 +88,15 @@ export class DataPolygon extends React.Component {
     );
   }
 
-  updateStyles() {
-    const styles = pickStyles(this.props);
+  updateStyles(props = this.props) {
+    const styles = pickStyles(props);
 
     this.context.mapContext.map.data.overrideStyle(this.feature, styles);
   }
 
-  updateGeometry() {
+  updateGeometry(props = this.props) {
     this.feature.setGeometry(
-      new this.context.mapContext.maps.Data.Polygon(this.props.geometry),
+      new this.context.mapContext.maps.Data.Polygon(props.geometry),
     );
   }
 
