@@ -1,9 +1,24 @@
-import PropTypes from "prop-types";
 import React from "react";
-import GenericEvents from "../internal/GenericEvents";
+import PropTypes from "prop-types";
+
+import fpPick from "lodash/fp/pick";
+
 import { MapContext } from "../internal/MapContext";
-import { createListeners } from "../internal/Utils";
-import { PolylineManager } from "./PolylineManager";
+import GenericEvents from "../internal/GenericEvents";
+import { createListeners, getChangedProps } from "../internal/Utils";
+
+const pickProps = fpPick([
+  "path",
+  "icons",
+  "zIndex",
+  "visible",
+  "geodesic",
+  "clickable",
+  "draggable",
+  "strokeColor",
+  "strokeWeight",
+  "strokeOpacity",
+]);
 
 /**
  * Draws `google.maps.Polyline`.
@@ -31,21 +46,49 @@ export class Polyline extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new PolylineManager(context.mapContext);
+    this.path = null;
+    this.polyline = new context.mapContext.maps.Polyline();
   }
 
   componentDidMount() {
-    const listeners = createListeners(GenericEvents, x => this.props[x]);
+    const polyline = this.polyline;
+    const options = pickProps(this.props);
 
-    this.manager.attach(this.props, listeners);
+    polyline.setValues(options);
+    polyline.setMap(this.context.mapContext.map);
+
+    polyline.addListener(GenericEvents.onDragStart, () => {
+      this.path = polyline
+        .getPath()
+        .getArray()
+        .map(x => ({ lat: x.lat(), lng: x.lng() }));
+    });
+
+    polyline.addListener(GenericEvents.onDragEnd, event => {
+      // eslint-disable-next-line no-param-reassign
+      event.path = polyline.getPath().getArray();
+
+      polyline.setPath(this.path);
+    });
+
+    createListeners(
+      GenericEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      polyline.addListener(event, listener);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const diff = getChangedProps(prevProps, this.props);
+    const options = pickProps(diff);
+
+    this.polyline.setValues(options);
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.polyline.setMap(null);
+    this.context.mapContext.maps.event.clearInstanceListeners(this.polyline);
   }
 
   render() {
