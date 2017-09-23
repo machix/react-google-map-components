@@ -6,7 +6,7 @@ import fpPick from "lodash/fp/pick";
 
 import InfoWindowEvents from "./InfoWindowEvents";
 import { MapContext } from "../internal/MapContext";
-import { createListeners } from "../internal/Utils";
+import { createListeners, isEqualProps } from "../internal/Utils";
 
 const pickProps = fpPick([
   "position",
@@ -48,7 +48,7 @@ export class InfoWindow extends React.Component {
     this.infoWindow = new context.mapContext.maps.InfoWindow();
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const options = this.getOptions();
     const infoWindow = this.infoWindow;
 
@@ -69,21 +69,25 @@ export class InfoWindow extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const options = this.getOptions();
+  componentWillUpdate(nextProps) {
     const { open, children, maxWidth } = this.props;
 
-    this.infoWindow.setValues(options);
+    const prevOptions = this.getOptions();
+    const nextOptions = this.getOptions(nextProps);
 
-    if (prevProps.children !== children) {
-      this.updateContent();
+    if (!isEqualProps(prevOptions, nextOptions)) {
+      this.infoWindow.setValues(nextOptions);
+    }
+
+    if (nextProps.children !== children) {
+      this.updateContent(nextProps);
     }
 
     if (
-      Boolean(prevProps.open) !== Boolean(open) ||
-      Boolean(prevProps.maxWidth !== maxWidth && open)
+      Boolean(nextProps.open) !== Boolean(open) ||
+      Boolean(nextProps.maxWidth !== maxWidth && nextProps.open)
     ) {
-      this.updateVisibility();
+      this.updateVisibility(nextProps);
     }
   }
 
@@ -106,9 +110,7 @@ export class InfoWindow extends React.Component {
     return options;
   }
 
-  updateContent() {
-    const { open, children } = this.props;
-
+  updateContent({ open, children } = this.props) {
     if (open) {
       if (React.isValidElement(children)) {
         // First need to render content in to the div.
@@ -129,8 +131,8 @@ export class InfoWindow extends React.Component {
     }
   }
 
-  updateVisibility() {
-    if (this.props.open) {
+  updateVisibility({ open } = this.props) {
+    if (open) {
       this.infoWindow.open(this.context.mapContext.map);
     } else {
       this.infoWindow.close();
