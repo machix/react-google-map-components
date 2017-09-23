@@ -94,7 +94,8 @@ export function createMapsMock() {
     }),
 
     Size: jest.fn(function GoogleMapsSize(width, height) {
-      this.toJS = () => ({ width, height });
+      this.width = width;
+      this.height = height;
     }),
 
     Point: jest.fn(function GoogleMapsPoint(x, y) {
@@ -115,6 +116,32 @@ export function createMapsMock() {
       });
 
       this.toJS = () => this.extends.map(x => (x.toJS ? x.toJS() : x));
+    }),
+
+    InfoWindow: jest.fn(function GoogleMapsInfoWindow() {
+      this.open = jest.fn();
+      this.close = jest.fn();
+
+      this.setValues = jest.fn();
+      this.setContent = jest.fn();
+
+      this.listeners = {};
+
+      this.emit = (event, x) => {
+        const fns = this.listeners[event];
+
+        if (fns) {
+          fns.forEach(fn => {
+            fn(x);
+          });
+        }
+      };
+
+      this.addListener = jest.fn((event, fn) => {
+        this.listeners[event] = this.listeners[event] || [];
+
+        this.listeners[event].push(fn);
+      });
     }),
 
     event: {
