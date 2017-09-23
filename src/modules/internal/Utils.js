@@ -7,8 +7,8 @@ import isEqualWith from "lodash/isEqualWith";
 // eslint-disable-next-line consistent-return
 const isEqualPropsCustomizer = (a, b) => {
   // Do not compare react nodes
-  if (React.isValidElement(a) && React.isValidElement(b)) {
-    return false;
+  if (React.isValidElement(a) || React.isValidElement(b)) {
+    return a === b;
   }
 
   if (a && b && isFunction(a.equals)) {
