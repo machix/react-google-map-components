@@ -68,7 +68,7 @@ export class Marker extends React.Component {
     const options = this.getOptions(this.props);
 
     marker.setValues(options);
-    marker.setMap(this.context.map);
+    marker.setMap(this.context.mapContext.map);
 
     marker.addListener(MarkerEvents.onDragStart, () => {
       this.position = marker.getPosition();
