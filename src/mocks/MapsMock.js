@@ -47,6 +47,50 @@ export function createMapsMock() {
 
         return acc;
       }, {});
+
+      this.data = {
+        items: [],
+        add: jest.fn(function GoogleMapsDataAdd(item) {
+          this.items.push(item);
+        }),
+        remove: jest.fn(function GoogleMapsDataRemove(item) {
+          const index = this.items.indexOf(item);
+
+          if (index !== -1) {
+            this.items.splice(index, 1);
+          }
+        }),
+
+        overrideStyle: jest.fn(),
+
+        listeners: {},
+
+        emit(event, x) {
+          const events = this.listeners[event];
+
+          if (event) {
+            events.forEach(fn => {
+              fn(x);
+            });
+          }
+        },
+
+        addListener: jest.fn(function GoogleMapsDataAddListener(event, fn) {
+          this.listeners[event] = this.listeners[event] || [];
+
+          this.listeners[event].push(fn);
+
+          return {
+            remove: () => {
+              const index = this.listeners[event].indexOf(fn);
+
+              if (index !== -1) {
+                this.listeners[event].splice(index, 1);
+              }
+            },
+          };
+        }),
+      };
     }),
 
     Size: jest.fn(function GoogleMapsSize(width, height) {
@@ -75,6 +119,14 @@ export function createMapsMock() {
 
     event: {
       clearInstanceListeners: jest.fn(),
+    },
+
+    Data: {
+      Polygon: jest.fn(),
+
+      Feature: jest.fn(function GoogleMapsDataFeature() {
+        this.setGeometry = jest.fn();
+      }),
     },
   };
 }
