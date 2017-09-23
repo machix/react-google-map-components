@@ -36,24 +36,24 @@ export class CustomControl extends React.Component {
     this.div = document.createElement("div");
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.mountControl();
     this.renderContent();
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillUpdate(nextProps) {
     const { position, children } = this.props;
 
-    if (prevProps.position !== position) {
+    if (nextProps.position !== position) {
       // We need to remove control from old position first.
-      this.unmountControl(prevProps.position);
+      this.unmountControl();
 
       // And only after that we can add control to new position.
-      this.mountControl();
+      this.mountControl(nextProps);
     }
 
-    if (prevProps.children !== children) {
-      this.renderContent();
+    if (nextProps.children !== children) {
+      this.renderContent(nextProps);
     }
   }
 
@@ -62,7 +62,7 @@ export class CustomControl extends React.Component {
     ReactDOM.unmountComponentAtNode(this.div);
   }
 
-  getControls(position = this.props.position) {
+  getControls({ position } = this.props) {
     const { mapContext } = this.context;
 
     return mapContext.map.controls[
@@ -70,8 +70,8 @@ export class CustomControl extends React.Component {
     ];
   }
 
-  mountControl() {
-    const controls = this.getControls();
+  mountControl(props) {
+    const controls = this.getControls(props);
 
     if (controls) {
       const index = controls.indexOf(this.div);
@@ -82,8 +82,8 @@ export class CustomControl extends React.Component {
     }
   }
 
-  unmountControl(position) {
-    const controls = this.getControls(position);
+  unmountControl(props) {
+    const controls = this.getControls(props);
 
     if (controls) {
       const index = controls.indexOf(this.div);
@@ -94,9 +94,7 @@ export class CustomControl extends React.Component {
     }
   }
 
-  renderContent() {
-    const { children } = this.props;
-
+  renderContent({ children } = this.props) {
     if (React.isValidElement(children)) {
       ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
     } else {
