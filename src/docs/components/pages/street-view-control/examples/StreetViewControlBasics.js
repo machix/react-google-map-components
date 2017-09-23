@@ -34,7 +34,7 @@ StreetViewControlBasics.propTypes = {
 
 StreetViewControlBasics.defaultProps = {
   visible: true,
-  position: "RIGHT_TOP",
+  position: "TOP_LEFT",
 };
 
 function StreetViewControlBasics(props, context) {

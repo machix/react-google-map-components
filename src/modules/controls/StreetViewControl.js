@@ -40,6 +40,10 @@ StreetViewControl.contextTypes = {
   mapContext: PropTypes.instanceOf(MapContext).isRequired,
 };
 
+StreetViewControl.defaultProps = {
+  position: "TOP_LEFT",
+};
+
 /* istanbul ignore else */
 if (process.env.NODE_ENV !== "production") {
   StreetViewControl.propTypes = {
@@ -47,11 +51,6 @@ if (process.env.NODE_ENV !== "production") {
      * Position id.
      *
      * Used to specify the position of the control on the map.
-     *
-     * The default position is embedded within the navigation (zoom and pan) controls.
-     * If this position is empty or the same as that specified in the `ZoomControl` or `PanControl`,
-     * the `StreetViewControl` will be displayed as part of the navigation controls.
-     * Otherwise, it will be displayed separately.
      */
     position: PropTypes.oneOf([
       "BOTTOM_CENTER",
