@@ -1,9 +1,23 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
+
+import fpPick from "lodash/fp/pick";
+import isEqual from "lodash/isEqual";
+
 import DataLayerEvents from "../data-layer/DataLayerEvents";
+
 import { MapContext } from "../internal/MapContext";
 import { createListeners } from "../internal/Utils";
-import { DataPolygonManager } from "./DataPolygonManager";
+
+const pickStyles = fpPick([
+  "clickable",
+  "fillColor",
+  "fillOpacity",
+  "strokeColor",
+  "strokeOpacity",
+  "strokeWeight",
+  "zIndex",
+]);
 
 /**
  * Draws `google.maps.Data.Polygon`.
@@ -30,21 +44,60 @@ export class DataPolygon extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new DataPolygonManager(context.mapContext);
+    this.listeners = [];
+    this.feature = new context.mapContext.maps.Data.Feature();
   }
 
   componentDidMount() {
-    const listeners = createListeners(DataLayerEvents, x => this.props[x]);
+    this.updateStyles();
+    this.updateGeometry();
 
-    this.manager.attach(this.props, listeners);
+    this.context.mapContext.map.data.add(this.feature);
+
+    createListeners(
+      DataLayerEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      this.addListener(event, listener);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    this.updateStyles();
+
+    if (!isEqual(prevProps.geometry, this.props.geometry)) {
+      this.updateGeometry();
+    }
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.context.mapContext.map.data.remove(this.feature);
+
+    while (this.listeners.length > 0) {
+      this.listeners.shift().remove();
+    }
+  }
+
+  addListener(event, listener) {
+    this.listeners.push(
+      this.context.mapContext.map.data.addListener(event, x => {
+        if (x.feature === this.feature) {
+          listener(x);
+        }
+      }),
+    );
+  }
+
+  updateStyles() {
+    const styles = pickStyles(this.props);
+
+    this.context.mapContext.map.data.overrideStyle(this.feature, styles);
+  }
+
+  updateGeometry() {
+    this.feature.setGeometry(
+      new this.context.mapContext.maps.Data.Polygon(this.props.geometry),
+    );
   }
 
   render() {
