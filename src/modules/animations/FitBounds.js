@@ -26,7 +26,7 @@ import { MapContext } from "../internal/MapContext";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class FitBounds extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     this.animate();
   }
 
@@ -34,16 +34,14 @@ export class FitBounds extends React.Component {
     return !isEqualProps(this.props.latLngBounds, nextProps.latLngBounds);
   }
 
-  componentDidUpdate() {
-    this.animate();
+  componentWillUpdate(nextProps) {
+    this.animate(nextProps);
   }
 
-  animate() {
+  animate({ latLngBounds } = this.props) {
     const { mapContext } = this.context;
 
-    mapContext.map.fitBounds(
-      mapContext.createLatLngBounds(this.props.latLngBounds),
-    );
+    mapContext.map.fitBounds(mapContext.createLatLngBounds(latLngBounds));
   }
 
   render() {
