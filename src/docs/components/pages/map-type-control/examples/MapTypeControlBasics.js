@@ -22,7 +22,7 @@ MapTypeControlBasics.propTypes = {
   satellite: FormProps.bool("Satellite"),
   terrain: FormProps.bool("Terrain"),
 
-  style: FormProps.oneOf("Style", [
+  controlStyle: FormProps.oneOf("Style", [
     "DEFAULT",
     "DROPDOWN_MENU",
     "HORIZONTAL_BAR",
@@ -52,8 +52,8 @@ MapTypeControlBasics.defaultProps = {
   satellite: true,
   terrain: true,
 
-  style: "DEFAULT",
   position: "RIGHT_TOP",
+  controlStyle: "DEFAULT",
 };
 
 function MapTypeControlBasics(props, context) {
@@ -66,8 +66,8 @@ function MapTypeControlBasics(props, context) {
     >
       {props.visible && (
         <MapTypeControl
-          style={props.style}
           position={props.position}
+          controlStyle={props.controlStyle}
           mapTypeIds={[
             props.hybrid && "HYBRID",
             props.roadmap && "ROADMAP",

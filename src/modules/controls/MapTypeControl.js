@@ -34,8 +34,8 @@ export function MapTypeControl(props, context) {
     <Control
       name="mapTypeControl"
       options={{
-        style: mapContext.getEnum("MapTypeControlStyle", props.style),
         position: mapContext.getEnum("ControlPosition", props.position),
+        style: mapContext.getEnum("MapTypeControlStyle", props.controlStyle),
         mapTypeIds: map(props.mapTypeIds, x =>
           mapContext.getEnum("MapTypeId", x),
         ),
@@ -49,8 +49,8 @@ MapTypeControl.contextTypes = {
 };
 
 MapTypeControl.defaultProps = {
-  style: "DEFAULT",
   position: "TOP_RIGHT",
+  controlStyle: "DEFAULT",
   mapTypeIds: ["HYBRID", "ROADMAP", "SATELLITE", "TERRAIN"],
 };
 
@@ -86,7 +86,11 @@ if (process.env.NODE_ENV !== "production") {
      *
      * See also: [google.maps.MapTypeControlStyle](https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlStyle)
      */
-    style: PropTypes.oneOf(["DEFAULT", "DROPDOWN_MENU", "HORIZONTAL_BAR"]),
+    controlStyle: PropTypes.oneOf([
+      "DEFAULT",
+      "DROPDOWN_MENU",
+      "HORIZONTAL_BAR",
+    ]),
 
     /**
      * IDs of map types to show in the control.
