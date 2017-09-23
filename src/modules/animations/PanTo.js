@@ -29,7 +29,7 @@ import { isEqualProps } from "../internal/Utils";
  * * [google.maps.Map](https://developers.google.com/maps/documentation/javascript/reference#Map)
  */
 export class PanTo extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     this.animate();
   }
 
@@ -37,12 +37,12 @@ export class PanTo extends React.Component {
     return !isEqualProps(this.props.latLng, nextProps.latLng);
   }
 
-  componentDidUpdate() {
-    this.animate();
+  componentWillUpdate(nextProps) {
+    this.animate(nextProps);
   }
 
-  animate() {
-    this.context.mapContext.map.panTo(this.props.latLng);
+  animate({ latLng } = this.props) {
+    this.context.mapContext.map.panTo(latLng);
   }
 
   render() {
