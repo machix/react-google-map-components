@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+
 import { MapContext } from "../internal/MapContext";
-import { CustomControlManager } from "./CustomControlManager";
 
 /**
  * Controls display options of custom control.
@@ -33,28 +33,75 @@ export class CustomControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new CustomControlManager(
-      context.mapContext,
-      (element, container) => {
-        ReactDOM.unstable_renderSubtreeIntoContainer(
-          this,
-          React.Children.only(element),
-          container,
-        );
-      },
-    );
+    this.div = document.createElement("div");
   }
 
   componentDidMount() {
-    this.manager.attach(this.props);
+    this.mountControl();
+    this.renderContent();
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const { position, children } = this.props;
+
+    if (prevProps.position !== position) {
+      // We need to remove control from old position first.
+      this.unmountControl(prevProps.position);
+
+      // And only after that we can add control to new position.
+      this.mountControl();
+    }
+
+    if (prevProps.children !== children) {
+      this.renderContent();
+    }
   }
 
   componentWillUnmount() {
-    this.manager.detach(this.props);
+    this.unmountControl();
+    ReactDOM.unmountComponentAtNode(this.div);
+  }
+
+  getControls(position = this.props.position) {
+    const { mapContext } = this.context;
+
+    return mapContext.map.controls[
+      mapContext.getEnum("ControlPosition", position)
+    ];
+  }
+
+  mountControl() {
+    const controls = this.getControls();
+
+    if (controls) {
+      const index = controls.indexOf(this.div);
+
+      if (index === -1) {
+        controls.push(this.div);
+      }
+    }
+  }
+
+  unmountControl(position) {
+    const controls = this.getControls(position);
+
+    if (controls) {
+      const index = controls.indexOf(this.div);
+
+      if (index !== -1) {
+        controls.removeAt(index);
+      }
+    }
+  }
+
+  renderContent() {
+    const { children } = this.props;
+
+    if (React.isValidElement(children)) {
+      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
+    } else {
+      ReactDOM.unmountComponentAtNode(this.div);
+    }
   }
 
   render() {
