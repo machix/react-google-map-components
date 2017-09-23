@@ -110,23 +110,18 @@ export class InfoWindow extends React.Component {
     return options;
   }
 
-  updateContent({ open, children } = this.props) {
-    if (open) {
-      if (React.isValidElement(children)) {
-        // First need to render content in to the div.
-        ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
+  updateContent({ children } = this.props) {
+    if (React.isValidElement(children)) {
+      // First need to render content in to the div.
+      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
 
-        // And only after this set div as new content.
-        this.infoWindow.setContent(this.div);
-      } else {
-        // First need to update content.
-        this.infoWindow.setContent(children);
-
-        // And only after this cleanup div.
-        ReactDOM.unmountComponentAtNode(this.div);
-      }
+      // And only after this set div as new content.
+      this.infoWindow.setContent(this.div);
     } else {
-      this.infoWindow.setContent("");
+      // First need to update content.
+      this.infoWindow.setContent(children);
+
+      // And only after this cleanup div.
       ReactDOM.unmountComponentAtNode(this.div);
     }
   }
