@@ -37,7 +37,7 @@ export class DrawingControl extends React.Component {
     this.drawingManager = new context.mapContext.maps.drawing.DrawingManager();
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const options = this.getOptions();
     const drawingManager = this.drawingManager;
 
@@ -56,9 +56,9 @@ export class DrawingControl extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const prevOptions = this.getOptions(prevProps);
-    const nextOptions = this.getOptions();
+  componentWillUpdate(nextProps) {
+    const prevOptions = this.getOptions();
+    const nextOptions = this.getOptions(nextProps);
 
     if (!isEqualProps(prevOptions, nextOptions)) {
       this.drawingManager.setValues(nextOptions);
