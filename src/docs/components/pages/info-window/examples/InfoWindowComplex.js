@@ -26,6 +26,8 @@ InfoWindowComplex.propTypes = {
 
   heading: FormProps.string("Heading"),
   content: FormProps.string("Content", 5),
+
+  inline: FormProps.bool("Inline HTML (Check React DevTools)"),
 };
 
 InfoWindowComplex.defaultProps = {
@@ -51,6 +53,8 @@ InfoWindowComplex.defaultProps = {
     '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
     "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
     "(last visited June 22, 2009).",
+
+  inline: false,
 };
 
 function InfoWindowComplex(props, context) {
@@ -69,14 +73,18 @@ function InfoWindowComplex(props, context) {
         maxWidth={props.maxWidth}
         onCloseClick={() => props.change("open", false)}
       >
-        <div>
-          <h1>{props.heading}</h1>
+        {props.inline ? (
+          `<div><h1>${props.heading}</h1></div><p>${props.content}</p>`
+        ) : (
+          <div>
+            <h1>{props.heading}</h1>
 
-          <p
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: props.content }}
-          />
-        </div>
+            <p
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: props.content }}
+            />
+          </div>
+        )}
       </InfoWindow>
     </GoogleMap>
   );
