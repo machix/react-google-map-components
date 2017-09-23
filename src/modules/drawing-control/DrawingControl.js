@@ -1,10 +1,12 @@
+import React from "react";
 import PropTypes from "prop-types";
 
-import React from "react";
-import { MapContext } from "../internal/MapContext";
-import { createListeners } from "../internal/Utils";
+import map from "lodash/map";
+
 import DrawingControlEvents from "./DrawingControlEvents";
-import { DrawingControlManager } from "./DrawingControlManager";
+
+import { MapContext } from "../internal/MapContext";
+import { createListeners, isEqualProps } from "../internal/Utils";
 
 /**
  * Controls display options of `google.maps.drawing.DrawingManager` control.
@@ -32,21 +34,53 @@ export class DrawingControl extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.manager = new DrawingControlManager(context.mapContext);
+    this.drawingManager = new context.mapContext.maps.drawing.DrawingManager();
   }
 
   componentDidMount() {
-    const listeners = createListeners(DrawingControlEvents, x => this.props[x]);
+    const options = this.getOptions();
+    const drawingManager = this.drawingManager;
 
-    this.manager.attach(this.props, listeners);
+    drawingManager.setValues(options);
+    drawingManager.setMap(this.context.mapContext.map);
+
+    drawingManager.addListener(DrawingControlEvents.onOverlayComplete, x => {
+      x.overlay.setMap(null);
+    });
+
+    createListeners(
+      DrawingControlEvents,
+      x => this.props[x],
+    ).forEach(([event, listener]) => {
+      drawingManager.addListener(event, listener);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    this.manager.update(prevProps, this.props);
+    const prevOptions = this.getOptions(prevProps);
+    const nextOptions = this.getOptions();
+
+    if (!isEqualProps(prevOptions, nextOptions)) {
+      this.drawingManager.setValues(nextOptions);
+    }
   }
 
   componentWillUnmount() {
-    this.manager.detach();
+    this.drawingManager.setMap(null);
+  }
+
+  getOptions({ position, drawingModes } = this.props) {
+    const { mapContext } = this.context;
+
+    return {
+      drawingControl: true,
+      drawingControlOptions: {
+        position: mapContext.getEnum("ControlPosition", position),
+        drawingModes: map(drawingModes, x =>
+          mapContext.getEnum("drawing.OverlayType", x),
+        ),
+      },
+    };
   }
 
   render() {
@@ -60,6 +94,7 @@ DrawingControl.contextTypes = {
 
 DrawingControl.defaultProps = {
   position: "TOP_LEFT",
+  drawingModes: ["circle", "marker", "polygon", "polyline", "rectangle"],
 };
 
 /* istanbul ignore else */
