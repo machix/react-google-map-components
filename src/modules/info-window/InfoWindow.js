@@ -58,7 +58,9 @@ export class InfoWindow extends React.Component {
     this.updateVisibility();
 
     infoWindow.addListener(InfoWindowEvents.onCloseClick, () => {
-      infoWindow.open(this.context.mapContext.map);
+      if (this.props.open) {
+        infoWindow.open(this.context.mapContext.map);
+      }
     });
 
     createListeners(

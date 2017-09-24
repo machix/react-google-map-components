@@ -333,7 +333,7 @@ describe("InfoWindow", () => {
     expect(onCloseClick).toHaveBeenLastCalledWith(event);
   });
 
-  it("should open info window onCloseClick", () => {
+  it("should reopen info window on close when it should be open", () => {
     shallow(<InfoWindow position={{ lat: 0, lng: 1 }}>Foo</InfoWindow>, {
       context: { mapContext },
     });
@@ -347,6 +347,25 @@ describe("InfoWindow", () => {
     infoWindow.emit(InfoWindowEvents.onCloseClick);
 
     expect(infoWindow.open).toHaveBeenCalledTimes(2);
+  });
+
+  it("should not reopen info window on close when it should be closed", () => {
+    shallow(
+      <InfoWindow open={false} position={{ lat: 0, lng: 1 }}>
+        Foo
+      </InfoWindow>,
+      { context: { mapContext } },
+    );
+
+    expect(mapContext.maps.InfoWindow).toHaveBeenCalledTimes(1);
+
+    const infoWindow = mapContext.maps.InfoWindow.mock.instances[0];
+
+    expect(infoWindow.open).toHaveBeenCalledTimes(0);
+
+    infoWindow.emit(InfoWindowEvents.onCloseClick);
+
+    expect(infoWindow.open).toHaveBeenCalledTimes(0);
   });
 
   it("should cleanup resources on unmount", () => {
