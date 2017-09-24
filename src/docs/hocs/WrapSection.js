@@ -20,7 +20,7 @@ export function wrapSection(getComponent, getSource, docs) {
         <BaseComponent
           {...props}
           pages={pages}
-          docs={docs.props}
+          propsDocs={docs.props}
           description={docs.description}
         />
       );

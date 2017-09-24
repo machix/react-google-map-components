@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import DocPage from "../../docs/DocPage";
 import DocSection from "../../docs/DocSection";
 import { wrapSection } from "../../../hocs/WrapSection";
 
@@ -11,30 +9,8 @@ const enhancer = wrapSection(
   require("!!react-docgen-loader!../../../../modules/controls/ZoomControl"),
 );
 
-ZoomControlSection.propTypes = {
-  docs: PropTypes.object,
-  pages: PropTypes.array,
-  description: PropTypes.string,
-};
-
 function ZoomControlSection(props) {
-  return (
-    <DocSection
-      name="<ZoomControl />"
-      propsDocs={props.docs}
-      description={props.description}
-    >
-      {props.pages.map(x => (
-        <DocPage
-          key={x.filePath}
-          name={x.pageName}
-          source={x.source}
-          filePath={x.filePath}
-          component={x.component}
-        />
-      ))}
-    </DocSection>
-  );
+  return <DocSection {...props} name="<ZoomControl />" />;
 }
 
 export default enhancer(ZoomControlSection);

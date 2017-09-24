@@ -1,103 +1,162 @@
 import React from "react";
 import PropTypes from "prop-types";
-import kebabCase from "lodash/kebabCase";
-import { NavLink, Route, Switch } from "react-router-dom";
+import { Link, NavLink, Redirect, Route } from "react-router-dom";
+
 import PropsTable from "./PropsTable";
 import MarkdownView from "./MarkdownView";
+import { composeUrl } from "../../utils/DocsUtils";
+import SourceView from "./SourceView";
 
-export default class DocSection extends React.Component {
-  static propTypes = {
-    propsDocs: PropTypes.object,
+import "./docs.css";
 
-    name: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    description: PropTypes.string.isRequired,
-  };
+DocSection.propTypes = {
+  propsDocs: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  pages: PropTypes.array.isRequired,
+  description: PropTypes.string.isRequired,
+};
 
-  static childContextTypes = {
-    section: PropTypes.string.isRequired,
-    sectionUrl: PropTypes.string.isRequired,
-  };
+export default function DocSection(props) {
+  const { name, pages } = props;
 
-  constructor(props, context) {
-    super(props, context);
+  const sectionUrl = composeUrl("", name);
+  const infoUrl = composeUrl(sectionUrl, "info");
+  const propsUrl = composeUrl(sectionUrl, "props");
+  const examplesUrl = composeUrl(sectionUrl, "examples");
 
-    this.section = props.name;
-    this.sectionUrl = ["", kebabCase(props.name)].join("/");
+  const hasPropDocs = Boolean(props.propsDocs);
+  const hasPages = Boolean(props.pages && props.pages.length > 0);
 
-    this.infoUrl = [this.sectionUrl, "info"].join("/");
-    this.propsUrl = [this.sectionUrl, "props"].join("/");
-    this.examplesUrl = [this.sectionUrl, "examples"].join("/");
-  }
+  return (
+    <div className="card mt-3 border-dark">
+      <div className="card-header d-flex bg-dark text-white align-items-center justify-content-between">
+        <h5 className="mb-0">{name}</h5>
 
-  getChildContext() {
-    return {
-      section: this.props.name,
-      sectionUrl: this.examplesUrl,
-    };
-  }
+        <ul className="nav nav-pills">
+          <li className="nav-item">
+            <NavLink to={infoUrl} className="nav-link">
+              Info
+            </NavLink>
+          </li>
 
-  render() {
-    const hasPropDocs = Boolean(this.props.propsDocs);
-
-    return (
-      <div className="card mt-3 border-dark">
-        <div className="card-header d-flex bg-dark text-white align-items-center justify-content-between">
-          <h5 className="mb-0">{this.props.name}</h5>
-
-          <ul className="nav nav-pills">
+          {hasPropDocs && (
             <li className="nav-item">
-              <NavLink to={this.infoUrl} className="nav-link">
-                Info
+              <NavLink to={propsUrl} className="nav-link">
+                Props
               </NavLink>
             </li>
+          )}
 
-            {hasPropDocs && (
-              <li className="nav-item">
-                <NavLink to={this.propsUrl} className="nav-link">
-                  Props
-                </NavLink>
-              </li>
-            )}
-
+          {hasPages && (
             <li className="nav-item">
-              <NavLink to={this.examplesUrl} className="nav-link">
+              <NavLink to={examplesUrl} className="nav-link">
                 Examples
               </NavLink>
             </li>
-          </ul>
-        </div>
-
-        <Switch>
-          <Route
-            path={this.infoUrl}
-            render={() => (
-              <div className="card-body">
-                <MarkdownView
-                  className="card-text"
-                  source={this.props.description}
-                />
-              </div>
-            )}
-          />
-
-          {hasPropDocs && (
-            <Route
-              path={this.propsUrl}
-              render={() => <PropsTable docs={this.props.propsDocs} />}
-            />
           )}
-
-          <Route
-            path={this.examplesUrl}
-            render={() => (
-              <div className="card-body">
-                <div className="card-text">{this.props.children}</div>
-              </div>
-            )}
-          />
-        </Switch>
+        </ul>
       </div>
-    );
-  }
+
+      <Route
+        exact
+        path={infoUrl}
+        render={() => (
+          <div className="card-body">
+            <MarkdownView className="card-text" source={props.description} />
+          </div>
+        )}
+      />
+
+      {hasPropDocs && (
+        <Route
+          exact
+          path={propsUrl}
+          render={() => <PropsTable docs={props.propsDocs} />}
+        />
+      )}
+
+      {hasPages && (
+        <Route
+          exact
+          path={examplesUrl}
+          render={() => (
+            <Redirect to={composeUrl(examplesUrl, pages[0].pageName)} />
+          )}
+        />
+      )}
+
+      {hasPages && (
+        <Route
+          path={examplesUrl}
+          render={() => (
+            <div className="card-body">
+              <div className="card-text">
+                <ul className="nav nav-pills justify-content-end mb-3">
+                  {pages.map(x => (
+                    <li key={x.filePath} className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to={composeUrl(examplesUrl, x.pageName)}
+                      >
+                        {x.pageName}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+
+                {pages.map(x => {
+                  const url = composeUrl(examplesUrl, x.pageName);
+                  const sourceUrl = composeUrl(url, "source");
+
+                  return (
+                    <Route
+                      path={url}
+                      key={x.filePath}
+                      render={() => (
+                        <div className="section-page">
+                          <Route
+                            exact
+                            path={url}
+                            render={() => (
+                              <div>
+                                <Link
+                                  to={sourceUrl}
+                                  className="btn btn-primary section-btn"
+                                >
+                                  Source
+                                </Link>
+
+                                {React.createElement(x.component)}
+                              </div>
+                            )}
+                          />
+
+                          <Route
+                            exact
+                            path={sourceUrl}
+                            render={() => (
+                              <div>
+                                <Link
+                                  to={url}
+                                  className="btn btn-primary section-btn"
+                                >
+                                  Result
+                                </Link>
+
+                                <SourceView source={x.source} />
+                              </div>
+                            )}
+                          />
+                        </div>
+                      )}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        />
+      )}
+    </div>
+  );
 }
