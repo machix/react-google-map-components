@@ -5,7 +5,7 @@ import fpPick from "lodash/fp/pick";
 
 import { MapContext } from "../internal/MapContext";
 import GenericEvents from "../internal/GenericEvents";
-import { createListeners } from "../internal/Utils";
+import { createListeners, getChangedProps } from "../internal/Utils";
 
 const pickProps = fpPick([
   "path",
@@ -55,8 +55,12 @@ export class Polyline extends React.Component {
     polyline.setMap(mapContext.map);
 
     polyline.addListener(GenericEvents.onDragEnd, event => {
-      // eslint-disable-next-line no-param-reassign
-      event.path = polyline.getPath();
+      const path = polyline.getPath();
+
+      if (path) {
+        // eslint-disable-next-line no-param-reassign
+        event.path = path;
+      }
 
       polyline.setPath(this.props.path);
     });
@@ -70,9 +74,13 @@ export class Polyline extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    const options = pickProps(nextProps);
+    const next = pickProps(nextProps);
+    const prev = pickProps(this.props);
+    const diff = getChangedProps(prev, next);
 
-    this.polyline.setValues(options);
+    if (diff) {
+      this.polyline.setValues(diff);
+    }
   }
 
   componentWillUnmount() {
