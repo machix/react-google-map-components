@@ -45,20 +45,20 @@ const pickProps = fpPick([
  * * [google.maps.Symbol](https://developers.google.com/maps/documentation/javascript/reference#Symbol)
  */
 export class MarkerSymbol extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     const { mapContext, markerContext: { marker } } = this.context;
 
     marker.setIcon(mapContext.createSymbol(this.props));
   }
 
-  componentDidUpdate(prevProps) {
-    const { mapContext, markerContext: { marker } } = this.context;
+  componentWillUpdate(nextProps) {
+    const { mapContext, markerContext } = this.context;
 
-    const prevIcon = pickProps(prevProps);
-    const nextIcon = pickProps(this.props);
+    const nextIcon = pickProps(nextProps);
+    const prevIcon = pickProps(this.props);
 
     if (!isEqual(prevIcon, nextIcon)) {
-      marker.setIcon(mapContext.createSymbol(nextIcon));
+      markerContext.marker.setIcon(mapContext.createSymbol(nextIcon));
     }
   }
 
