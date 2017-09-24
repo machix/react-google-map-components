@@ -1,21 +1,29 @@
 import React from "react";
+import Prism from "prismjs";
 import PropTypes from "prop-types";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { github } from "react-syntax-highlighter/dist/styles";
 
-SourceView.propTypes = {
-  language: PropTypes.string,
-  source: PropTypes.string.isRequired,
-};
+import "prismjs/components/prism-jsx";
 
-SourceView.defaultProps = {
-  language: "javascript",
-};
+// eslint-disable-next-line import/no-extraneous-dependencies
+import "prism-themes/themes/prism-vs.css";
 
-export default function SourceView({ source, ...props }) {
-  return (
-    <SyntaxHighlighter {...props} style={github}>
-      {source}
-    </SyntaxHighlighter>
-  );
+export default class SourceView extends React.Component {
+  static propTypes = {
+    source: PropTypes.string.isRequired,
+  };
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.source !== nextProps.source;
+  }
+
+  render() {
+    return (
+      <pre
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: Prism.highlight(this.props.source, Prism.languages.jsx),
+        }}
+      />
+    );
+  }
 }
