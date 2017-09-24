@@ -56,11 +56,15 @@ function PolylineBasics(props, context) {
           { lat: props.lat2, lng: props.lng2 },
         ]}
         onDragEnd={x => {
-          props.change("lat1", x.path[0].lat());
-          props.change("lng1", x.path[0].lng());
+          const start = x.path.getAt(0);
 
-          props.change("lat2", x.path[1].lat());
-          props.change("lng2", x.path[1].lng());
+          props.change("lat1", start.lat());
+          props.change("lng1", start.lng());
+
+          const end = x.path.getAt(1);
+
+          props.change("lat2", end.lat());
+          props.change("lng2", end.lng());
         }}
       />
     </GoogleMap>

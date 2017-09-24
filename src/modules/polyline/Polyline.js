@@ -46,7 +46,6 @@ export class Polyline extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.path = null;
     this.polyline = new context.mapContext.maps.Polyline();
   }
 
@@ -57,18 +56,11 @@ export class Polyline extends React.Component {
     polyline.setValues(options);
     polyline.setMap(this.context.mapContext.map);
 
-    polyline.addListener(GenericEvents.onDragStart, () => {
-      this.path = polyline
-        .getPath()
-        .getArray()
-        .map(x => ({ lat: x.lat(), lng: x.lng() }));
-    });
-
     polyline.addListener(GenericEvents.onDragEnd, event => {
       // eslint-disable-next-line no-param-reassign
-      event.path = polyline.getPath().getArray();
+      event.path = polyline.getPath();
 
-      polyline.setPath(this.path);
+      polyline.setPath(this.props.path);
     });
 
     createListeners(
