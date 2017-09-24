@@ -186,6 +186,30 @@ export function createMapsMock() {
       });
     }),
 
+    Marker: jest.fn(function GoogleMapsPolyline() {
+      this.setMap = jest.fn();
+      this.setValues = jest.fn();
+      this.setPosition = jest.fn();
+
+      this.listeners = {};
+
+      this.emit = (event, x) => {
+        const fns = this.listeners[event];
+
+        if (fns) {
+          fns.forEach(fn => {
+            fn(x);
+          });
+        }
+      };
+
+      this.addListener = jest.fn((event, fn) => {
+        this.listeners[event] = this.listeners[event] || [];
+
+        this.listeners[event].push(fn);
+      });
+    }),
+
     event: {
       clearInstanceListeners: jest.fn(),
     },
