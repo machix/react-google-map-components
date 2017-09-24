@@ -30,6 +30,9 @@ MarkerSymbolBasics.propTypes = {
 
   anchorX: FormProps.number("Anchor X"),
   anchorY: FormProps.number("Anchor Y"),
+
+  labelOriginX: FormProps.number("Label Origin X"),
+  labelOriginY: FormProps.number("Label Origin Y"),
 };
 
 MarkerSymbolBasics.defaultProps = {
@@ -70,6 +73,7 @@ function MarkerSymbolBasics(props, context) {
             strokeWeight={props.strokeWeight}
             strokeOpacity={props.strokeOpacity}
             anchor={{ x: props.anchorX, y: props.anchorY }}
+            labelOrigin={{ x: props.labelOriginX, y: props.labelOriginY }}
           />
         }
       />
