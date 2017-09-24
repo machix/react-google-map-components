@@ -16,16 +16,33 @@ MarkerBasics.contextTypes = {
 
 MarkerBasics.propTypes = {
   change: PropTypes.func,
-
   lat: FormProps.number("Latitude"),
   lng: FormProps.number("Longitude"),
   label: FormProps.string("Label"),
   title: FormProps.string("Title"),
-  animation: FormProps.oneOf("Animation", ["NONE", "BOUNCE", "DROP"]),
-
   visible: FormProps.bool("Visible"),
   draggable: FormProps.bool("Draggable"),
   crossOnDrag: FormProps.bool("Cross On Drag"),
+  cursor: FormProps.oneOf("Cursor", [
+    "auto",
+    "default",
+    "none",
+    "context-menu",
+    "help",
+    "pointer",
+    "progress",
+    "wait",
+    "move",
+    "no-drop",
+    "not-allowed",
+    "all-scroll",
+    "zoom-in",
+    "zoom-out",
+    "grab",
+    "grabbing",
+  ]),
+
+  animation: FormProps.oneOf("Animation", ["NONE", "BOUNCE", "DROP"]),
 };
 
 MarkerBasics.defaultProps = {
@@ -34,6 +51,7 @@ MarkerBasics.defaultProps = {
   animation: "NONE",
   label: "",
   title: "Marker Title",
+  cursor: "pointer",
   visible: true,
   draggable: false,
   crossOnDrag: true,
@@ -57,6 +75,7 @@ function MarkerBasics(props, context) {
         draggable={props.draggable}
         crossOnDrag={props.crossOnDrag}
         animation={props.animation}
+        cursor={props.cursor}
         onDragEnd={x => {
           props.change("lat", x.latLng.lat());
           props.change("lng", x.latLng.lng());
