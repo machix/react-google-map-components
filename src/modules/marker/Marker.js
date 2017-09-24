@@ -50,23 +50,21 @@ const pickProps = fpPick([
  * * [google.maps.MarkerOptions](https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions)
  */
 export class Marker extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.marker = new context.mapContext.maps.Marker();
-    this.markerContext = new MarkerContext(this.marker);
-  }
-
   getChildContext() {
     return { markerContext: this.markerContext };
   }
 
-  componentDidMount() {
-    const marker = this.marker;
+  componentWillMount() {
+    const { mapContext } = this.context;
+
+    const marker = new mapContext.maps.Marker();
     const options = this.getOptions(this.props);
 
     marker.setValues(options);
-    marker.setMap(this.context.mapContext.map);
+    marker.setMap(mapContext.map);
+
+    this.marker = marker;
+    this.markerContext = new MarkerContext(marker);
 
     marker.addListener(MarkerEvents.onDragEnd, () => {
       marker.setPosition(this.props.position);
@@ -80,13 +78,13 @@ export class Marker extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const diff = getChangedProps(prevProps, this.props);
+  componentWillUpdate(nextProps) {
+    const next = this.getOptions(nextProps);
+    const prev = this.getOptions(this.props);
+    const diff = getChangedProps(prev, next);
 
     if (diff) {
-      const options = this.getOptions(diff);
-
-      this.marker.setValues(options);
+      this.marker.setValues(diff);
     }
   }
 
@@ -96,21 +94,21 @@ export class Marker extends React.Component {
   }
 
   getOptions(props) {
+    const { mapContext } = this.context;
     const options = pickProps(props);
-    const ctx = this.context.mapContext;
 
-    options.animation = ctx.getEnum("Animation", options.animation);
+    options.animation = mapContext.getEnum("Animation", options.animation);
 
     if (React.isValidElement(options.icon)) {
       delete options.icon;
     }
 
     if (options.position) {
-      options.position = ctx.createLatLng(options.position);
+      options.position = mapContext.createLatLng(options.position);
     }
 
     if (options.anchorPoint) {
-      options.anchorPoint = ctx.createPoint(options.anchorPoint);
+      options.anchorPoint = mapContext.createPoint(options.anchorPoint);
     }
 
     return options;
