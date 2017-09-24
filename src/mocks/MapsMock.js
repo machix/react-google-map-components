@@ -99,11 +99,13 @@ export function createMapsMock() {
     }),
 
     Point: jest.fn(function GoogleMapsPoint(x, y) {
-      this.toJS = () => ({ x, y });
+      this.x = x;
+      this.y = y;
     }),
 
     LatLng: jest.fn(function GoogleMapsLatLng(latLng) {
-      this.toJS = () => latLng;
+      this.lat = latLng.lat;
+      this.lng = latLng.lng;
     }),
 
     LatLngBounds: jest.fn(function GoogleMapsLatLngBounds() {
@@ -114,8 +116,6 @@ export function createMapsMock() {
 
         return this;
       });
-
-      this.toJS = () => this.extends.map(x => (x.toJS ? x.toJS() : x));
     }),
 
     InfoWindow: jest.fn(function GoogleMapsInfoWindow() {

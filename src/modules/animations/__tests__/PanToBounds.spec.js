@@ -28,7 +28,7 @@ describe("PanToBounds", () => {
 
     expect(mapContext.map.panToBounds).toHaveBeenCalledTimes(1);
     expect(mapContext.maps.LatLngBounds).toHaveBeenCalledTimes(1);
-    expect(mapContext.maps.LatLngBounds.mock.instances[0].toJS()).toEqual([
+    expect(mapContext.maps.LatLngBounds.mock.instances[0].extends).toEqual([
       { lat: 0, lng: 0 },
       { lat: 1, lng: 1 },
       { lat: 2, lng: 2 },
@@ -43,14 +43,14 @@ describe("PanToBounds", () => {
 
     expect(mapContext.map.panToBounds).toHaveBeenCalledTimes(1);
     expect(mapContext.maps.LatLngBounds).toHaveBeenCalledTimes(1);
-    expect(mapContext.maps.LatLngBounds.mock.instances[0].toJS()).toEqual([]);
+    expect(mapContext.maps.LatLngBounds.mock.instances[0].extends).toEqual([]);
 
     wrapper.setProps({ latLngBounds: [{ lat: 0, lng: 0 }] });
 
     expect(mapContext.map.panToBounds).toHaveBeenCalledTimes(2);
     expect(mapContext.maps.LatLngBounds).toHaveBeenCalledTimes(2);
 
-    expect(mapContext.maps.LatLngBounds.mock.instances[1].toJS()).toEqual([
+    expect(mapContext.maps.LatLngBounds.mock.instances[1].extends).toEqual([
       { lat: 0, lng: 0 },
     ]);
   });
