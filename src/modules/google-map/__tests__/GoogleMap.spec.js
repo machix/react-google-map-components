@@ -96,15 +96,21 @@ describe("GoogleMap", () => {
       });
     });
 
-    it("should add listeners even if there are no handlers", () => {
+    it("should add listeners without handlers", () => {
       mount(<GoogleMap zoom={0} maps={maps} center={{ lat: 0, lng: 1 }} />);
 
       expect(maps.Map).toHaveBeenCalledTimes(1);
-      expect(maps.Map.mock.instances[0].listeners).toMatchSnapshot();
+
+      expect(Object.keys(maps.Map.mock.instances[0].listeners)).toEqual(
+        expect.arrayContaining(
+          Object.keys(GoogleMapEvents).map(x => GoogleMapEvents[x]),
+        ),
+      );
     });
 
-    it("should pass handlers", () => {
-      const handlers = Object.keys(GoogleMapEvents).reduce((acc, x) => {
+    it("should add listeners with handlers", () => {
+      const handlerNames = Object.keys(GoogleMapEvents);
+      const handlers = handlerNames.reduce((acc, x) => {
         acc[x] = jest.fn();
 
         return acc;
@@ -121,22 +127,17 @@ describe("GoogleMap", () => {
 
       expect(maps.Map).toHaveBeenCalledTimes(1);
 
-      const { listeners } = maps.Map.mock.instances[0];
+      const googleMap = maps.Map.mock.instances[0];
 
-      expect(listeners).toMatchSnapshot();
-
-      Object.keys(listeners).forEach(x => {
-        expect(listeners[x]).toBeTruthy();
-        expect(listeners[x].length).toBe(1);
-
-        listeners[x][0](x);
-      });
-
-      Object.keys(GoogleMapEvents).forEach(handler => {
+      handlerNames.forEach(handler => {
         const event = GoogleMapEvents[handler];
 
+        expect(handlers[handler]).toHaveBeenCalledTimes(0);
+
+        googleMap.emit(event, { event });
+
         expect(handlers[handler]).toHaveBeenCalledTimes(1);
-        expect(handlers[handler]).toHaveBeenLastCalledWith(event);
+        expect(handlers[handler]).toHaveBeenLastCalledWith({ event });
       });
     });
   });

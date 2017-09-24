@@ -18,9 +18,21 @@ export function createMapsMock() {
     Map: jest.fn(function GoogleMapsMap(node, options) {
       this.node = node;
       this.options = options;
-      this.listeners = {};
 
       this.setValues = jest.fn();
+
+      this.listeners = {};
+
+      this.emit = (event, x) => {
+        const eventListeners = this.listeners[event];
+
+        if (eventListeners) {
+          eventListeners.forEach(fn => {
+            fn(x);
+          });
+        }
+      };
+
       this.addListener = jest.fn((event, listener) => {
         this.listeners[event] = this.listeners[event] || [];
         this.listeners[event].push(listener);
