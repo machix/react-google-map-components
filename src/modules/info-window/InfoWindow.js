@@ -41,25 +41,23 @@ const pickProps = fpPick([
  * * [google.maps.InfoWindowOptions](https://developers.google.com/maps/documentation/javascript/reference#InfoWindowOptions)
  */
 export class InfoWindow extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.div = document.createElement("div");
-    this.infoWindow = new context.mapContext.maps.InfoWindow();
-  }
-
   componentWillMount() {
+    const { mapContext } = this.context;
+
     const options = this.getOptions();
-    const infoWindow = this.infoWindow;
+    const infoWindow = new mapContext.maps.InfoWindow();
 
     infoWindow.setValues(options);
+
+    this.infoWindow = infoWindow;
+    this.div = document.createElement("div");
 
     this.updateContent();
     this.updateVisibility();
 
     infoWindow.addListener(InfoWindowEvents.onCloseClick, () => {
       if (this.props.open) {
-        infoWindow.open(this.context.mapContext.map);
+        infoWindow.open(mapContext.map);
       }
     });
 

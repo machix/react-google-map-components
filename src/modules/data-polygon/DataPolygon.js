@@ -41,18 +41,16 @@ const pickStyles = fpPick([
  * * [google.maps.Data.Polygon](https://developers.google.com/maps/documentation/javascript/reference#Data.Polygon)
  */
 export class DataPolygon extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  componentWillMount() {
+    const { mapContext } = this.context;
 
     this.listeners = [];
-    this.feature = new context.mapContext.maps.Data.Feature();
-  }
+    this.feature = new mapContext.maps.Data.Feature();
 
-  componentWillMount() {
     this.updateStyles();
     this.updateGeometry();
 
-    this.context.mapContext.map.data.add(this.feature);
+    mapContext.map.data.add(this.feature);
 
     createListeners(
       DataLayerEvents,

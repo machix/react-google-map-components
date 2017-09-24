@@ -5,13 +5,9 @@ import { MapContext } from "../internal/MapContext";
 import { isEqualProps } from "../internal/Utils";
 
 export class Control extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.name = props.name;
-  }
-
   componentWillMount() {
+    this.name = this.props.name;
+
     this.setOptions(true, this.props.options);
   }
 

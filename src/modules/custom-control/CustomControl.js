@@ -30,13 +30,9 @@ import { MapContext } from "../internal/MapContext";
  * * [Custom Controls](https://developers.google.com/maps/documentation/javascript/examples/control-custom)
  */
 export class CustomControl extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.div = document.createElement("div");
-  }
-
   componentWillMount() {
+    this.div = document.createElement("div");
+
     this.mountControl();
     this.renderContent();
   }

@@ -31,18 +31,16 @@ import { createListeners, isEqualProps } from "../internal/Utils";
  * * [google.maps.drawing.DrawingManagerOptions](https://developers.google.com/maps/documentation/javascript/3.exp/reference#DrawingManagerOptions)
  */
 export class DrawingControl extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.drawingManager = new context.mapContext.maps.drawing.DrawingManager();
-  }
-
   componentWillMount() {
+    const { mapContext } = this.context;
+
     const options = this.getOptions();
-    const drawingManager = this.drawingManager;
+    const drawingManager = new mapContext.maps.drawing.DrawingManager();
+
+    this.drawingManager = drawingManager;
 
     drawingManager.setValues(options);
-    drawingManager.setMap(this.context.mapContext.map);
+    drawingManager.setMap(mapContext.map);
 
     drawingManager.addListener(DrawingControlEvents.onOverlayComplete, x => {
       x.overlay.setMap(null);
