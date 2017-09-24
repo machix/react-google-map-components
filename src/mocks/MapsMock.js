@@ -188,6 +188,7 @@ export function createMapsMock() {
 
     Marker: jest.fn(function GoogleMapsPolyline() {
       this.setMap = jest.fn();
+      this.setIcon = jest.fn();
       this.setValues = jest.fn();
       this.setPosition = jest.fn();
 
