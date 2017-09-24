@@ -5,7 +5,7 @@ import fpPick from "lodash/fp/pick";
 
 import { MapContext } from "../internal/MapContext";
 import GenericEvents from "../internal/GenericEvents";
-import { createListeners, getChangedProps } from "../internal/Utils";
+import { createListeners } from "../internal/Utils";
 
 const pickProps = fpPick([
   "path",
@@ -43,18 +43,16 @@ const pickProps = fpPick([
  * * [google.maps.PolylineOptions](https://developers.google.com/maps/documentation/javascript/reference#PolylineOptions)
  */
 export class Polyline extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  componentWillMount() {
+    const { mapContext } = this.context;
 
-    this.polyline = new context.mapContext.maps.Polyline();
-  }
-
-  componentDidMount() {
-    const polyline = this.polyline;
+    const polyline = new mapContext.maps.Polyline();
     const options = pickProps(this.props);
 
+    this.polyline = polyline;
+
     polyline.setValues(options);
-    polyline.setMap(this.context.mapContext.map);
+    polyline.setMap(mapContext.map);
 
     polyline.addListener(GenericEvents.onDragEnd, event => {
       // eslint-disable-next-line no-param-reassign
@@ -71,9 +69,8 @@ export class Polyline extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
-    const diff = getChangedProps(prevProps, this.props);
-    const options = pickProps(diff);
+  componentWillUpdate(nextProps) {
+    const options = pickProps(nextProps);
 
     this.polyline.setValues(options);
   }
