@@ -16,7 +16,6 @@ const pickProps = fpPick([
   "clickable",
   "draggable",
   "crossOnDrag",
-  "anchorPoint",
   "animation",
   "cursor",
   "icon",
@@ -103,14 +102,6 @@ export class Marker extends React.Component {
       delete options.icon;
     }
 
-    if (options.position) {
-      options.position = mapContext.createLatLng(options.position);
-    }
-
-    if (options.anchorPoint) {
-      options.anchorPoint = mapContext.createPoint(options.anchorPoint);
-    }
-
     return options;
   }
 
@@ -130,6 +121,7 @@ Marker.contextTypes = {
 Marker.defaultProps = {
   visible: true,
   clickable: true,
+  optimized: true,
   draggable: false,
   crossOnDrag: true,
   animation: "NONE",
@@ -182,20 +174,6 @@ if (process.env.NODE_ENV !== "production") {
     //
 
     /**
-     * The offset from the marker's position to the tip of an InfoWindow that has been opened with the marker as anchor.
-     */
-    anchorPoint: PropTypes.shape({
-      /**
-       * The X coordinate.
-       */
-      x: PropTypes.number.isRequired,
-      /**
-       * The Y coordinate.
-       */
-      y: PropTypes.number.isRequired,
-    }),
-
-    /**
      * Which animation to play when marker is added to a map.
      */
     animation: PropTypes.oneOf(["NONE", "BOUNCE", "DROP"]),
@@ -207,7 +185,6 @@ if (process.env.NODE_ENV !== "production") {
 
     /**
      * Icon for the foreground.
-     * If a string is provided, it is treated as though it were an `Icon` with the string as `url`.
      */
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 
@@ -260,24 +237,16 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * Optimization renders many markers as a single static element.
      *
-     * Optimized rendering is enabled by default.
-     *
-     * Disable optimized rendering for animated GIFs or PNGs, or when each marker must
-     * be rendered as a separate DOM element (advanced usage only).
+     * Disable optimized rendering for animated GIFs or PNGs,
+     * or when each marker must be rendered as a separate DOM element
+     * (advanced usage only).
      */
     optimized: PropTypes.bool,
 
     /**
-     * Optimization renders many markers as a single static element. Optimized rendering is enabled by default.
-     * Disable optimized rendering for animated GIFs or PNGs,
-     * or when each marker must be rendered as a separate DOM element (advanced usage only).
+     * Image map region definition used for drag/click.
      *
-     * The coordinates depend on the value of type as follows:
-     * * `circle`: coords is `[x1, y1, r]` where x1,y2 are the coordinates of the center of the circle, and r is the radius of the circle.
-     * * `poly`: coords is `[x1,y1,x2,y2...xn,yn]` where each x,y pair contains the coordinates of one vertex of the polygon.
-     * * `rect`: coords is `[x1,y1,x2,y2]` where x1,y1 are the coordinates of the upper-left corner of the rectangle and x2,y2 are the coordinates of the lower-right coordinates of the rectangle.
-     *
-     * See also: [Image maps coordinates specification](http://www.w3.org/TR/REC-html40/struct/objects.html#adef-coords)
+     * See also: [google.maps.MarkerShape](https://developers.google.com/maps/documentation/javascript/3.exp/reference#MarkerShape)
      */
     shape: PropTypes.shape({
       /**
