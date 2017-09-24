@@ -82,9 +82,12 @@ export class Marker extends React.Component {
 
   componentDidUpdate(prevProps) {
     const diff = getChangedProps(prevProps, this.props);
-    const options = this.getOptions(diff);
 
-    this.marker.setValues(options);
+    if (diff) {
+      const options = this.getOptions(diff);
+
+      this.marker.setValues(options);
+    }
   }
 
   componentWillUnmount() {

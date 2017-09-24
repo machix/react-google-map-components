@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import size from "lodash/size";
+
 import fpPick from "lodash/fp/pick";
+
 import GoogleMapEvents from "./GoogleMapEvents";
 import { MapContext } from "../internal/MapContext";
 import { createListeners, getChangedProps } from "../internal/Utils";
@@ -74,7 +75,7 @@ export class GoogleMap extends React.Component {
     const nextOptions = this.getOptions(this.props);
     const options = getChangedProps(prevOptions, nextOptions);
 
-    if (size(options) > 0) {
+    if (options) {
       this.map.setValues(options);
     }
   }

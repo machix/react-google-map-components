@@ -22,14 +22,18 @@ export const getChangedProps = (prev, next) => {
   const prevKeys = keys(prev);
   const nextKeys = keys(next);
   const allKeys = union(prevKeys, nextKeys);
+  let hasDiff = false;
+  const diff = {};
 
-  return allKeys.reduce((acc, key) => {
+  allKeys.forEach(key => {
     if (!isEqualProps(prev[key], next[key])) {
-      acc[key] = next[key];
-    }
+      hasDiff = true;
 
-    return acc;
+      diff[key] = next[key];
+    }
   }, {});
+
+  return hasDiff ? diff : null;
 };
 
 export const createListener = getHandler => x => {
