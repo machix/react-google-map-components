@@ -115,31 +115,6 @@ describe("Utils", () => {
           expect(() => listener({ foo: "bar" })).not.toThrow();
         }
       });
-
-      // const listener = createListener(getHandler);
-      //
-      // expect(listener).toBeInstanceOf(Function);
-      // expect(getHandler).toHaveBeenCalledTimes(0);
-      // expect(handler).toHaveBeenCalledTimes(0);
-      //
-      // listener({ foo: "bar" });
-      //
-      // expect(getHandler).toHaveBeenCalledTimes(1);
-      // expect(handler).toHaveBeenCalledTimes(1);
-      // expect(handler).toHaveBeenLastCalledWith({ foo: "bar" });
     });
-
-    // it("should create function without handler", () => {
-    //   const getHandler = jest.fn();
-    //
-    //   const listener = createListener(getHandler);
-    //
-    //   expect(listener).toBeInstanceOf(Function);
-    //   expect(getHandler).toHaveBeenCalledTimes(0);
-    //
-    //   listener({ foo: "bar" });
-    //
-    //   expect(getHandler).toHaveBeenCalledTimes(1);
-    // });
   });
 });
