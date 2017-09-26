@@ -25,8 +25,7 @@ npm install --save react-google-map-components
 
 ## WIP Alert
 
-1. Not all Google Map components are ported (See [#1](https://github.com/umidbekkarimov/react-google-map-components/issues/1)).
-2. Low code coverage (See [codecov](https://codecov.io/gh/umidbekkarimov/react-google-map-components)). 
+Not all Google Map components are ported (See [#1](https://github.com/umidbekkarimov/react-google-map-components/issues/1)).
 
 ## Usage
 
