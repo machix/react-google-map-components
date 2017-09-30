@@ -36,6 +36,7 @@ import {
   GoogleMap,
   Polyline,
   FitBounds,
+  ZoomControl,
   CustomControl,
 } from "react-google-map-components";
 
@@ -48,6 +49,8 @@ export default class DirectionMap extends React.Component {
 
     return (
       <GoogleMap zoom={9} maps={maps} style={style} center={center}>
+        <ZoomControl />
+
         <FitBounds latLngBounds={path} />
 
         <Polyline path={path} strokeOpacity={0.3} />
