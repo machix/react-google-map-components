@@ -28,9 +28,10 @@ describe("DataPolygon", () => {
     expect(mapContext.map.data.add).toHaveBeenLastCalledWith(feature);
 
     expect(mapContext.map.data.overrideStyle).toHaveBeenCalledTimes(1);
-    expect(
-      mapContext.map.data.overrideStyle,
-    ).toHaveBeenLastCalledWith(feature, { clickable: true });
+    expect(mapContext.map.data.overrideStyle).toHaveBeenLastCalledWith(
+      feature,
+      { clickable: true },
+    );
   });
 
   it("should apply default styles to feature on mount", () => {
@@ -43,9 +44,10 @@ describe("DataPolygon", () => {
     const feature = mapContext.maps.Data.Feature.mock.instances[0];
 
     expect(mapContext.map.data.overrideStyle).toHaveBeenCalledTimes(1);
-    expect(
-      mapContext.map.data.overrideStyle,
-    ).toHaveBeenLastCalledWith(feature, { clickable: true });
+    expect(mapContext.map.data.overrideStyle).toHaveBeenLastCalledWith(
+      feature,
+      { clickable: true },
+    );
   });
 
   it("should apply custom styles to feature on mount", () => {
@@ -67,16 +69,17 @@ describe("DataPolygon", () => {
     const feature = mapContext.maps.Data.Feature.mock.instances[0];
 
     expect(mapContext.map.data.overrideStyle).toHaveBeenCalledTimes(1);
-    expect(
-      mapContext.map.data.overrideStyle,
-    ).toHaveBeenLastCalledWith(feature, {
-      clickable: false,
-      fillColor: "#000000",
-      fillOpacity: 0.4,
-      strokeColor: "#000000",
-      strokeOpacity: 1,
-      strokeWeight: 3,
-    });
+    expect(mapContext.map.data.overrideStyle).toHaveBeenLastCalledWith(
+      feature,
+      {
+        clickable: false,
+        fillColor: "#000000",
+        fillOpacity: 0.4,
+        strokeColor: "#000000",
+        strokeOpacity: 1,
+        strokeWeight: 3,
+      },
+    );
   });
 
   it("should set polygon to feature on mount", () => {
@@ -148,9 +151,10 @@ describe("DataPolygon", () => {
     const feature = mapContext.maps.Data.Feature.mock.instances[0];
 
     expect(mapContext.map.data.overrideStyle).toHaveBeenCalledTimes(1);
-    expect(
-      mapContext.map.data.overrideStyle,
-    ).toHaveBeenLastCalledWith(feature, { clickable: true });
+    expect(mapContext.map.data.overrideStyle).toHaveBeenLastCalledWith(
+      feature,
+      { clickable: true },
+    );
 
     wrapper.setProps({
       clickable: false,
@@ -162,16 +166,17 @@ describe("DataPolygon", () => {
     });
 
     expect(mapContext.map.data.overrideStyle).toHaveBeenCalledTimes(2);
-    expect(
-      mapContext.map.data.overrideStyle,
-    ).toHaveBeenLastCalledWith(feature, {
-      clickable: false,
-      fillColor: "#000000",
-      fillOpacity: 0.4,
-      strokeColor: "#000000",
-      strokeOpacity: 1,
-      strokeWeight: 3,
-    });
+    expect(mapContext.map.data.overrideStyle).toHaveBeenLastCalledWith(
+      feature,
+      {
+        clickable: false,
+        fillColor: "#000000",
+        fillOpacity: 0.4,
+        strokeColor: "#000000",
+        strokeOpacity: 1,
+        strokeWeight: 3,
+      },
+    );
   });
 
   it("should create new polygon on geometry update", () => {
