@@ -9,6 +9,11 @@
   "repository": "https://github.com/umidbekkarimov/react-google-map-components.git",
   "author": "Umidbek Karimov <uma.karimov@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "maps",
+    "google-maps"
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "run-s build:*",
