@@ -137,20 +137,16 @@ describe("CustomControl", () => {
 
     const { TOP_LEFT } = mapContext.map.controls;
 
-    const portal1 = wrapper.find(Portal);
+    const portal = wrapper.find(Portal);
 
-    expect(portal1.length).toBe(1);
-    expect(portal1.prop("node")).toBeTruthy();
-    expect(portal1.prop("children")).toEqual(<div>Foo</div>);
+    expect(portal.length).toBe(1);
+    expect(portal.prop("node")).toBeTruthy();
+    expect(portal.prop("children")).toEqual(<div>Foo</div>);
 
     expect(TOP_LEFT.push).toHaveBeenCalledTimes(1);
-    expect(TOP_LEFT.push).toHaveBeenLastCalledWith(portal1.prop("node"));
+    expect(TOP_LEFT.push).toHaveBeenLastCalledWith(portal.prop("node"));
 
     wrapper.unmount();
-
-    const portal2 = wrapper.find(Portal);
-
-    expect(portal2.length).toBe(0);
 
     expect(TOP_LEFT.push).toHaveBeenCalledTimes(1);
     expect(TOP_LEFT.removeAt).toHaveBeenCalledTimes(1);
@@ -203,22 +199,18 @@ describe("CustomControl", () => {
 
     const { TOP_LEFT } = mapContext.map.controls;
 
-    const portal1 = wrapper.find(Portal);
+    const portal = wrapper.find(Portal);
 
-    expect(portal1.length).toBe(1);
-    expect(portal1.prop("node")).toBeTruthy();
-    expect(portal1.prop("children")).toEqual(<div>Foo</div>);
+    expect(portal.length).toBe(1);
+    expect(portal.prop("node")).toBeTruthy();
+    expect(portal.prop("children")).toEqual(<div>Foo</div>);
 
     expect(TOP_LEFT.push).toHaveBeenCalledTimes(1);
-    expect(TOP_LEFT.push).toHaveBeenLastCalledWith(portal1.prop("node"));
+    expect(TOP_LEFT.push).toHaveBeenLastCalledWith(portal.prop("node"));
 
     TOP_LEFT.removeAt(0);
 
     wrapper.unmount();
-
-    const portal2 = wrapper.find(Portal);
-
-    expect(portal2.length).toBe(0);
 
     expect(TOP_LEFT.push).toHaveBeenCalledTimes(1);
     expect(TOP_LEFT.removeAt).toHaveBeenCalledTimes(1);
