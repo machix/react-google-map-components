@@ -1,10 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
 import fpPick from "lodash/fp/pick";
 
 import InfoWindowEvents from "./InfoWindowEvents";
+
+import { Portal } from "../internal/Portal";
 import { MapContext } from "../internal/MapContext";
 import { createListeners, isEqualProps } from "../internal/Utils";
 
@@ -94,8 +95,6 @@ export class InfoWindow extends React.Component {
   componentWillUnmount() {
     this.infoWindow.close();
     this.context.mapContext.maps.event.clearInstanceListeners(this.infoWindow);
-
-    ReactDOM.unmountComponentAtNode(this.div);
   }
 
   getOptions(props = this.props) {
@@ -111,19 +110,9 @@ export class InfoWindow extends React.Component {
   }
 
   updateContent({ children } = this.props) {
-    if (React.isValidElement(children)) {
-      // First need to render content in to the div.
-      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
-
-      // And only after this set div as new content.
-      this.infoWindow.setContent(this.div);
-    } else {
-      // First need to update content.
-      this.infoWindow.setContent(children);
-
-      // And only after this cleanup div.
-      ReactDOM.unmountComponentAtNode(this.div);
-    }
+    this.infoWindow.setContent(
+      React.isValidElement(children) ? this.div : children,
+    );
   }
 
   updateVisibility({ open } = this.props) {
@@ -135,7 +124,10 @@ export class InfoWindow extends React.Component {
   }
 
   render() {
-    return null;
+    const { open, children } = this.props;
+    return !open || !React.isValidElement(children) ? null : (
+      <Portal node={this.div}>{children}</Portal>
+    );
   }
 }
 

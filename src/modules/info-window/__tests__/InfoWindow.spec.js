@@ -5,6 +5,7 @@ import { InfoWindow } from "../InfoWindow";
 import { MapContext } from "../../internal/MapContext";
 import { createMapsMock } from "../../../mocks/MapsMock";
 import InfoWindowEvents from "../InfoWindowEvents";
+import { Portal } from "../../internal/Portal";
 
 describe("InfoWindow", () => {
   let mapContext;
@@ -155,12 +156,10 @@ describe("InfoWindow", () => {
     expect(infoWindow.setContent).toHaveBeenLastCalledWith("Bar");
   });
 
-  it("should render react element", () => {
-    let node1 = null;
-
+  it("should render react portal if child is react element", () => {
     const wrapper = shallow(
       <InfoWindow position={{ lat: 0, lng: 1 }}>
-        <div ref={x => (node1 = x)}>Foo</div>
+        <div>Foo</div>
       </InfoWindow>,
       { context: { mapContext } },
     );
@@ -169,23 +168,66 @@ describe("InfoWindow", () => {
 
     const infoWindow = mapContext.maps.InfoWindow.mock.instances[0];
 
-    expect(node1).toBeTruthy();
-    expect(node1.outerHTML).toBe('<div data-reactroot="">Foo</div>');
+    const portal1 = wrapper.find(Portal);
+
+    expect(portal1.length).toBe(1);
+    expect(portal1.prop("children")).toEqual(<div>Foo</div>);
 
     expect(infoWindow.setContent).toHaveBeenCalledTimes(1);
-    expect(infoWindow.setContent).toHaveBeenLastCalledWith(node1.parentNode);
+    expect(infoWindow.setContent).toHaveBeenLastCalledWith(
+      portal1.prop("node"),
+    );
 
-    let node2 = null;
+    wrapper.setProps({ children: <div>Bar</div> });
 
-    wrapper.setProps({ children: <div ref={x => (node2 = x)}>Bar</div> });
+    const portal2 = wrapper.find(Portal);
 
-    expect(node1).toBeNull();
-
-    expect(node2).toBeTruthy();
-    expect(node2.outerHTML).toBe('<div data-reactroot="">Bar</div>');
+    expect(portal2.length).toBe(1);
+    expect(portal2.prop("children")).toEqual(<div>Bar</div>);
 
     expect(infoWindow.setContent).toHaveBeenCalledTimes(2);
-    expect(infoWindow.setContent).toHaveBeenLastCalledWith(node2.parentNode);
+    expect(infoWindow.setContent).toHaveBeenLastCalledWith(
+      portal2.prop("node"),
+    );
+  });
+
+  it("should unmount portal on close", () => {
+    const wrapper = shallow(
+      <InfoWindow position={{ lat: 0, lng: 1 }}>
+        <div>Foo</div>
+      </InfoWindow>,
+      { context: { mapContext } },
+    );
+
+    expect(mapContext.maps.InfoWindow).toHaveBeenCalledTimes(1);
+
+    const infoWindow = mapContext.maps.InfoWindow.mock.instances[0];
+
+    const portal1 = wrapper.find(Portal);
+
+    expect(portal1.length).toBe(1);
+    expect(portal1.prop("children")).toEqual(<div>Foo</div>);
+
+    expect(infoWindow.setContent).toHaveBeenCalledTimes(1);
+    expect(infoWindow.setContent).toHaveBeenLastCalledWith(
+      portal1.prop("node"),
+    );
+
+    wrapper.setProps({ open: false });
+
+    const portal2 = wrapper.find(Portal);
+
+    expect(portal2.length).toBe(0);
+    expect(infoWindow.setContent).toHaveBeenCalledTimes(1);
+
+    wrapper.setProps({ open: true });
+
+    const portal3 = wrapper.find(Portal);
+
+    expect(portal3.length).toBe(1);
+    expect(portal3.prop("children")).toEqual(<div>Foo</div>);
+
+    expect(infoWindow.setContent).toHaveBeenCalledTimes(1);
   });
 
   it("should control visibility with open prop", () => {
@@ -369,20 +411,14 @@ describe("InfoWindow", () => {
   });
 
   it("should cleanup resources on unmount", () => {
-    let node = null;
-
     const wrapper = shallow(
-      <InfoWindow position={{ lat: 0, lng: 1 }}>
-        <div ref={x => (node = x)}>Foo</div>
-      </InfoWindow>,
+      <InfoWindow position={{ lat: 0, lng: 1 }}>Foo</InfoWindow>,
       { context: { mapContext } },
     );
 
     expect(mapContext.maps.InfoWindow).toHaveBeenCalledTimes(1);
 
     const infoWindow = mapContext.maps.InfoWindow.mock.instances[0];
-
-    expect(node).toBeTruthy();
 
     expect(infoWindow.open).toHaveBeenCalledTimes(1);
     expect(infoWindow.open).toHaveBeenLastCalledWith(mapContext.map);
@@ -391,9 +427,7 @@ describe("InfoWindow", () => {
 
     wrapper.unmount();
 
-    expect(node).toBeNull();
     expect(infoWindow.close).toHaveBeenCalledTimes(1);
-
     expect(mapContext.maps.event.clearInstanceListeners).toHaveBeenCalledTimes(
       1,
     );
