@@ -1,7 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
+import { Portal } from "../internal/Portal";
 import { MapContext } from "../internal/MapContext";
 
 /**
@@ -34,7 +34,6 @@ export class CustomControl extends React.Component {
     this.div = document.createElement("div");
 
     this.mountControl();
-    this.renderContent();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -51,13 +50,10 @@ export class CustomControl extends React.Component {
       // And only after that we can add control to new position.
       this.mountControl(nextProps);
     }
-
-    this.renderContent(nextProps);
   }
 
   componentWillUnmount() {
     this.unmountControl();
-    ReactDOM.unmountComponentAtNode(this.div);
   }
 
   getControls({ position } = this.props) {
@@ -92,19 +88,12 @@ export class CustomControl extends React.Component {
     }
   }
 
-  renderContent(props = this.props) {
-    const { children } = props;
-    const controls = this.getControls(props);
-
-    if (controls && React.isValidElement(children)) {
-      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.div);
-    } else {
-      ReactDOM.unmountComponentAtNode(this.div);
-    }
-  }
-
   render() {
-    return null;
+    const controls = this.getControls();
+
+    return !controls ? null : (
+      <Portal node={this.div}>{this.props.children}</Portal>
+    );
   }
 }
 
