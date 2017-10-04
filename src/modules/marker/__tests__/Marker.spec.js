@@ -1,11 +1,13 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 
 import { Marker } from "../Marker";
-import { MapContext } from "../../internal/MapContext";
-import { createMapsMock } from "../../../mocks/MapsMock";
-import GenericEvents from "../../internal/GenericEvents";
 import MarkerEvents from "../MarkerEvents";
+import { MarkerContext } from "../MarkerContext";
+
+import { MapContext } from "../../internal/MapContext";
+import GenericEvents from "../../internal/GenericEvents";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("Marker", () => {
   let mapContext;
@@ -136,6 +138,31 @@ describe("Marker", () => {
 
     expect(divWrapper.length).toBe(1);
     expect(divWrapper.text()).toBe("Foo");
+  });
+
+  it("should pass context to children", () => {
+    // eslint-disable-next-line react/prefer-stateless-function
+    class Foo extends React.Component {
+      static contextTypes = {
+        markerContext: () => {},
+      };
+
+      render() {
+        return <div>Foo</div>;
+      }
+    }
+
+    const wrapper = mount(
+      <Marker position={{ lat: 0, lng: 1 }} icon={<Foo />} />,
+      { context: { mapContext } },
+    );
+
+    const fooWrapper = wrapper.find(Foo);
+
+    expect(fooWrapper.length).toBe(1);
+    expect(fooWrapper.instance().context.markerContext).toBeInstanceOf(
+      MarkerContext,
+    );
   });
 
   it("should reset position on drag end", () => {
