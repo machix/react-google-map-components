@@ -19,6 +19,7 @@
     "build": "run-s build:*",
     "all": "run-s format lint cover build",
     "test": "react-scripts test --env=jsdom",
+    "test:react-15": "cross-env REACT_VERSION=15 yarn test",
     "cover": "yarn test -- --coverage",
     "codecov": "codecov -f coverage/lcov.info",
     "report": "yarn cover && opener coverage/lcov-report/index.html",
@@ -49,7 +50,9 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta",
     "codecov": "^2.3.0",
+    "cross-env": "^5.0.5",
     "enzyme": "^3.1.0",
+    "enzyme-adapter-react-15": "^1.0.1",
     "enzyme-adapter-react-16": "^1.0.1",
     "eslint": "^4.5.0",
     "eslint-config-airbnb": "^15.1.0",
@@ -58,6 +61,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.3.0",
+    "mock-require": "^2.0.2",
     "npm-run-all": "^4.1.1",
     "opener": "^1.4.3",
     "prettier": "^1.7.0",
@@ -66,13 +70,16 @@
     "raf": "^3.4.0",
     "raw-loader": "^0.5.1",
     "react": "^16.0.0",
+    "react-15": "npm:react@15",
     "react-docgen": "^2.18.0",
     "react-docgen-loader": "^2.9.1",
     "react-dom": "^16.0.0",
+    "react-dom-15": "npm:react-dom@15",
     "react-markdown": "^2.5.0",
     "react-motion": "^0.5.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.13",
-    "react-test-renderer": "^16.0.0"
+    "react-test-renderer": "^16.0.0",
+    "react-test-renderer-15": "npm:react-test-renderer@15"
   }
 }

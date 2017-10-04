@@ -10,6 +10,7 @@ node_js:
 
 script:
 - yarn lint
+- yarn test:react-15
 - yarn cover -- --no-cache --ci
 - yarn build
 

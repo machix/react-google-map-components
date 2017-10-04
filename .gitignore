@@ -1,6 +1,6 @@
-es
-lib
-build
+/es
+/lib
+/build
 
 # Logs
 logs
