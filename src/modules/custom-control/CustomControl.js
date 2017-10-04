@@ -107,7 +107,7 @@ if (process.env.NODE_ENV !== "production") {
     /**
      * Content of control.
      */
-    children: PropTypes.node.isRequired,
+    children: PropTypes.element.isRequired,
 
     /**
      * Position id.
