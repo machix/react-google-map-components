@@ -1,6 +1,6 @@
 {
   "name": "react-google-map-components",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Declarative React Google Map Components",
   "main": "lib/index.js",
   "module": "es/index.js",
