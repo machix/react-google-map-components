@@ -12,6 +12,4 @@ module.exports = {
 
     "react",
   ],
-
-  plugins: ["dev-expression"],
 };
