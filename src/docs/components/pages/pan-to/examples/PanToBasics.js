@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
-import { PanTo } from "../../../../../modules/animations/PanTo";
 import { Marker } from "../../../../../modules/marker/Marker";
+import { PanTo } from "../../../../../modules/animations/PanTo";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 
 export const pageName = "Basic Example";
 

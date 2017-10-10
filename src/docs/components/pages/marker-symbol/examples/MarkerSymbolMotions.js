@@ -1,17 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Motion, spring } from "react-motion";
-
+import { spring, Motion } from "react-motion";
 import fpGet from "lodash/fp/get";
 import fpFlow from "lodash/fp/flow";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
-import { Polyline } from "../../../../../modules/polyline/Polyline";
-import { CustomControl } from "../../../../../modules/custom-control/CustomControl";
 import { Marker } from "../../../../../modules/marker/Marker";
 import { MarkerSymbol } from "../../../../../modules/marker/MarkerSymbol";
-
-import Car from "./assets/car.json";
+import { Polyline } from "../../../../../modules/polyline/Polyline";
 import { FitBounds } from "../../../../../modules/animations/FitBounds";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
+import { CustomControl } from "../../../../../modules/custom-control/CustomControl";
+import Car from "./assets/car.json";
 
 export const pageName = "React-Motion Example";
 

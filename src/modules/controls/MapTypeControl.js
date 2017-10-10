@@ -1,8 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import map from "lodash/map";
-
+import PropTypes from "prop-types";
 import { Control } from "./Control";
 import { MapContext } from "../internal/MapContext";
 

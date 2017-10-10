@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { Marker } from "../../../../../modules/marker/Marker";
-
-import Car from "./assets/car.json";
 import { MarkerSymbol } from "../../../../../modules/marker/MarkerSymbol";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
+import Car from "./assets/car.json";
 
 export const pageName = "Basic Example";
 

@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import fpGet from "lodash/fp/get";
 import fpFlow from "lodash/fp/flow";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
 import { Polyline } from "../../../../../modules/polyline/Polyline";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 
 export const pageName = "Complex Example";
 

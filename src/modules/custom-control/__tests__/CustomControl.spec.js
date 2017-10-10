@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import { CustomControl } from "../CustomControl";
+import { Portal } from "../../internal/Portal";
 import { MapContext } from "../../internal/MapContext";
 import { createMapsMock } from "../../../mocks/MapsMock";
-import { Portal } from "../../internal/Portal";
 
 describe("CustomControl", () => {
   let mapContext;

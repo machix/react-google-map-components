@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { ScaleControl } from "../../../../../modules/controls/ScaleControl";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 
 export const pageName = "Basic Example";
 

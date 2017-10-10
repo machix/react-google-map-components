@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import fpPick from "lodash/fp/pick";
-
 import InfoWindowEvents from "./InfoWindowEvents";
-
+import { isEqualProps, createListeners } from "../internal/Utils";
 import { Portal } from "../internal/Portal";
 import { MapContext } from "../internal/MapContext";
-import { createListeners, isEqualProps } from "../internal/Utils";
 
 const pickProps = fpPick([
   "position",

@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import { Polyline } from "../Polyline";
 import { MapContext } from "../../internal/MapContext";
-import { createMapsMock } from "../../../mocks/MapsMock";
 import GenericEvents from "../../internal/GenericEvents";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("Polyline", () => {
   let mapContext;

@@ -1,12 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import map from "lodash/map";
-
+import PropTypes from "prop-types";
 import DrawingControlEvents from "./DrawingControlEvents";
-
+import { isEqualProps, createListeners } from "../internal/Utils";
 import { MapContext } from "../internal/MapContext";
-import { createListeners, isEqualProps } from "../internal/Utils";
 
 /**
  * Controls display options of `google.maps.drawing.DrawingManager` control.

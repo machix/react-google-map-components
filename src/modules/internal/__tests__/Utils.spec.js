@@ -1,9 +1,9 @@
 import React from "react";
 import {
+  isEqualProps,
   createListener,
   createListeners,
   getChangedProps,
-  isEqualProps,
 } from "../Utils";
 
 describe("Utils", () => {

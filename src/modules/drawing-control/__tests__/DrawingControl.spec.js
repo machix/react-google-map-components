@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import { DrawingControl } from "../DrawingControl";
+import DrawingControlEvents from "../DrawingControlEvents";
 import { MapContext } from "../../internal/MapContext";
 import { createMapsMock } from "../../../mocks/MapsMock";
-import DrawingControlEvents from "../DrawingControlEvents";
 
 describe("DrawingControl", () => {
   let mapContext;

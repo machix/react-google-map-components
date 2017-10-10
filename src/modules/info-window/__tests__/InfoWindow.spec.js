@@ -1,11 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import { InfoWindow } from "../InfoWindow";
-import { MapContext } from "../../internal/MapContext";
-import { createMapsMock } from "../../../mocks/MapsMock";
 import InfoWindowEvents from "../InfoWindowEvents";
 import { Portal } from "../../internal/Portal";
+import { MapContext } from "../../internal/MapContext";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("InfoWindow", () => {
   let mapContext;

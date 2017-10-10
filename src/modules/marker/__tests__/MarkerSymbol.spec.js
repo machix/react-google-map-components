@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { MapContext } from "../../internal/MapContext";
-import { createMapsMock } from "../../../mocks/MapsMock";
 import { MarkerSymbol } from "../MarkerSymbol";
 import { MarkerContext } from "../MarkerContext";
+import { MapContext } from "../../internal/MapContext";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("MarkerSymbol", () => {
   let mapContext;

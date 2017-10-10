@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import fpGet from "lodash/fp/get";
 import fpFlow from "lodash/fp/flow";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { Polyline } from "../../../../../modules/polyline/Polyline";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { CustomControl } from "../../../../../modules/custom-control/CustomControl";
 
 export const pageName = "Range Slider Example";

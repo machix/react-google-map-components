@@ -1,9 +1,8 @@
 import React from "react";
 import { mount } from "enzyme";
-
 import { GoogleMap } from "../GoogleMap";
-import { createMapsMock } from "../../../mocks/MapsMock";
 import GoogleMapEvents from "../GoogleMapEvents";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("GoogleMap", () => {
   let maps;

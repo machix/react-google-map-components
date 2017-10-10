@@ -1,26 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import "./App.css";
-import GoogleMapSection from "../pages/google-map/GoogleMapSection";
-import FullscreenControlSection from "../pages/fullscreen-control/FullscreenControlSection";
-import MapTypeControlSection from "../pages/map-type-control/MapTypeControlSection";
-import RotateControlSection from "../pages/rotate-control/RotateControlSection";
-import ScaleControlSection from "../pages/scale-control/ScaleControlSection";
-import StreetViewControlSection from "../pages/street-view-control/StreetViewControlSection";
-import ZoomControlSection from "../pages/zoom-control/ZoomControlSection";
-import CustomControlSection from "../pages/custom-control/CustomControlSection";
-import FitBoundsSection from "../pages/fit-bounds/FitBoundsSection";
+import MarkerSection from "../pages/marker/MarkerSection";
 import PanBySection from "../pages/pan-by/PanBySection";
 import PanToSection from "../pages/pan-to/PanToSection";
-import PanToBoundsSection from "../pages/pan-to-bounds/PanToBoundsSection";
-import MarkerSection from "../pages/marker/MarkerSection";
-import MarkerIconSection from "../pages/marker-icon/MarkerIconSection";
-import InfoWindowSection from "../pages/info-window/InfoWindowSection";
 import PolylineSection from "../pages/polyline/PolylineSection";
+import FitBoundsSection from "../pages/fit-bounds/FitBoundsSection";
+import GoogleMapSection from "../pages/google-map/GoogleMapSection";
+import InfoWindowSection from "../pages/info-window/InfoWindowSection";
+import MarkerIconSection from "../pages/marker-icon/MarkerIconSection";
 import DataPolygonSection from "../pages/data-polygon/DataPolygonSection";
-import DrawingControlSection from "../pages/drawing-control/DrawingControlSection";
+import ZoomControlSection from "../pages/zoom-control/ZoomControlSection";
 import MarkerSymbolSection from "../pages/marker-symbol/MarkerSymbolSection";
+import PanToBoundsSection from "../pages/pan-to-bounds/PanToBoundsSection";
+import ScaleControlSection from "../pages/scale-control/ScaleControlSection";
+import CustomControlSection from "../pages/custom-control/CustomControlSection";
+import RotateControlSection from "../pages/rotate-control/RotateControlSection";
+import DrawingControlSection from "../pages/drawing-control/DrawingControlSection";
+import MapTypeControlSection from "../pages/map-type-control/MapTypeControlSection";
+import FullscreenControlSection from "../pages/fullscreen-control/FullscreenControlSection";
+import StreetViewControlSection from "../pages/street-view-control/StreetViewControlSection";
 
 export default class App extends React.Component {
   static childContextTypes = {

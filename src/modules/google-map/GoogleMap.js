@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import fpPick from "lodash/fp/pick";
-
 import GoogleMapEvents from "./GoogleMapEvents";
-import { MapContext } from "../internal/MapContext";
 import { createListeners, getChangedProps } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
 
 const styles = { map: { height: "100%" } };
 

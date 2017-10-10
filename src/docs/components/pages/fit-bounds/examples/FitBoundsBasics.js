@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
-import { FitBounds } from "../../../../../modules/animations/FitBounds";
 import { Marker } from "../../../../../modules/marker/Marker";
+import { FitBounds } from "../../../../../modules/animations/FitBounds";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 
 export const pageName = "Basic Example";
 

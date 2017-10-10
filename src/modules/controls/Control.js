@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { MapContext } from "../internal/MapContext";
 import { isEqualProps } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
 
 export class Control extends React.Component {
   componentWillMount() {

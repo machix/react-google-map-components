@@ -1,5 +1,5 @@
-import { createMapsMock } from "../../../mocks/MapsMock";
 import { MapContext } from "../MapContext";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("MapContext", () => {
   let map;

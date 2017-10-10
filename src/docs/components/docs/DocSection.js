@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link, NavLink, Redirect, Route } from "react-router-dom";
-
+import { Link, Route, NavLink, Redirect } from "react-router-dom";
+import "./docs.css";
 import PropsTable from "./PropsTable";
+import SourceView from "./SourceView";
 import MarkdownView from "./MarkdownView";
 import { composeUrl } from "../../utils/DocsUtils";
-import SourceView from "./SourceView";
-
-import "./docs.css";
 
 DocSection.propTypes = {
   propsDocs: PropTypes.object,

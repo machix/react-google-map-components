@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import fpPick from "lodash/fp/pick";
-
 import MarkerEvents from "./MarkerEvents";
 import { MarkerContext } from "./MarkerContext";
-
-import { MapContext } from "../internal/MapContext";
 import { createListeners, getChangedProps } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
 
 const pickProps = fpPick([
   "position",

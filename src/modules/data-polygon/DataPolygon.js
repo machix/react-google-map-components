@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import fpPick from "lodash/fp/pick";
 import isEqual from "lodash/isEqual";
-
-import DataLayerEvents from "../data-layer/DataLayerEvents";
-
-import { MapContext } from "../internal/MapContext";
+import fpPick from "lodash/fp/pick";
 import { createListeners } from "../internal/Utils";
+import { MapContext } from "../internal/MapContext";
+import DataLayerEvents from "../data-layer/DataLayerEvents";
 
 const pickStyles = fpPick([
   "clickable",

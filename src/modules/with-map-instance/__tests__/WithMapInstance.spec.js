@@ -1,7 +1,7 @@
-import { shallow } from "enzyme";
 import React from "react";
-import { MapContext } from "../../internal/MapContext";
+import { shallow } from "enzyme";
 import { withMapInstance } from "../WithMapInstance";
+import { MapContext } from "../../internal/MapContext";
 
 describe("withMapInstance", () => {
   const Foo = () => null;

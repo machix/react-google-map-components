@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import { DataPolygon } from "../DataPolygon";
 import { MapContext } from "../../internal/MapContext";
-import { createMapsMock } from "../../../mocks/MapsMock";
 import DataLayerEvents from "../../data-layer/DataLayerEvents";
+import { createMapsMock } from "../../../mocks/MapsMock";
 
 describe("DataPolygon", () => {
   let mapContext;

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { wrapWithHandlers } from "../../../../hocs/WrapWithHandlers";
 import { Marker } from "../../../../../modules/marker/Marker";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 
 export const pageName = "Events Example";
 

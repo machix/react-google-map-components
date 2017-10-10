@@ -1,6 +1,6 @@
 import React from "react";
-import keys from "lodash/keys";
 import PropTypes from "prop-types";
+import keys from "lodash/keys";
 
 export function wrapWithHandlers() {
   return BaseComponent => {

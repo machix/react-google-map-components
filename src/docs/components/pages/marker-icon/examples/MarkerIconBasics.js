@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
-import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
 import { Marker } from "../../../../../modules/marker/Marker";
-
-import Icon from "./assets/icon.svg";
 import { MarkerIcon } from "../../../../../modules/marker/MarkerIcon";
+import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
+import Icon from "./assets/icon.svg";
 
 export const pageName = "Basic Example";
 

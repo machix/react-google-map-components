@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import fpPick from "lodash/fp/pick";
 import isEqual from "lodash/isEqual";
-
+import fpPick from "lodash/fp/pick";
 import { MarkerContext } from "./MarkerContext";
 import { MapContext } from "../internal/MapContext";
 
