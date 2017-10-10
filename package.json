@@ -17,10 +17,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "run-s build:*",
-    "all": "run-s format lint cover build",
+    "all": "run-s format lint cover cover:react-15 build",
     "test": "react-scripts test --env=jsdom",
     "test:react-15": "cross-env REACT_VERSION=15 yarn test",
     "cover": "yarn test -- --coverage",
+    "cover:react-15": "cross-env REACT_VERSION=15 yarn cover",
     "codecov": "codecov -f coverage/lcov.info",
     "report": "yarn cover && opener coverage/lcov-report/index.html",
     "lint": "eslint \"src/**/*.js\"",
