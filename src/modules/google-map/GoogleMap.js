@@ -60,7 +60,16 @@ export class GoogleMap extends React.Component {
 
     createListeners(GoogleMapEvents, x => this.props[x]).forEach(
       ([event, listener]) => {
-        this.map.addListener(event, listener);
+        switch (event) {
+          case GoogleMapEvents.onBoundsChanged:
+            this.map.addListener(event, () =>
+              listener({ bounds: this.map.getBounds() }),
+            );
+            break;
+
+          default:
+            this.map.addListener(event, listener);
+        }
       },
     );
 
