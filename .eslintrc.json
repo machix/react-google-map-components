@@ -4,7 +4,7 @@
   "plugins": ["prettier", "sort-imports"],
   "extends": ["airbnb", "prettier", "prettier/react"],
   "rules": {
-    "sort-imports":"off",
+    "sort-imports": "off",
     "sort-imports/sort-imports": "error",
     "no-use-before-define": ["error", "nofunc"],
     "no-return-assign": "off",
@@ -19,6 +19,22 @@
     "react/no-unused-prop-types": "off",
     "react/require-default-props": "off",
     "react/jsx-filename-extension": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["a"]
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "components": ["label"],
+        "required": {
+          "some": ["nesting", "id"]
+        },
+        "allowChildren": true
+      }
+    ]
   }
 }

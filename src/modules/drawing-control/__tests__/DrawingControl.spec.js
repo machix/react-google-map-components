@@ -72,10 +72,9 @@ describe("DrawingControl", () => {
     shallow(<DrawingControl />, { context: { mapContext } });
     expect(mapContext.maps.drawing.DrawingManager).toHaveBeenCalledTimes(1);
 
-    const drawingManager =
-      mapContext.maps.drawing.DrawingManager.mock.instances[0];
-
-    const listeners = drawingManager.listeners;
+    const {
+      listeners,
+    } = mapContext.maps.drawing.DrawingManager.mock.instances[0];
 
     Object.keys(DrawingControlEvents).forEach(handler => {
       const event = DrawingControlEvents[handler];
