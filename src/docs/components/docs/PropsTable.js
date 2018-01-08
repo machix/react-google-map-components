@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import keys from "lodash/keys";
 import split from "lodash/split";
 import ReactMarkdown from "react-markdown";
+import SourceView from "./SourceView";
 
 const concat = (...args) => args.join("");
 
@@ -132,7 +133,10 @@ export default function PropsTable(props) {
               </td>
 
               <td>
-                <pre className="text-danger">{stringifyProp(info.type)}</pre>
+                <SourceView
+                  className="text-danger"
+                  source={stringifyProp(info.type)}
+                />
               </td>
 
               <td>
