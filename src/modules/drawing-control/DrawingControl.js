@@ -114,7 +114,7 @@ if (process.env.NODE_ENV !== "production") {
       "TOP_CENTER",
       "TOP_LEFT",
       "TOP_RIGHT",
-    ]).isRequired,
+    ]),
 
     /**
      * The drawing modes to display in the drawing control, in the order in
