@@ -21,6 +21,8 @@ export function createMapsMock() {
 
       this.setValues = jest.fn();
 
+      this.getBounds = jest.fn();
+
       this.listeners = {};
 
       this.emit = (event, x) => {

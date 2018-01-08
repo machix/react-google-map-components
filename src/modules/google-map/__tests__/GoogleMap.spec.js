@@ -136,7 +136,16 @@ describe("GoogleMap", () => {
         googleMap.emit(event, { event });
 
         expect(handlers[handler]).toHaveBeenCalledTimes(1);
-        expect(handlers[handler]).toHaveBeenLastCalledWith({ event });
+
+        switch (event) {
+          case GoogleMapEvents.onBoundsChanged:
+            expect(handlers[handler]).toHaveBeenLastCalledWith({
+              bounds: undefined,
+            });
+            break;
+          default:
+            expect(handlers[handler]).toHaveBeenLastCalledWith({ event });
+        }
       });
     });
   });
