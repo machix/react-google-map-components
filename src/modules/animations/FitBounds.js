@@ -64,12 +64,12 @@ if (process.env.NODE_ENV !== "production") {
     latLngBounds: PropTypes.arrayOf(
       PropTypes.shape({
         /**
-       * The latitude in degrees.
-       */
+         * The latitude in degrees.
+         */
         lat: PropTypes.number.isRequired,
         /**
-       * The longitude in degrees.
-       */
+         * The longitude in degrees.
+         */
         lng: PropTypes.number.isRequired,
       }),
     ).isRequired,

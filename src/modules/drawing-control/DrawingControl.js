@@ -43,12 +43,11 @@ export class DrawingControl extends React.Component {
       x.overlay.setMap(null);
     });
 
-    createListeners(
-      DrawingControlEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      drawingManager.addListener(event, listener);
-    });
+    createListeners(DrawingControlEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        drawingManager.addListener(event, listener);
+      },
+    );
   }
 
   componentWillUpdate(nextProps) {

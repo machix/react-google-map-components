@@ -59,12 +59,11 @@ export class InfoWindow extends React.Component {
       }
     });
 
-    createListeners(
-      InfoWindowEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      infoWindow.addListener(event, listener);
-    });
+    createListeners(InfoWindowEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        infoWindow.addListener(event, listener);
+      },
+    );
   }
 
   componentWillUpdate(nextProps) {

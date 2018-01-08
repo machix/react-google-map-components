@@ -11,13 +11,11 @@ Declarative React Google Map Components.
 
 With yarn:
 
-
 ```bash
 yarn add react-google-map-components
 ```
 
 With npm:
-
 
 ```bash
 npm install --save react-google-map-components
@@ -105,9 +103,7 @@ If you're bundling your app with Rollup or webpack and don't want to manually ch
 
 ```json
 {
-  "plugins": [
-    ["direct-import", ["react-google-map-components"]]
-  ]
+  "plugins": [["direct-import", ["react-google-map-components"]]]
 }
 ```
 

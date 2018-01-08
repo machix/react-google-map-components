@@ -66,12 +66,11 @@ export class Marker extends React.Component {
       marker.setPosition(this.props.position);
     });
 
-    createListeners(
-      MarkerEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      marker.addListener(event, listener);
-    });
+    createListeners(MarkerEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        marker.addListener(event, listener);
+      },
+    );
   }
 
   componentWillUpdate(nextProps) {

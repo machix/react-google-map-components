@@ -63,12 +63,11 @@ export class Polyline extends React.Component {
       polyline.setPath(this.props.path);
     });
 
-    createListeners(
-      GenericEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      polyline.addListener(event, listener);
-    });
+    createListeners(GenericEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        polyline.addListener(event, listener);
+      },
+    );
   }
 
   componentWillUpdate(nextProps) {

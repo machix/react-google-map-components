@@ -58,12 +58,11 @@ export class GoogleMap extends React.Component {
 
     this.map.setValues(options);
 
-    createListeners(
-      GoogleMapEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      this.map.addListener(event, listener);
-    });
+    createListeners(GoogleMapEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        this.map.addListener(event, listener);
+      },
+    );
 
     this.forceUpdate();
   }

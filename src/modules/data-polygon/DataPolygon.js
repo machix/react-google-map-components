@@ -49,12 +49,11 @@ export class DataPolygon extends React.Component {
 
     mapContext.map.data.add(this.feature);
 
-    createListeners(
-      DataLayerEvents,
-      x => this.props[x],
-    ).forEach(([event, listener]) => {
-      this.addListener(event, listener);
-    });
+    createListeners(DataLayerEvents, x => this.props[x]).forEach(
+      ([event, listener]) => {
+        this.addListener(event, listener);
+      },
+    );
   }
 
   componentWillUpdate(nextProps) {
