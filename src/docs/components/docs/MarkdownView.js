@@ -3,24 +3,10 @@ import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
 import SourceView from "./SourceView";
 
-BlockQuote.propTypes = {
-  children: PropTypes.string,
+const renderers = {
+  code: x => <SourceView source={x.value} language={x.language} />,
+  blockQuote: x => <blockquote className="blockquote">{x.children}</blockquote>,
 };
-
-function BlockQuote(props) {
-  return <blockquote className="blockquote">{props.children}</blockquote>;
-}
-
-CodeBlock.propTypes = {
-  literal: PropTypes.string,
-  language: PropTypes.string,
-};
-
-function CodeBlock(props) {
-  return <SourceView source={props.literal} language={props.language} />;
-}
-
-const renderers = { CodeBlock, BlockQuote };
 
 MarkdownView.propTypes = {
   source: PropTypes.string.isRequired,
