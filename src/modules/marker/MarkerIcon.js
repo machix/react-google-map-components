@@ -1,18 +1,11 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import isEqual from "lodash/isEqual";
-import fpPick from "lodash/fp/pick";
 import { MarkerContext } from "./MarkerContext";
 import { MapContext } from "../internal/MapContext";
 
-const pickProps = fpPick([
-  "url",
-  "anchor",
-  "labelOrigin",
-  "origin",
-  "size",
-  "scaledSize",
-]);
+const pickProps = x =>
+  _.pick(x, ["url", "anchor", "labelOrigin", "origin", "size", "scaledSize"]);
 
 /**
  * Defines icon options of `Marker` component.
@@ -51,7 +44,7 @@ export class MarkerIcon extends React.Component {
     const nextIcon = pickProps(nextProps);
     const prevIcon = pickProps(this.props);
 
-    if (!isEqual(prevIcon, nextIcon)) {
+    if (!_.isEqual(prevIcon, nextIcon)) {
       markerContext.marker.setIcon(mapContext.createIcon(nextIcon));
     }
   }

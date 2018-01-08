@@ -1,7 +1,6 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import fpGet from "lodash/fp/get";
-import fpFlow from "lodash/fp/flow";
 import { FormProps, wrapWithForm } from "../../../../hocs/WrapWithForm";
 import { Polyline } from "../../../../../modules/polyline/Polyline";
 import { GoogleMap } from "../../../../../modules/google-map/GoogleMap";
@@ -10,8 +9,8 @@ export const pageName = "Complex Example";
 
 const enhancer = wrapWithForm();
 
-const getPath = fpFlow(
-  fpGet(["routes", 0, "overview_path"]),
+const getPath = _.flow(
+  x => _.get(x, ["routes", 0, "overview_path"]),
   JSON.stringify,
   JSON.parse,
 );

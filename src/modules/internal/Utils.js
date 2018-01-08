@@ -1,8 +1,5 @@
 import React from "react";
-import keys from "lodash/keys";
-import union from "lodash/union";
-import isFunction from "lodash/isFunction";
-import isEqualWith from "lodash/isEqualWith";
+import _ from "lodash";
 
 // eslint-disable-next-line consistent-return
 const isEqualPropsCustomizer = (a, b) => {
@@ -11,17 +8,18 @@ const isEqualPropsCustomizer = (a, b) => {
     return a === b;
   }
 
-  if (a && b && isFunction(a.equals)) {
+  if (a && b && _.isFunction(a.equals)) {
     return a.equals(b);
   }
 };
 
-export const isEqualProps = (a, b) => isEqualWith(a, b, isEqualPropsCustomizer);
+export const isEqualProps = (a, b) =>
+  _.isEqualWith(a, b, isEqualPropsCustomizer);
 
 export const getChangedProps = (prev, next) => {
-  const prevKeys = keys(prev);
-  const nextKeys = keys(next);
-  const allKeys = union(prevKeys, nextKeys);
+  const prevKeys = _.keys(prev);
+  const nextKeys = _.keys(next);
+  const allKeys = _.union(prevKeys, nextKeys);
   let hasDiff = false;
   const diff = {};
 
@@ -45,7 +43,7 @@ export const createListener = getHandler => x => {
 };
 
 export const createListeners = (events, getHandler) =>
-  keys(events).map(handler => {
+  _.keys(events).map(handler => {
     const event = events[handler];
 
     return [event, createListener(() => getHandler(handler))];

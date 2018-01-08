@@ -1,5 +1,4 @@
-import get from "lodash/get";
-import has from "lodash/has";
+import _ from "lodash";
 
 export class MapContext {
   constructor(map, maps) {
@@ -76,6 +75,8 @@ export class MapContext {
   }
 
   getEnum(name, value) {
-    return has(this.maps[name], value) ? get(this.maps[name], value) : value;
+    return _.has(this.maps[name], value)
+      ? _.get(this.maps[name], value)
+      : value;
   }
 }

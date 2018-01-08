@@ -1,8 +1,6 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-
-import keys from "lodash/keys";
-import toFinite from "lodash/toFinite";
 
 export const FormProps = {
   bool: name => {
@@ -98,7 +96,7 @@ function NumberField(props) {
         name={props.name}
         value={props.value}
         className="form-control"
-        onChange={event => props.onChange(toFinite(event.target.value))}
+        onChange={event => props.onChange(_.toFinite(event.target.value))}
       />
     </div>
   );
@@ -196,7 +194,7 @@ function Field(props) {
 
 export function wrapWithForm() {
   return BaseComponent => {
-    const fields = keys(BaseComponent.propTypes).map(key => {
+    const fields = _.keys(BaseComponent.propTypes).map(key => {
       const type = BaseComponent.propTypes[key];
 
       return { key, type };

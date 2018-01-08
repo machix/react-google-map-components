@@ -1,20 +1,21 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import fpPick from "lodash/fp/pick";
 import GoogleMapEvents from "./GoogleMapEvents";
 import { createListeners, getChangedProps } from "../internal/Utils";
 import { MapContext } from "../internal/MapContext";
 
 const styles = { map: { height: "100%" } };
 
-const pickProps = fpPick([
-  "zoom",
-  "center",
-  "mapTypeId",
-  "clickableIcons",
-  "backgroundColor",
-  "disableDoubleClickZoom",
-]);
+const pickProps = x =>
+  _.pick(x, [
+    "zoom",
+    "center",
+    "mapTypeId",
+    "clickableIcons",
+    "backgroundColor",
+    "disableDoubleClickZoom",
+  ]);
 
 /**
  * Draws `google.maps.Map`.

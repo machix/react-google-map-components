@@ -1,22 +1,23 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import fpPick from "lodash/fp/pick";
 import { createListeners, getChangedProps } from "../internal/Utils";
 import { MapContext } from "../internal/MapContext";
 import GenericEvents from "../internal/GenericEvents";
 
-const pickProps = fpPick([
-  "path",
-  "icons",
-  "zIndex",
-  "visible",
-  "geodesic",
-  "clickable",
-  "draggable",
-  "strokeColor",
-  "strokeWeight",
-  "strokeOpacity",
-]);
+const pickProps = x =>
+  _.pick(x, [
+    "path",
+    "icons",
+    "zIndex",
+    "visible",
+    "geodesic",
+    "clickable",
+    "draggable",
+    "strokeColor",
+    "strokeWeight",
+    "strokeOpacity",
+  ]);
 
 /**
  * Draws `google.maps.Polyline`.

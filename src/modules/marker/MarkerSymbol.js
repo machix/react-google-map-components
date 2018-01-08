@@ -1,22 +1,22 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import isEqual from "lodash/isEqual";
-import fpPick from "lodash/fp/pick";
 import { MarkerContext } from "./MarkerContext";
 import { MapContext } from "../internal/MapContext";
 
-const pickProps = fpPick([
-  "path",
-  "rotation",
-  "scale",
-  "anchor",
-  "labelOrigin",
-  "fillColor",
-  "fillOpacity",
-  "strokeColor",
-  "strokeOpacity",
-  "strokeWeight",
-]);
+const pickProps = x =>
+  _.pick(x, [
+    "path",
+    "rotation",
+    "scale",
+    "anchor",
+    "labelOrigin",
+    "fillColor",
+    "fillOpacity",
+    "strokeColor",
+    "strokeOpacity",
+    "strokeWeight",
+  ]);
 
 /**
  * Defines icon options of `Marker` component.
@@ -55,7 +55,7 @@ export class MarkerSymbol extends React.Component {
     const nextIcon = pickProps(nextProps);
     const prevIcon = pickProps(this.props);
 
-    if (!isEqual(prevIcon, nextIcon)) {
+    if (!_.isEqual(prevIcon, nextIcon)) {
       markerContext.marker.setIcon(mapContext.createSymbol(nextIcon));
     }
   }

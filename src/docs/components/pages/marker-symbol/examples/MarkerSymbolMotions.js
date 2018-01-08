@@ -1,8 +1,7 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { spring, Motion } from "react-motion";
-import fpGet from "lodash/fp/get";
-import fpFlow from "lodash/fp/flow";
 import { Marker } from "../../../../../modules/marker/Marker";
 import { MarkerSymbol } from "../../../../../modules/marker/MarkerSymbol";
 import { Polyline } from "../../../../../modules/polyline/Polyline";
@@ -13,8 +12,8 @@ import Car from "./assets/car.json";
 
 export const pageName = "React-Motion Example";
 
-const getPath = fpFlow(
-  fpGet(["routes", 0, "overview_path"]),
+const getPath = _.flow(
+  x => _.get(x, ["routes", 0, "overview_path"]),
   JSON.stringify,
   JSON.parse,
 );

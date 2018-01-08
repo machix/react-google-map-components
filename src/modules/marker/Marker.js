@@ -1,27 +1,28 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import fpPick from "lodash/fp/pick";
 import MarkerEvents from "./MarkerEvents";
 import { MarkerContext } from "./MarkerContext";
 import { createListeners, getChangedProps } from "../internal/Utils";
 import { MapContext } from "../internal/MapContext";
 
-const pickProps = fpPick([
-  "position",
-  "title",
-  "visible",
-  "clickable",
-  "draggable",
-  "crossOnDrag",
-  "animation",
-  "cursor",
-  "icon",
-  "label",
-  "opacity",
-  "optimized",
-  "shape",
-  "zIndex",
-]);
+const pickProps = x =>
+  _.pick(x, [
+    "position",
+    "title",
+    "visible",
+    "clickable",
+    "draggable",
+    "crossOnDrag",
+    "animation",
+    "cursor",
+    "icon",
+    "label",
+    "opacity",
+    "optimized",
+    "shape",
+    "zIndex",
+  ]);
 
 /**
  * Draws `google.maps.Marker`.

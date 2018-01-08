@@ -1,18 +1,19 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import fpPick from "lodash/fp/pick";
 import InfoWindowEvents from "./InfoWindowEvents";
 import { isEqualProps, createListeners } from "../internal/Utils";
 import { Portal } from "../internal/Portal";
 import { MapContext } from "../internal/MapContext";
 
-const pickProps = fpPick([
-  "position",
-  "maxWidth",
-  "zIndex",
-  "pixelOffset",
-  "disableAutoPan",
-]);
+const pickProps = x =>
+  _.pick(x, [
+    "position",
+    "maxWidth",
+    "zIndex",
+    "pixelOffset",
+    "disableAutoPan",
+  ]);
 
 /**
  * Draws `google.maps.InfoWindow`.

@@ -1,5 +1,5 @@
 import React from "react";
-import map from "lodash/map";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import DrawingControlEvents from "./DrawingControlEvents";
 import { isEqualProps, createListeners } from "../internal/Utils";
@@ -70,7 +70,7 @@ export class DrawingControl extends React.Component {
       drawingControl: true,
       drawingControlOptions: {
         position: mapContext.getEnum("ControlPosition", position),
-        drawingModes: map(drawingModes, x =>
+        drawingModes: _.map(drawingModes, x =>
           mapContext.getEnum("drawing.OverlayType", x),
         ),
       },

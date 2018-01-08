@@ -12,4 +12,9 @@ module.exports = {
 
     "react",
   ],
+
+  plugins: [
+    "babel-plugin-lodash",
+    process.env.BABEL_ENV !== "cjs" && require("./babel-plugin-lodash-es"),
+  ].filter(Boolean),
 };

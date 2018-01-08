@@ -1,5 +1,5 @@
 import React from "react";
-import map from "lodash/map";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { Control } from "./Control";
 import { MapContext } from "../internal/MapContext";
@@ -34,7 +34,7 @@ export function MapTypeControl(props, context) {
       options={{
         position: mapContext.getEnum("ControlPosition", props.position),
         style: mapContext.getEnum("MapTypeControlStyle", props.controlStyle),
-        mapTypeIds: map(props.mapTypeIds, x =>
+        mapTypeIds: _.map(props.mapTypeIds, x =>
           mapContext.getEnum("MapTypeId", x),
         ),
       }}

@@ -1,7 +1,6 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import keys from "lodash/keys";
-import split from "lodash/split";
 import ReactMarkdown from "react-markdown";
 import SourceView from "./SourceView";
 
@@ -31,7 +30,7 @@ function stringifyShape(x, indent, indentFirst) {
     indentFirst ? indent : "",
     "shape({",
     "\n",
-    keys(x)
+    _.keys(x)
       .map((key, idx) => {
         const info = x[key];
 
@@ -42,7 +41,7 @@ function stringifyShape(x, indent, indentFirst) {
                 indent,
                 "  /**",
                 "\n",
-                split(info.description, "\n")
+                _.split(info.description, "\n")
                   .map(s => concat(indent, "   * ", s))
                   .join("\n"),
                 "\n",
@@ -123,7 +122,7 @@ export default function PropsTable(props) {
       </thead>
 
       <tbody>
-        {keys(docs).map(prop => {
+        {_.keys(docs).map(prop => {
           const info = docs[prop];
 
           return (

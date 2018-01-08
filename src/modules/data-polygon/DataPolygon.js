@@ -1,20 +1,20 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import isEqual from "lodash/isEqual";
-import fpPick from "lodash/fp/pick";
 import { createListeners } from "../internal/Utils";
 import { MapContext } from "../internal/MapContext";
 import DataLayerEvents from "../data-layer/DataLayerEvents";
 
-const pickStyles = fpPick([
-  "clickable",
-  "fillColor",
-  "fillOpacity",
-  "strokeColor",
-  "strokeOpacity",
-  "strokeWeight",
-  "zIndex",
-]);
+const pickStyles = x =>
+  _.pick(x, [
+    "clickable",
+    "fillColor",
+    "fillOpacity",
+    "strokeColor",
+    "strokeOpacity",
+    "strokeWeight",
+    "zIndex",
+  ]);
 
 /**
  * Draws `google.maps.Data.Polygon`.
@@ -59,7 +59,7 @@ export class DataPolygon extends React.Component {
   componentWillUpdate(nextProps) {
     this.updateStyles(nextProps);
 
-    if (!isEqual(nextProps.geometry, this.props.geometry)) {
+    if (!_.isEqual(nextProps.geometry, this.props.geometry)) {
       this.updateGeometry(nextProps);
     }
   }

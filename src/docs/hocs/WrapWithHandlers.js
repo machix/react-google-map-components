@@ -1,10 +1,10 @@
 import React from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
-import keys from "lodash/keys";
 
 export function wrapWithHandlers() {
   return BaseComponent => {
-    const handlers = keys(BaseComponent.propTypes).filter(x => {
+    const handlers = _.keys(BaseComponent.propTypes).filter(x => {
       const type = BaseComponent.propTypes[x];
 
       return type === PropTypes.func || type === PropTypes.func.isRequired;
